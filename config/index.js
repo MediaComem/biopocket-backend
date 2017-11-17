@@ -20,6 +20,7 @@ const fixedConfig = {
 
 // Configuration from environment variables
 const configFromEnvironment = {
+  cors: parseConfigBoolean(get('CORS')),
   db: get('DATABASE_URL') || buildDatabaseUrl(),
   env: process.env.NODE_ENV,
   port: parseConfigInt(get('PORT'))
@@ -32,11 +33,12 @@ if (localConfigFile != joinProjectPath('config', 'local.js') && !fs.existsSync(l
   throw new Error(`No configuration file found at ${localConfigFile}`);
 } else if (fs.existsSync(localConfigFile)) {
   const localConfig = require(localConfigFile);
-  configFromLocalFile = _.pick(localConfig, 'db', 'env', 'port');
+  configFromLocalFile = _.pick(localConfig, 'cors', 'db', 'env', 'port');
 }
 
 // Default configuration
 const defaultConfig = {
+  cors: false,
   db: 'postgres://localhost/biopocket',
   env: 'development',
   port: 3000
@@ -168,10 +170,12 @@ function get(varName) {
 
 // Ensures all properties of the configuration are valid.
 function validate(config) {
-  if (typeof(config.db) != 'string' || !config.db.match(/^postgres:\/\//)) {
+  if (!_.isBoolean(config.cors)) {
+    throw new Error(`Unsupported CORS value "${config.cors}" (type ${typeof(config.cors)}); must be a boolean`);
+  } else if (!_.isString(config.db) || !config.db.match(/^postgres:\/\//)) {
     throw new Error(`Unsupported database URL "${config.db}" (type ${typeof(config.db)}); must be a string starting with "postgres://"`);
   } else if (!_.includes(SUPPORTED_ENVIRONMENTS, config.env)) {
-    throw new Error(`Unsupported environment "${JSON.stringify(config.env)}"; must be one of ${SUPPORTED_ENVIRONMENTS.join(', ')}`);
+    throw new Error(`Unsupported environment "${JSON.stringify(config.env)}"; must be one of: ${SUPPORTED_ENVIRONMENTS.join(', ')}`);
   } else if (!_.isInteger(config.port) || config.port < 1 || config.port > 65535) {
     throw new Error(`Unsupported port number ${config.port} (type ${typeof(config.port)}); must be an integer between 1 and 65535`);
   }

@@ -1,3 +1,5 @@
+const cors = require('cors');
+const debug = require('debug')('biopocket:app');
 const express = require('express');
 const path = require('path');
 const logger = require('morgan');
@@ -12,6 +14,11 @@ app.set('env', config.env);
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+
+debug(`CORS is ${config.cors ? 'enabled' : 'disabled'} (set $CORS or config.cors to enable)`);
+if (config.cors) {
+  app.use(cors());
+}
 
 app.use('/', (req, res) => res.send('biopocket'));
 
