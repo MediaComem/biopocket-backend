@@ -4,15 +4,18 @@
 
 const _ = require('lodash');
 const fs = require('fs');
+const log4js = require('log4js');
 const path = require('path');
 
 const SUPPORTED_ENVIRONMENTS = [ 'development', 'production' ];
+const SUPPORTED_LOG_LEVELS = [ 'TRACE', 'DEBUG', 'INFO', 'WARN', 'ERROR', 'FATAL' ];
 
 const pkg = require(path.join('..', 'package'));
 const root = path.normalize(path.join(__dirname, '..'));
 
 // Immutable configuration & utility functions
 const fixedConfig = {
+  logger: createLogger,
   root: root,
   version: pkg.version,
   path: joinProjectPath
@@ -23,6 +26,7 @@ const configFromEnvironment = {
   cors: parseConfigBoolean(get('CORS')),
   db: get('DATABASE_URL') || buildDatabaseUrl(),
   env: process.env.NODE_ENV,
+  logLevel: get('LOG_LEVEL'),
   port: parseConfigInt(get('PORT'))
 };
 
@@ -33,7 +37,7 @@ if (localConfigFile != joinProjectPath('config', 'local.js') && !fs.existsSync(l
   throw new Error(`No configuration file found at ${localConfigFile}`);
 } else if (fs.existsSync(localConfigFile)) {
   const localConfig = require(localConfigFile);
-  configFromLocalFile = _.pick(localConfig, 'cors', 'db', 'env', 'port');
+  configFromLocalFile = _.pick(localConfig, 'cors', 'db', 'env', 'logLevel', 'port');
 }
 
 // Default configuration
@@ -41,6 +45,7 @@ const defaultConfig = {
   cors: false,
   db: 'postgres://localhost/biopocket',
   env: 'development',
+  logLevel: 'INFO',
   port: 3000
 };
 
@@ -50,8 +55,23 @@ const config = _.merge({}, defaultConfig, configFromLocalFile, configFromEnviron
 
 validate(config);
 
+const logger = config.logger('config')
+logger.debug(`Log level is ${logger.level} (change with $LOG_LEVEL or config.logLevel)`);
+
 // Export the configuration
 module.exports = config;
+
+// Creates a named log4js logger with trace/debug/info/warn/error/fatal methods
+// you can use to log messages concerning a specific component.
+function createLogger(name) {
+
+  const logger = log4js.getLogger(name);
+  if (config.logLevel) {
+    logger.level = config.logLevel.toUpperCase();
+  }
+
+  return logger;
+}
 
 // Returns a path formed by appending the specified segments to the project's
 // root directory.
@@ -176,6 +196,8 @@ function validate(config) {
     throw new Error(`Unsupported database URL "${config.db}" (type ${typeof(config.db)}); must be a string starting with "postgres://"`);
   } else if (!_.includes(SUPPORTED_ENVIRONMENTS, config.env)) {
     throw new Error(`Unsupported environment "${JSON.stringify(config.env)}"; must be one of: ${SUPPORTED_ENVIRONMENTS.join(', ')}`);
+  } else if (!_.isString(config.logLevel) || !_.includes(SUPPORTED_LOG_LEVELS, config.logLevel.toUpperCase())) {
+    throw new Error(`Unsupported log level "${config.logLevel}" (type ${typeof(config.logLevel)}); must be one of: ${SUPPORTED_LOG_LEVELS.join(', ')}`);
   } else if (!_.isInteger(config.port) || config.port < 1 || config.port > 65535) {
     throw new Error(`Unsupported port number ${config.port} (type ${typeof(config.port)}); must be an integer between 1 and 65535`);
   }

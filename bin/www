@@ -1,9 +1,10 @@
 #!/usr/bin/env node
-const debug = require('debug')('biopocket:server');
 const http = require('http');
 
 const app = require('../server');
 const config = require('../config');
+
+const logger = config.logger('www');
 
 // Set the port to connect to.
 app.set('port', config.port);
@@ -45,5 +46,5 @@ function onListening() {
   const addr = server.address();
   const bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port;
 
-  debug(`Listening on ${bind}`);
+  logger.info(`Listening on ${bind}`);
 }

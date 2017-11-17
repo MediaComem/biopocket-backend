@@ -77,6 +77,7 @@ configuration file.
 | `$CONFIG`            |                 | `config/local.js`                | Path to the local configuration file to load                                          |
 | `$CORS`              | `cors`          | `false`                          | Whether to enable Cross-Origin Request Sharing (CORS)                                 |
 | `$DATABASE_URL`      | `db`            | `postgres://localhost/biopocket` | PostgreSQL database URL to connect to (postgres://username:password@host:port/dbname) |
+| `$LOG_LEVEL`         | `logLevel`      | `INFO`                           | Log level (`TRACE`, `DEBUG`, `INFO`, `WARN`, `ERROR`, `FATAL`)                        |
 | `$NODE_ENV`          | `env`           | `development`                    | Application environment (`development` or `production`)                               |
 | `$PORT`              | `port`          | `3000`                           | Port to run the Node.js Express server on                                             |
 

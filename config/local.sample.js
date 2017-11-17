@@ -7,5 +7,8 @@ exports.db = 'postgres://localhost/biopocket';
 // Application environment
 exports.env = 'development'
 
+// Log level (TRACE, DEBUG, INFO, WARN, ERROR or FATAL)
+exports.logLevel = 'TRACE';
+
 // Port to run the server on
 exports.port = 3000;
