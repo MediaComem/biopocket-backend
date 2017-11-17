@@ -23,6 +23,7 @@ if (config.cors) {
   app.use(cors());
 }
 
+app.use('/api', require('./api'));
 app.use('/', (req, res) => res.send('biopocket'));
 
 // Catch 404 and forward to error handler.
