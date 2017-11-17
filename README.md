@@ -8,7 +8,8 @@ The API for the BioPocket project, implemented with a Node.js Express server.
 
 * [Node.js][node] 8.x
 * [PostgreSQL][postgresql] 9+
-* [PostGIS][postgis] 2.2+
+  * [PostGIS][postgis] 2.2+ extension
+  * [uuid-ossp][uuid-ossp] extension
 
 Optional development utilities:
 
@@ -35,6 +36,21 @@ How to set up your machine to contribute to the project.
   database connection URL or other properties (see [Configuration][config]):
 
       cp config/local.sample.js config/local.js
+
+* Create a PostgreSQL database consistent with your configuration (a `biopocket`
+  database on `localhost` by default). If the user you connect as does not have
+  the necessary privileges to create extensions, you should make sure that the
+  `postgis` and `uuid-ossp` extensions are already created in the database:
+
+      psql -c 'CREATE EXTENSION "postgis"; CREATE EXTENSION "uuid-ossp";' biopocket
+
+* Migrate the database:
+
+      npm run migrate
+
+* Generate sample data:
+
+      npm run sample-data
 
 ### Run the server
 
@@ -74,6 +90,7 @@ configuration file.
 
 | Environment variable | Config property | Default                          | Purpose                                                                               |
 | :---                 | :---            | :---                             | :---                                                                                  |
+| `$BCRYPT_COST`       | `bcryptCost`    | 10                               | bcrypt cost parameter; should be at least 10 (see [bcrypt][bcrypt])                   |
 | `$CONFIG`            |                 | `config/local.js`                | Path to the local configuration file to load                                          |
 | `$CORS`              | `cors`          | `false`                          | Whether to enable Cross-Origin Request Sharing (CORS)                                 |
 | `$DATABASE_URL`      | `db`            | `postgres://localhost/biopocket` | PostgreSQL database URL to connect to (postgres://username:password@host:port/dbname) |
@@ -92,9 +109,11 @@ If the database URL is not specified with `$DATABASE_URL` or `db` in a configura
 
 
 
+[bcrypt]: https://en.wikipedia.org/wiki/Bcrypt
 [config]: #configuration
 [dev-guide]: DEVELOPMENT.md
 [knex]: http://knexjs.org
 [node]: https://nodejs.org
 [postgis]: http://postgis.net
 [postgresql]: https://www.postgresql.org
+[uuid-ossp]: https://www.postgresql.org/docs/current/static/uuid-ossp.html

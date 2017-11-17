@@ -23,6 +23,7 @@ const fixedConfig = {
 
 // Configuration from environment variables
 const configFromEnvironment = {
+  bcryptCost: parseConfigInt(get('BCRYPT_COST')),
   cors: parseConfigBoolean(get('CORS')),
   db: get('DATABASE_URL') || buildDatabaseUrl(),
   env: process.env.NODE_ENV,
@@ -37,11 +38,12 @@ if (localConfigFile != joinProjectPath('config', 'local.js') && !fs.existsSync(l
   throw new Error(`No configuration file found at ${localConfigFile}`);
 } else if (fs.existsSync(localConfigFile)) {
   const localConfig = require(localConfigFile);
-  configFromLocalFile = _.pick(localConfig, 'cors', 'db', 'env', 'logLevel', 'port');
+  configFromLocalFile = _.pick(localConfig, 'bcryptCost', 'cors', 'db', 'env', 'logLevel', 'port');
 }
 
 // Default configuration
 const defaultConfig = {
+  bcryptCost: 10,
   cors: false,
   db: 'postgres://localhost/biopocket',
   env: 'development',
@@ -56,6 +58,8 @@ const config = _.merge({}, defaultConfig, configFromLocalFile, configFromEnviron
 validate(config);
 
 const logger = config.logger('config')
+logger.debug(`Environment is ${config.env} (change with $NODE_ENV or config.env)`);
+logger.debug(`bcrypt cost is ${config.bcryptCost} (change with $BCRYPT_COST or config.bcryptCost)`);
 logger.debug(`Log level is ${logger.level} (change with $LOG_LEVEL or config.logLevel)`);
 
 // Export the configuration
@@ -190,7 +194,9 @@ function get(varName) {
 
 // Ensures all properties of the configuration are valid.
 function validate(config) {
-  if (!_.isBoolean(config.cors)) {
+  if (!_.isInteger(config.bcryptCost) || config.bcryptCost < 1) {
+    throw new Error(`Unsupported bcrypt cost "${config.bcryptCost}" (type ${typeof(config.bcryptCost)}); must be an integer greater than or equal to 1`);
+  } else if (!_.isBoolean(config.cors)) {
     throw new Error(`Unsupported CORS value "${config.cors}" (type ${typeof(config.cors)}); must be a boolean`);
   } else if (!_.isString(config.db) || !config.db.match(/^postgres:\/\//)) {
     throw new Error(`Unsupported database URL "${config.db}" (type ${typeof(config.db)}); must be a string starting with "postgres://"`);

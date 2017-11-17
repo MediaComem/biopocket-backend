@@ -8,6 +8,7 @@ exports.db = 'postgres://localhost/biopocket';
 exports.env = 'development'
 
 // Log level (TRACE, DEBUG, INFO, WARN, ERROR or FATAL)
+// Database queries and HTTP requests are only logged if the log level is TRACE.
 exports.logLevel = 'TRACE';
 
 // Port to run the server on

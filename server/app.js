@@ -4,12 +4,14 @@ const path = require('path');
 const bodyParser = require('body-parser');
 
 const config = require('../config');
+const db = require('./db');
 const expressLogger = require('./utils/express-logger');
 
 const logger = config.logger('app');
 
 const app = express();
 
+app.set('db', db);
 app.set('env', config.env);
 
 app.use(expressLogger);
