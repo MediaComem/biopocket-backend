@@ -2,6 +2,8 @@
 
 The API for the BioPocket project, implemented with a Node.js Express server.
 
+[![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE.txt)
+
 
 
 ## Requirements
