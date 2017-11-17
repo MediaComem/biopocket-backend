@@ -1,0 +1,13 @@
+{
+  "ext": "js",
+  "ignore": [
+    ".git",
+    "node_modules"
+  ],
+  "script": "bin/www",
+  "watch": [
+    "bin/www",
+    "config/**/*.js",
+    "server/**/*.js"
+  ]
+}
