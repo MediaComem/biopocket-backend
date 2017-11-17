@@ -90,19 +90,20 @@ The application can be configured through environment variables or a configurati
 Environment variables always take precedence over properties from the
 configuration file.
 
-| Environment variable | Config property | Default                          | Purpose                                                                               |
-| :---                 | :---            | :---                             | :---                                                                                  |
-| `$BCRYPT_COST`       | `bcryptCost`    | 10                               | bcrypt cost parameter; should be at least 10 (see [bcrypt][bcrypt])                   |
-| `$CONFIG`            |                 | `config/local.js`                | Path to the local configuration file to load                                          |
-| `$CORS`              | `cors`          | `false`                          | Whether to enable Cross-Origin Request Sharing (CORS)                                 |
-| `$DATABASE_URL`      | `db`            | `postgres://localhost/biopocket` | PostgreSQL database URL to connect to (postgres://username:password@host:port/dbname) |
-| `$LOG_LEVEL`         | `logLevel`      | `INFO`                           | Log level (`TRACE`, `DEBUG`, `INFO`, `WARN`, `ERROR`, `FATAL`)                        |
-| `$NODE_ENV`          | `env`           | `development`                    | Application environment (`development` or `production`)                               |
-| `$PORT`              | `port`          | `3000`                           | Port to run the Node.js Express server on                                             |
+| Environment variable | Config property | Default                          | Purpose                                                             |
+| :---                 | :---            | :---                             | :---                                                                |
+| `$BCRYPT_COST`       | `bcryptCost`    | 10                               | bcrypt cost parameter; should be at least 10 (see [bcrypt][bcrypt]) |
+| `$CONFIG`            |                 | `config/local.js`                | Path to the local configuration file to load                        |
+| `$CORS`              | `cors`          | `false`                          | Whether to enable Cross-Origin Request Sharing (CORS)               |
+| `$DATABASE_URL`      | `db`            | `postgres://localhost/biopocket` | PostgreSQL database URL to connect to                               |
+| `$LOG_LEVEL`         | `logLevel`      | `INFO`                           | Log level (`TRACE`, `DEBUG`, `INFO`, `WARN`, `ERROR`, `FATAL`)      |
+| `$NODE_ENV`          | `env`           | `development`                    | Application environment (`development` or `production`)             |
+| `$PORT`              | `port`          | `3000`                           | Port to run the Node.js Express server on                           |
 
 If the database URL is not specified with `$DATABASE_URL` or `db` in a configuration file, you can also use these environment variables:
 
 | Environment variable | Default     | Purpose                                   |
+| :---                 | :---        | :---                                      |
 | `$DATABASE_HOST`     | `localhost` | Host to connect to                        |
 | `$DATABASE_PORT`     | `5432`      | Port to connect to on the host            |
 | `$DATABASE_NAME`     | `biopocket` | Name of the database to connect to        |
