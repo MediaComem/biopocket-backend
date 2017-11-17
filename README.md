@@ -6,13 +6,13 @@ The API for the BioPocket project, implemented with a Node.js Express server.
 
 ## Requirements
 
-* [Node.js](https://nodejs.org) 8.x
-* [PostgreSQL](https://www.postgresql.org) 9+
-* [PostGIS](http://postgis.net) 2.2+
+* [Node.js][node] 8.x
+* [PostgreSQL][postgresql] 9+
+* [PostGIS][postgis] 2.2+
 
-Additional development requirements:
+Optional development utilities:
 
-* [Knex](http://knexjs.org) (install with `npm install -g knex`)
+* [Knex][knex] (install with `npm install -g knex`)
 
 
 
@@ -31,6 +31,11 @@ How to set up your machine to contribute to the project.
       cd biopocket-backend
       npm install
 
+* Optionally create a `config/local.js` configuration file to customize the
+  database connection URL or other properties (see [Configuration][config]):
+
+      cp config/local.sample.js config/local.js
+
 ### Run the server
 
 * Run the `dev` npm script:
@@ -47,13 +52,47 @@ How to set up your machine to contribute to the project.
 
       npm install
 
+* Migrate the database (if new migrations were added):
+
+      npm run migrate
+
 * Run the server:
 
       npm run dev
 
-### Scripts
+### Contribute
 
-| Script           | Purpose                                               |
-| :---             | :---                                                  |
-| `npm run dev`    | Run the server in development mode (with live reload) |
-| `npm start`      | Run the server                                        |
+Read the [development guide][dev-guide].
+
+
+
+## Configuration
+
+The application can be configured through environment variables or a configuration file.
+Environment variables always take precedence over properties from the
+configuration file.
+
+| Environment variable | Config property | Default                          | Purpose                                                                               |
+| :---                 | :---            | :---                             | :---                                                                                  |
+| `$CONFIG`            |                 | `config/local.js`                | Path to the local configuration file to load                                          |
+| `$DATABASE_URL`      | `db`            | `postgres://localhost/biopocket` | PostgreSQL database URL to connect to (postgres://username:password@host:port/dbname) |
+| `$NODE_ENV`          | `env`           | `development`                    | Application environment (`development` or `production`)                               |
+| `$PORT`              | `port`          | `3000`                           | Port to run the Node.js Express server on                                             |
+
+If the database URL is not specified with `$DATABASE_URL` or `db` in a configuration file, you can also use these environment variables:
+
+| Environment variable | Default     | Purpose                                   |
+| `$DATABASE_HOST`     | `localhost` | Host to connect to                        |
+| `$DATABASE_PORT`     | `5432`      | Port to connect to on the host            |
+| `$DATABASE_NAME`     | `biopocket` | Name of the database to connect to        |
+| `$DATABASE_USERNAME` | none        | Name of the PostgreSQL user to connect as |
+| `$DATABASE_PASSWORD` | none        | Password to authenticate with             |
+
+
+
+[config]: #configuration
+[dev-guide]: DEVELOPMENT.md
+[knex]: http://knexjs.org
+[node]: https://nodejs.org
+[postgis]: http://postgis.net
+[postgresql]: https://www.postgresql.org

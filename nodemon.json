@@ -6,6 +6,7 @@
   ],
   "script": "bin/www",
   "watch": [
+    "app.js",
     "bin/www",
     "config/**/*.js",
     "server/**/*.js"
