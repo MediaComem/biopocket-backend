@@ -1,9 +1,21 @@
+/**
+ * Knex-related utilities.
+ *
+ * @module utils/knex
+ * @see http://knexjs.org
+ */
 const _ = require('lodash');
 const config = require('../../config');
 
 const logger = config.logger('db');
 
-module.exports = function(query) {
+/**
+ * A logger function that can be passed to knex to log all database queries.
+ *
+ * @function
+ * @param {*} query - A knex query.
+ */
+exports.logger = function(query) {
   let message = query.sql;
 
   if (query.bindings) {

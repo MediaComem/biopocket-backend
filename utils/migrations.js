@@ -1,6 +1,6 @@
 const _ = require('lodash');
 const config = require('../config');
-const knexLogger = require('../server/utils/knex-logger');
+const { logger: knexLogger } = require('../server/utils/knex');
 
 const logger = config.logger('db');
 

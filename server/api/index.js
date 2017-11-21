@@ -3,18 +3,20 @@ const express = require('express');
 const glob = require('glob');
 
 const config = require('../../config');
-const errors = require('./errors');
+const errors = require('./utils/errors');
 const pkg = require('../../package');
 
 const logger = config.logger('api');
 const router = express.Router();
 
 // Make sure all models are loaded.
-const models = _.without(glob.sync('*', { cwd: config.path('server', 'models') }), 'abstract.js');
-_.each(models, model => require(`../models/${model}`));
+const modelFiles = _.without(glob.sync('*', { cwd: config.path('server', 'models') }), 'abstract.js');
+modelFiles.forEach(modelFile => require(`../models/${modelFile}`));
 
 // Plug in API routes.
-//router.use('/users', require('./users/users.routes'));
+router.use('/auth', require('./auth/auth.routes'));
+router.use('/me', require('./users/users.me.routes'));
+router.use('/users', require('./users/users.routes'));
 
 // Return API metadata on the main API route.
 router.get('/', function(req, res) {
@@ -31,20 +33,29 @@ router.all('/*', function(req, res, next) {
 // Return a JSON error response for API calls.
 router.use(function(err, req, res, next) {
 
+  const status = err.status || 500;
+
+  // Log the error if unexpected
+  if (status >= 500 && status <= 599) {
+    logger.error(err);
+  }
+
   let errors;
   if (err.errors) {
-    // If the error contains a list of errors, send it in the response
+    // If the error contains a list of errors, send it in the response.
     errors = err.errors;
-  } else {
-    // Otherwise, build a one-element array with the error's properties
+  } else if (err.code) {
+    // If it's a known error, build a one-element array with the error's properties.
     errors = [
       _.pick(err, 'code', 'message')
     ];
-  }
-
-  const status = err.status || 500;
-  if (status >= 500 && status <= 599) {
-    logger.error(err);
+  } else {
+    // Otherwise, respond with an unexpected error.
+    errors = [
+      {
+        message: 'An unexpected error occurred'
+      }
+    ];
   }
 
   res.status(status).json({

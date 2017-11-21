@@ -5,7 +5,7 @@ const bodyParser = require('body-parser');
 
 const config = require('../config');
 const db = require('./db');
-const expressLogger = require('./utils/express-logger');
+const { logger: expressLogger } = require('./utils/express');
 
 const logger = config.logger('app');
 

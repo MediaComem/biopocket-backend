@@ -1,4 +1,4 @@
-const { logMigration } = require('../lib/knex-utils');
+const { logMigration } = require('../utils/migrations');
 
 exports.up = function(knex) {
   logMigration(knex);

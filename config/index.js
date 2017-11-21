@@ -26,9 +26,16 @@ const configFromEnvironment = {
   bcryptCost: parseConfigInt(get('BCRYPT_COST')),
   cors: parseConfigBoolean(get('CORS')),
   db: get('DATABASE_URL') || buildDatabaseUrl(),
+  docs: {
+    browser: get('DOCS_BROWSER'),
+    host: get('DOCS_HOST'),
+    open: get('DOCS_OPEN'),
+    port: get('DOCS_PORT')
+  },
   env: process.env.NODE_ENV,
   logLevel: get('LOG_LEVEL'),
-  port: parseConfigInt(get('PORT'))
+  port: parseConfigInt(get('PORT')),
+  sessionSecret: get('SESSION_SECRET')
 };
 
 // Configuration from a local file (`config/local.js` by default, or `$CONFIG`)
@@ -38,7 +45,10 @@ if (localConfigFile != joinProjectPath('config', 'local.js') && !fs.existsSync(l
   throw new Error(`No configuration file found at ${localConfigFile}`);
 } else if (fs.existsSync(localConfigFile)) {
   const localConfig = require(localConfigFile);
-  configFromLocalFile = _.pick(localConfig, 'bcryptCost', 'cors', 'db', 'env', 'logLevel', 'port');
+  configFromLocalFile = _.pick(localConfig,
+    'bcryptCost', 'cors', 'db',
+    'docs.browser', 'docs.host', 'docs.open', 'docs.port',
+    'env', 'logLevel', 'port', 'sessionSecret');
 }
 
 // Default configuration
@@ -46,6 +56,11 @@ const defaultConfig = {
   bcryptCost: 10,
   cors: false,
   db: 'postgres://localhost/biopocket',
+  docs: {
+    host: '127.0.0.1',
+    open: false,
+    port: 4000
+  },
   env: 'development',
   logLevel: 'INFO',
   port: 3000
@@ -205,6 +220,8 @@ function validate(config) {
   } else if (!_.isString(config.logLevel) || !_.includes(SUPPORTED_LOG_LEVELS, config.logLevel.toUpperCase())) {
     throw new Error(`Unsupported log level "${config.logLevel}" (type ${typeof(config.logLevel)}); must be one of: ${SUPPORTED_LOG_LEVELS.join(', ')}`);
   } else if (!_.isInteger(config.port) || config.port < 1 || config.port > 65535) {
-    throw new Error(`Unsupported port number ${config.port} (type ${typeof(config.port)}); must be an integer between 1 and 65535`);
+    throw new Error(`Unsupported port number "${config.port}" (type ${typeof(config.port)}); must be an integer between 1 and 65535`);
+  } else if (!_.isString(config.sessionSecret)) {
+    throw new Error(`Unsupported session secret "${config.sessionSecret}" (type ${typeof(config.sessionSecret)}); must be a string`);
   }
 }
