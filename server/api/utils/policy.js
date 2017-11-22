@@ -7,25 +7,6 @@ const errors = require('./errors');
 const { ensureRequest } = require('../../utils/express');
 
 /**
- * Ensures that an active user has successfully authenticated for the specified
- * request, or throws an HTTP 401 Unauthorized error.
- *
- * @param {Request} req - An Express request object.
- * @returns {User} The authenticated user.
- */
-exports.ensureAuthenticated = function(req) {
-  ensureRequest(req);
-
-  if (!req.jwtToken) {
-    throw errors.missingAuthorization();
-  } else if (!req.currentUser || !req.currentUser.get('active')) {
-    throw errors.invalidAuthorization();
-  }
-
-  return req.currentUser;
-};
-
-/**
  * Indicates whether an active user who has the requested role has successfully authenticated.
  *
  * @param {Request} req - An Express request object.
@@ -34,7 +15,7 @@ exports.ensureAuthenticated = function(req) {
  */
 exports.hasRole = function(req, role) {
   ensureRequest(req);
-  return req.currentUser && req.currentUser.get('active') && req.currentUser.hasRole(role);
+  return req.currentUser && req.currentUser.isActive() && req.currentUser.hasRole(role);
 };
 
 /**

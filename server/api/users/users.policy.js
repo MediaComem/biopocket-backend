@@ -2,7 +2,7 @@ const _ = require('lodash');
 
 const User = require('../../models/user');
 const { ensureRequest } = require('../../utils/express');
-const { ensureAuthenticated, hasRole, sameRecord } = require('../utils/policy');
+const { hasRole, sameRecord } = require('../utils/policy');
 
 /**
  * An authenticated user can retrieve himself. Administrators can retrieve anyone.
@@ -12,7 +12,6 @@ const { ensureAuthenticated, hasRole, sameRecord } = require('../utils/policy');
  * @memberof module:api/users
  */
 exports.canRetrieve = function(req) {
-  ensureAuthenticated(req);
   return hasRole(req, 'admin') || sameRecord(req.currentUser, req.user);
 };
 
