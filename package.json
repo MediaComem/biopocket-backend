@@ -27,6 +27,7 @@
     "cors": "^2.8.4",
     "express": "~4.15.5",
     "express-jwt-policies": "^1.0.0",
+    "express-serializer": "^1.0.0",
     "glob": "^7.1.2",
     "jsonwebtoken": "^8.1.0",
     "knex": "^0.14.0",

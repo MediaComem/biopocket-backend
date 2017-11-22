@@ -4,9 +4,10 @@
  * @module api/users
  */
 const _ = require('lodash');
+const serialize = require('express-serializer');
 
 const User = require('../../models/user');
-const { fetcher, route, serialize } = require('../utils/api');
+const { fetcher, route } = require('../utils/api');
 const errors = require('../utils/errors');
 const policy = require('./users.policy');
 
