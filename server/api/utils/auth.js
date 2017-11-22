@@ -37,7 +37,7 @@ module.exports = expressJwtPolicies({
   },
 
   authorizationErrorHandler: function(err, req, res, next) {
-    if (!err.status || err.status == 401) {
+    if (err.status != 403) {
       return next(err);
     }
 
