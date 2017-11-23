@@ -66,25 +66,51 @@ exports.fetcher = function(options) {
   const requestProperty = options.requestProperty || resourceName;
   const eagerLoad = options.eagerLoad || [];
 
+  let validate = () => true;
+  if (options.validate == 'uuid') {
+    validate = id => !!id.match(/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i);
+  } else if (_.isFunction(options.validate)) {
+    validate = options.validate;
+  } else if (options.validate !== undefined) {
+    throw new Error('The "validate" option must be a function or the string "uuid"');
+  }
+
+  let coerce = value => value;
+  if (_.isFunction(options.coerce)) {
+    coerce = options.coerce;
+  } else if (options.coerce !== undefined) {
+    throw new Error(`The "coerce" option must be a function`);
+  }
+
   return function(req, res, next) {
+    Promise.resolve().then(async () => {
 
-    const resourceId = req.params[urlParameter];
+      const resourceId = req.params[urlParameter];
 
-    // Prepare the query to fetch the record
-    let query = new Model({ [column]: resourceId });
+      // Make sure the ID is valid.
+      const resourceIdValid = await Promise.resolve(validate(resourceId));
+      if (!resourceIdValid) {
+        throw errors.recordNotFound(resourceName, resourceId);
+      }
 
-    // Pass the query through the handler (if any)
-    if (_.isFunction(queryHandler)) {
-      query = queryHandler(query, req);
-    }
+      // Coerce the ID.
+      const coercedResourceId = await Promise.resolve(coerce(resourceId));
 
-    // Perform the query
-    query.fetch({ withRelated: eagerLoad }).then(function(record) {
+      // Prepare the query to fetch the record.
+      let query = new Model({ [column]: coercedResourceId });
+
+      // Pass the query through the handler (if any).
+      if (_.isFunction(queryHandler)) {
+        query = queryHandler(query, req);
+      }
+
+      // Perform the query.
+      const record = await query.fetch({ withRelated: eagerLoad })
       if (!record) {
         throw errors.recordNotFound(resourceName, resourceId);
       }
 
-      // Attach the record to the request object
+      // Attach the record to the request object.
       req[requestProperty] = record;
     }).then(next, next);
   };

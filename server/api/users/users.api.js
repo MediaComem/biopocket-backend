@@ -32,7 +32,9 @@ exports.retrieve = route(async function(req, res) {
  */
 exports.fetchUser = fetcher({
   model: User,
-  resourceName: 'user'
+  resourceName: 'user',
+  coerce: id => id.toLowerCase(),
+  validate: 'uuid'
 });
 
 /**
