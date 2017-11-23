@@ -3,8 +3,9 @@ const express = require('express');
 const glob = require('glob');
 
 const config = require('../../config');
-const errors = require('./utils/errors');
 const pkg = require('../../package');
+const errors = require('./utils/errors');
+const validation = require('./utils/validation');
 
 const logger = config.logger('api');
 const router = express.Router();
@@ -41,7 +42,7 @@ router.use(function(err, req, res, next) {
   }
 
   let errors;
-  if (err.errors) {
+  if (err instanceof validation.dsl.ValidationErrorBundle) {
     // If the error contains a list of errors, send it in the response.
     errors = err.errors;
   } else if (err.code) {

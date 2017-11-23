@@ -8,7 +8,7 @@ const router = express.Router();
 
 // POST /api/auth
 router.post('/',
-  auth.authorize(policy.canAuthenticate),
+  auth.authorize(policy.canAuthenticate, { authenticate: false }),
   controller.authenticate);
 
 module.exports = router;

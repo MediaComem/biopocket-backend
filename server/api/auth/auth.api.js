@@ -11,6 +11,7 @@ const User = require('../../models/user');
 const usersPolicy = require('../users/users.policy');
 const { route } = require('../utils/api');
 const errors = require('../utils/errors');
+const { validateRequestBody } = require('../utils/validation');
 
 // API resource name (used in some API errors).
 exports.resourceName = 'auth';
@@ -26,6 +27,8 @@ const logger = config.logger(`api:${exports.resourceName}`);
  * @function
  */
 exports.authenticate = route(async function(req, res) {
+
+  await validateAuthentication(req);
 
   // Load the user by e-mail.
   const email = _.get(req, 'body.email', '_').toString();
@@ -50,3 +53,22 @@ exports.authenticate = route(async function(req, res) {
     user: usersPolicy.serialize(req, user)
   });
 });
+
+function validateAuthentication(req) {
+  return validateRequestBody(req, function() {
+    return this.parallel(
+      this.validate(
+        this.json('/email'),
+        this.required(),
+        this.type('string'),
+        this.email()
+      ),
+      this.validate(
+        this.json('/password'),
+        this.required(),
+        this.type('string'),
+        this.notBlank()
+      )
+    );
+  });
+}

@@ -36,6 +36,7 @@
     "moment": "^2.19.2",
     "nodemon": "^1.12.1",
     "pg": "^7.4.0",
+    "valdsl": "^0.4.5",
     "valib": "^2.0.0"
   },
   "devDependencies": {

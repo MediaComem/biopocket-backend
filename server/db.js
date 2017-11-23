@@ -7,7 +7,7 @@ const config = require('../config');
 const { logger: knexLogger } = require('./utils/knex');
 
 /**
- * Application database.
+ * Application database automatically configured from `config/index.js`.
  *
  * @property {Knex} knex - A Knex instance which can be used to run queries.
  * @property {Bookshelf} bookshelf - A Bookshelf instance which can be used to manage models.
