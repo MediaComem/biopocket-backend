@@ -1,7 +1,7 @@
 /**
  * Generic data transformation utilities.
  *
- * @module utils/data
+ * @module server/utils/data
  */
 const _ = require('lodash');
 

@@ -1,7 +1,7 @@
 /**
  * Reusable API errors.
  *
- * @module api/utils/errors
+ * @module server/api/utils/errors
  */
 const util = require('util');
 

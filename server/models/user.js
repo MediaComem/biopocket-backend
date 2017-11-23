@@ -71,6 +71,9 @@ const User = Abstract.extend({
   /**
    * Indicates whether this user has the specified password or not.
    *
+   * **WARNING:** this method is slow and blocking, as it computes a bcrypt
+   * hash synchronously.  Do not overuse it.
+   *
    * @instance
    * @memberof User
    * @param {string} password - The password to check.
@@ -84,7 +87,8 @@ const User = Abstract.extend({
    * Indicates whether this user has the specified role.
    *
    * **WARNING:** this methods always returns true if the user has the role,
-   * even if the user is inactive.
+   * even if the user is inactive. It is not sufficient to determine whether
+   * the user is currently authorized to perform the role.
    *
    * @instance
    * @memberof User

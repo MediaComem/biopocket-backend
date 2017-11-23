@@ -3,7 +3,7 @@
  *
  * @function
  * @name canAuthenticate
- * @memberof module:api/auth
+ * @memberof module:server/api/auth
  * @returns {boolean}
  */
 exports.canAuthenticate = function(req) {

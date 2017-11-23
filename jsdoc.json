@@ -1,6 +1,9 @@
 {
   "source": {
-    "include": "server",
+    "include": [
+      "server",
+      "utils"
+    ],
     "includePattern": ".js$",
     "excludePattern": "(node_modules/|docs)"
   },

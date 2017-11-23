@@ -1,7 +1,7 @@
 /**
  * Users management API.
  *
- * @module api/users
+ * @module server/api/users
  */
 const _ = require('lodash');
 const serialize = require('express-serializer');

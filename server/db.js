@@ -68,6 +68,7 @@ function setUpKnex() {
     connection: config.db
   });
 
+  // Log queries in development & test environments.
   if (config.env == 'development' || config.env == 'test') {
     instance.on('query', knexLogger);
   }

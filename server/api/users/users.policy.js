@@ -9,7 +9,7 @@ const { hasRole, sameRecord } = require('../utils/policy');
  *
  * @function
  * @name canRetrieve
- * @memberof module:api/users
+ * @memberof module:server/api/users
  */
 exports.canRetrieve = function(req) {
   return hasRole(req, 'admin') || sameRecord(req.currentUser, req.user);
@@ -22,7 +22,7 @@ exports.canRetrieve = function(req) {
  *
  * @function
  * @name serialize
- * @memberof module:api/users
+ * @memberof module:server/api/users
  *
  * @param {Request} req - The Express request object.
  * @param {User} user - A user record.

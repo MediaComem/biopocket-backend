@@ -1,7 +1,7 @@
 /**
  * Authentication API.
  *
- * @module api/auth
+ * @module server/api/auth
  */
 const _ = require('lodash');
 const moment = require('moment');

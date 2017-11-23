@@ -1,7 +1,7 @@
 /**
  * Knex-related utilities.
  *
- * @module utils/knex
+ * @module server/utils/knex
  * @see http://knexjs.org
  */
 const _ = require('lodash');

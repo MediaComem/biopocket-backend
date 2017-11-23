@@ -1,7 +1,7 @@
 /**
  * Express-related utilities.
  *
- * @module utils/express
+ * @module server/utils/express
  */
 const config = require('../../config');
 const log4js = require('log4js');

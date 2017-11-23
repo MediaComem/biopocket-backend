@@ -1,7 +1,7 @@
 /**
  * Utilities to simplify the writing of authorization policies.
  *
- * @module api/utils/policy
+ * @module server/api/utils/policy
  */
 const errors = require('./errors');
 const { ensureRequest } = require('../../utils/express');

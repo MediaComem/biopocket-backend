@@ -11,7 +11,7 @@
     "docs:clean": "rimraf docs",
     "docs:src": "jsdoc -c jsdoc.json",
     "docs:src:serve": "node serve-docs.js",
-    "docs:src:watch": "onchange \"server/**/*.js\" -- npm run docs:src",
+    "docs:src:watch": "onchange \"server/**/*.js\" \"utils/**/*.js\" -- npm run docs:src",
     "docs:watch": "npm run docs:src:watch",
     "migrate": "knex migrate:latest",
     "migrate:make": "knex migrate:make",

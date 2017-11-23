@@ -1,7 +1,7 @@
 /**
  * JWT utilities.
  *
- * @module utils/jwt
+ * @module server/utils/jwt
  */
 const _ = require('lodash');
 const jwt = require('jsonwebtoken');

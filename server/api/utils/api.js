@@ -1,7 +1,7 @@
 /**
  * API utilities.
  *
- * @module api/utils/api
+ * @module server/api/utils/api
  */
 const _ = require('lodash');
 
