@@ -1,0 +1,98 @@
+displayName: Authentication
+description: Management of authentication tokens.
+
+# POST /api/auth
+post:
+  description: |
+    Creates a new, short-lived (2 weeks) authentication token for a user.
+
+    The authenticated user is also included in the response.
+    Frontends may want to use the roles array to know what the user is authorized to do.
+  is:
+    - jsonConsumer
+  body:
+    application/json:
+      example: |
+        POST /api/auth HTTP/1.1
+        Content-Type: application/json
+
+        {
+          "email": "jdoe@example.com",
+          "password": "letmein"
+        }
+  responses:
+    201:
+      description: The authentication token was successfully created.
+      body:
+        application/json:
+          example: |
+            HTTP/1.1 201 Created
+            Content-Type: application/json
+
+            {
+              "token": "eyJhbGciOiJIUzI1NiI.eyJzdWIiOiJmZDczYjM5OC04Zj.7s76ONko1DF",
+              "user": {
+                "active": true,
+                "createdAt": "2000-01-01T16:30:00.123Z",
+                "email": "jdoe@example.com",
+                "id": "7c4424de-66a0-4044-b872-c5fc77c4365e",
+                "roles": [
+                  "admin"
+                ],
+                "updatedAt": "2000-02-03T17:00:00.123Z"
+              }
+            }
+    401:
+      description: The credentials in the request body are invalid.
+      body:
+        application/json:
+          examples:
+            Invalid user:
+              description: No user account exists with the specified e-mail address, or it is inactive.
+              value: |
+                {
+                  "errors": [
+                    {
+                      "code": "auth.invalidUser",
+                      "message": "This user account does not exist or is inactive."
+                    }
+                  ]
+                }
+            Invalid credentials:
+              description: The specified password is not the correct one.
+              value: |
+                {
+                  "errors": [
+                    {
+                      "code": "auth.invalidCredentials",
+                      "message": "The password is invalid."
+                    }
+                  ]
+                }
+    422:
+      description: The request body contains invalid data.
+      body:
+        application/json:
+          example: |
+            HTTP/1.1 422 Unprocessable Entity
+            Content-Type: application/json
+
+            {
+              "errors": [
+                {
+                  "location": "/password",
+                  "message": "is required",
+                  "type": "json",
+                  "validator": "required",
+                  "valueSet": false
+                },
+                {
+                  "location": "/email",
+                  "message": "must be a valid e-mail address",
+                  "type": "json",
+                  "validator": "email",
+                  "value": "jdoe",
+                  "valueSet": true
+                }
+              ]
+            }

@@ -1,0 +1,10 @@
+#%RAML 1.0
+---
+title: BioPocket
+baseUri: https://biopocket.ch/api
+version: 1
+traits: !include traits.raml
+
+/auth: !include auth/auth.raml
+/me: !include users/users.me.raml
+/users: !include users/users.raml

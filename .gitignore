@@ -1,3 +1,5 @@
 /config/local.js
 /config/*.local.js
+/docs/*
+!/docs/index.html
 /node_modules

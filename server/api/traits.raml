@@ -1,0 +1,147 @@
+authenticatedResource:
+  usage: |
+    Apply this to resources which requires authentication by sending a JWT in the Authorization header.
+    (This role is automatically applied by the `protectedResource` trait.)
+
+    A description of the required `roles` must be provided.
+  headers:
+    Authorization:
+      description: |
+        You must authenticate by sending a JWT bearer token in this header.
+        You may obtain a token by calling `POST /api/auth`.
+
+        **Required roles:** `<<roles>>`
+      required: true
+      example: "Authorization: Bearer eyJhbGciOiJIUzI1NiI.eyJzdWIiOiJmZDczYjM5OC04Zj.7s76ONko1DF"
+  responses:
+    401:
+      description: |
+        Authentication is required to access this resource.
+        Either you have not authenticated or your credentials are invalid.
+      body:
+        application/json:
+          examples:
+            Missing authentication:
+              description: You have not sent an Authorization header in the request.
+              value: |
+                {
+                  "errors": [
+                    {
+                      "code": "auth.missingAuthorization",
+                      "message": "Authentication is required to access this resource. Authenticate by providing a Bearer token in the Authorization header."
+                    }
+                  ]
+                }
+            Malformed authentication:
+              description: |
+                The Authorization header of our request is not in the correct format.
+
+                The required format is `Bearer TOKEN` where `TOKEN` is a valid JWT that you obtained by calling `POST /api/auth`.
+              value: |
+                {
+                  "errors": [
+                    {
+                      "code": "auth.malformedAuthorization",
+                      "message": "The Authorization header is not in the correct format. It should be \"Authorization: Bearer TOKEN\"."
+                    }
+                  ]
+                }
+            Invalid authentication:
+              description: The JWT bearer token you have sent in the Authorization header is invalid or has expired.
+              value: |
+                {
+                  "errors": [
+                    {
+                      "code": "auth.invalidAuthorization",
+                      "message": "The Bearer token supplied in the Authorization header is invalid or has expired."
+                    }
+                  ]
+                }
+
+identifiableResource:
+  usage: |
+    Apply this to resources that are identified by a unique ID,
+    and which respond with HTTP 404 Not Found if the ID is not found.
+  responses:
+    404:
+      description: The requested <<name>> does not exist (or you are not authorized to access it).
+      body:
+        application/json:
+          example: |
+            HTTP/1.1 404 Not Found
+            Content-Type: application/json
+
+            {
+              "errors": [
+                {
+                  "code": "record.notFound",
+                  "message": "No <<name>> was found with ID 7c4424de-66a0-4044-b872-c5fc77c4365."
+                }
+              ]
+            }
+
+jsonConsumer:
+  usage: |
+    Apply this to resources that consumes JSON in the request body.
+  responses:
+    400:
+      description: The request body is not valid JSON.
+      body:
+        text/html:
+          example: |
+            HTTP/1.1 400 Bad Request
+            Content-Type: text/html
+
+            Error: Unexpected token } in JSON at position 0
+
+protectedResource:
+  usage: |
+    Apply this to resources which are protected by an authorization policy.
+
+    A description of the required `roles` must be provided. Use "none" if no specific role is required.
+
+    This trait automatically includes the `authenticatedResource` trait.
+  is:
+    - authenticatedResource:
+        roles: <<roles>>
+  responses:
+    403:
+      description: |
+        Your user account is not authorized to access this resource.
+        Contact the administrator to request more privileges.
+      body:
+        application/json:
+          example: |
+            {
+              "errors": [
+                {
+                  "code": "auth.forbidden",
+                  "message": "You are not authorized to access this resource. Authenticate with a user account that has more privileges."
+                }
+              ]
+            }
+
+serializableResource:
+  usage: |
+    Apply this to resources whose serialization can be customized with the only/except query parameters,
+    i.e. those that use express-serializer in their implementation.
+
+    Resource-specific examples for the `only` and `except` query parameters must be provided.
+  queryParameters:
+    only:
+      description: |
+        Whitelist of properties to include in the response.
+        (Properties also blacklisted with `except` will not be included.)
+
+        You may use dotted notation in complex objects, e.g. `sub.property`.
+      required: false
+      type: string[]
+      example: <<onlyExample>>
+    except:
+      description: |
+        Blacklist of properties not to include in the response.
+
+        You may use dotted notation in complex objects, e.g. `sub.property`.
+      required: false
+      type: string[]
+      example: <<exceptExample>>

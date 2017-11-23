@@ -21,7 +21,7 @@ function serveDocs(port) {
     host: config.docs.host,
     open: config.docs.open,
     port: port,
-    root: './docs/src',
+    root: './docs',
     wait: 50
   };
 
