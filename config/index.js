@@ -58,8 +58,8 @@ const defaultConfig = {
   db: 'postgres://localhost/biopocket',
   docs: {
     host: '127.0.0.1',
-    open: false,
-    port: 4000
+    open: true,
+    port: undefined
   },
   env: 'development',
   logLevel: 'INFO',

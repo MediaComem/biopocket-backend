@@ -118,7 +118,7 @@ The following properties can be used in development to customize how the project
 | `$DOCS_BROWSER`      | `docs.browser`  |             | Browser to open                                                                                                   |
 | `$DOCS_HOST`         | `docs.host`     | `127.0.0.1` | Host to serve the documentation on                                                                                |
 | `$DOCS_OPEN`         | `docs.open`     | `false`     | Whether to automatically open the browser with the documentation when running `npm run dev` or `npm run dev:docs` |
-| `$DOCS_PORT`         | `docs.port`     | `4000`      | Port to serve the documentation on                                                                                |
+| `$DOCS_PORT`         | `docs.port`     |             | Port to serve the documentation on (a free random port will be found by default)                                  |
 
 
 
