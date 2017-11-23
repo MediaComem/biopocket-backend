@@ -1,4 +1,3 @@
 # TODO
 
-* validations
-* automated tests
+* document scripts & npm scripts
