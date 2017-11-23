@@ -28,8 +28,8 @@ module.exports = expressJwtPolicies({
     } else if (err.code == 'credentials_bad_format' || err.code == 'credentials_bad_scheme') {
       logger.debug(`JWT authentication credentials error: ${err.message}`);
       next(errors.malformedAuthorization());
-    } else if (!err.status || err.code == 'invalid_token') {
-      logger.debug(`JWT authentication unexpected error: ${err.message}`);
+    } else if (err.status == 401) {
+      logger.debug(`JWT authentication invalid error: ${err.message}`);
       next(errors.invalidAuthorization());
     } else {
       next(err);
