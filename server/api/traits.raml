@@ -19,44 +19,43 @@ authenticatedResource:
         Authentication is required to access this resource.
         Either you have not authenticated or your credentials are invalid.
       body:
-        application/json:
-          examples:
-            Missing authentication:
-              description: You have not sent an Authorization header in the request.
-              value: |
-                {
-                  "errors": [
-                    {
-                      "code": "auth.missingAuthorization",
-                      "message": "Authentication is required to access this resource. Authenticate by providing a Bearer token in the Authorization header."
-                    }
-                  ]
-                }
-            Malformed authentication:
-              description: |
-                The Authorization header of our request is not in the correct format.
+        examples:
+          Missing authentication:
+            description: You have not sent an Authorization header in the request.
+            value: |
+              {
+                "errors": [
+                  {
+                    "code": "auth.missingAuthorization",
+                    "message": "Authentication is required to access this resource. Authenticate by providing a Bearer token in the Authorization header."
+                  }
+                ]
+              }
+          Malformed authentication:
+            description: |
+              The Authorization header of our request is not in the correct format.
 
-                The required format is `Bearer TOKEN` where `TOKEN` is a valid JWT that you obtained by calling `POST /api/auth`.
-              value: |
-                {
-                  "errors": [
-                    {
-                      "code": "auth.malformedAuthorization",
-                      "message": "The Authorization header is not in the correct format. It should be \"Authorization: Bearer TOKEN\"."
-                    }
-                  ]
-                }
-            Invalid authentication:
-              description: The JWT bearer token you have sent in the Authorization header is invalid or has expired.
-              value: |
-                {
-                  "errors": [
-                    {
-                      "code": "auth.invalidAuthorization",
-                      "message": "The Bearer token supplied in the Authorization header is invalid or has expired."
-                    }
-                  ]
-                }
+              The required format is `Bearer TOKEN` where `TOKEN` is a valid JWT that you obtained by calling `POST /api/auth`.
+            value: |
+              {
+                "errors": [
+                  {
+                    "code": "auth.malformedAuthorization",
+                    "message": "The Authorization header is not in the correct format. It should be \"Authorization: Bearer TOKEN\"."
+                  }
+                ]
+              }
+          Invalid authentication:
+            description: The JWT bearer token you have sent in the Authorization header is invalid or has expired.
+            value: |
+              {
+                "errors": [
+                  {
+                    "code": "auth.invalidAuthorization",
+                    "message": "The Bearer token supplied in the Authorization header is invalid or has expired."
+                  }
+                ]
+              }
 
 identifiableResource:
   usage: |
@@ -66,19 +65,18 @@ identifiableResource:
     404:
       description: The requested <<name>> does not exist (or you are not authorized to access it).
       body:
-        application/json:
-          example: |
-            HTTP/1.1 404 Not Found
-            Content-Type: application/json
+        example: |
+          HTTP/1.1 404 Not Found
+          Content-Type: application/json
 
-            {
-              "errors": [
-                {
-                  "code": "record.notFound",
-                  "message": "No <<name>> was found with ID 7c4424de-66a0-4044-b872-c5fc77c4365."
-                }
-              ]
-            }
+          {
+            "errors": [
+              {
+                "code": "record.notFound",
+                "message": "No <<name>> was found with ID 7c4424de-66a0-4044-b872-c5fc77c4365."
+              }
+            ]
+          }
 
 jsonConsumer:
   usage: |
@@ -110,16 +108,15 @@ protectedResource:
         Your user account is not authorized to access this resource.
         Contact the administrator to request more privileges.
       body:
-        application/json:
-          example: |
-            {
-              "errors": [
-                {
-                  "code": "auth.forbidden",
-                  "message": "You are not authorized to access this resource. Authenticate with a user account that has more privileges."
-                }
-              ]
-            }
+        example: |
+          {
+            "errors": [
+              {
+                "code": "auth.forbidden",
+                "message": "You are not authorized to access this resource. Authenticate with a user account that has more privileges."
+              }
+            ]
+          }
 
 serializableResource:
   usage: |

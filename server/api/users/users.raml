@@ -18,26 +18,24 @@ description: Management of BioPocket user accounts.
           onlyExample: "?only=id&only=email"
           exceptExample: "?except=roles&except=updatedAt"
     body:
-      application/json:
-        example: |
-          GET /api/users/10d38b2c-b7ed-41de-986c-bff87031291e HTTP/1.1
-          Accept: application/json
+      example: |
+        GET /api/users/10d38b2c-b7ed-41de-986c-bff87031291e HTTP/1.1
+        Accept: application/json
     responses:
       200:
         description: The user account was successfully retrieved.
         body:
-          application/json:
-            example: |
-              HTTP/1.1 200 OK
-              Content-Type: application/json
+          example: |
+            HTTP/1.1 200 OK
+            Content-Type: application/json
 
-              {
-                "active": true,
-                "createdAt": "2000-01-01T16:30:00.123Z",
-                "email": "jdoe@example.com",
-                "id": "10d38b2c-b7ed-41de-986c-bff87031291e",
-                "roles": [
-                  "admin"
-                ],
-                "updatedAt": "2000-02-03T17:00:00.123Z"
-              }
+            {
+              "active": true,
+              "createdAt": "2000-01-01T16:30:00.123Z",
+              "email": "jdoe@example.com",
+              "id": "10d38b2c-b7ed-41de-986c-bff87031291e",
+              "roles": [
+                "admin"
+              ],
+              "updatedAt": "2000-02-03T17:00:00.123Z"
+            }
