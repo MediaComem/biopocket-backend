@@ -7,7 +7,7 @@ const fs = require('fs');
 const log4js = require('log4js');
 const path = require('path');
 
-const SUPPORTED_ENVIRONMENTS = [ 'development', 'production' ];
+const SUPPORTED_ENVIRONMENTS = [ 'development', 'production', 'test' ];
 const SUPPORTED_LOG_LEVELS = [ 'TRACE', 'DEBUG', 'INFO', 'WARN', 'ERROR', 'FATAL' ];
 
 const pkg = require(path.join('..', 'package'));

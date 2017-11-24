@@ -9,5 +9,10 @@ module.exports = {
   production: {
     client: 'postgresql',
     connection: config.db
+  },
+
+  test: {
+    client: 'postgresql',
+    connection: config.db
   }
 };

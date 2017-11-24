@@ -6,6 +6,11 @@ exports.cors = false;
 // The full format is "postgres://username:password@host:port/dbname"
 exports.db = 'postgres://localhost/biopocket';
 
+// Database URL for the test environment
+if (process.env.NODE_ENV == 'test') {
+  exports.db = 'postgres://localhost/biopocket-test';
+}
+
 // Documentation development options
 exports.docs = {
   //browser: 'Google Chrome',
