@@ -1,0 +1,11 @@
+type: object
+properties:
+  token:
+    type: string
+    description: |
+      A [JWT](https://jwt.io) that can be used to authenticate to other API resources.
+      You should send it as a bearer token in the Authorization header, e.g. `Authorization: Bearer TOKEN`.
+    required: false
+  user:
+    type: User
+    required: false

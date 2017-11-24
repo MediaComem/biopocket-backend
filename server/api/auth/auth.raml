@@ -11,6 +11,7 @@ post:
   is:
     - jsonConsumer
   body:
+    type: AuthPost
     example: |
       POST /api/auth HTTP/1.1
       Content-Type: application/json
@@ -23,6 +24,7 @@ post:
     201:
       description: The authentication token was successfully created.
       body:
+        type: Auth
         example: |
           HTTP/1.1 201 Created
           Content-Type: application/json

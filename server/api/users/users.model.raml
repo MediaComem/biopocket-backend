@@ -1,0 +1,28 @@
+type: object
+properties:
+  active:
+    type: boolean
+    description: |
+      If false, the user account cannot authenticate and is not authorized to perform any action.
+      New user accounts start active, but can be deactivated by an administrator.
+    required: false
+  createdAt:
+    type: datetime
+    description: The time at which the user account was created.
+    required: false
+  email:
+    type: string
+    description: The e-mail address associated to the user account.
+    required: false
+  id:
+    type: string
+    description: The unique ID identifying the user account.
+    required: false
+  roles:
+    type: array
+    description: The roles the user is authorized to perform.
+    required: false
+  updatedAt:
+    type: datetime
+    required: false
+    description: The time at which the user account was last updated.

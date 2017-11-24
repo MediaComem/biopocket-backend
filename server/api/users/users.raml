@@ -17,14 +17,11 @@ description: Management of BioPocket user accounts.
       - serializableResource:
           onlyExample: "?only=id&only=email"
           exceptExample: "?except=roles&except=updatedAt"
-    body:
-      example: |
-        GET /api/users/10d38b2c-b7ed-41de-986c-bff87031291e HTTP/1.1
-        Accept: application/json
     responses:
       200:
         description: The user account was successfully retrieved.
         body:
+          type: User
           example: |
             HTTP/1.1 200 OK
             Content-Type: application/json

@@ -4,7 +4,13 @@ title: BioPocket
 baseUri: https://biopocket.ch/api
 version: 1
 mediaType: application/json
+
 traits: !include traits.raml
+
+types:
+  Auth: !include auth/auth.model.raml
+  AuthPost: !include auth/auth.model.post.raml
+  User: !include users/users.model.raml
 
 /auth: !include auth/auth.raml
 /me: !include users/users.me.raml

@@ -10,14 +10,11 @@ get:
     - serializableResource:
         onlyExample: "?only=id&only=email"
         exceptExample: "?except=roles&except=updatedAt"
-  body:
-    example: |
-      GET /api/me HTTP/1.1
-      Accept: application/json
   responses:
     200:
       description: Your user account was successfully retrieved.
       body:
+        type: User
         example: |
           HTTP/1.1 200 OK
           Content-Type: application/json
