@@ -1,11 +1,34 @@
 const _ = require('lodash');
+const enrichApiError = require('enrich-api-error');
 const moment = require('moment');
+const SuperRest = require('superrest');
 
+const app = require('../app');
+const chai = require('./chai');
 const config = require('../../config');
 const db = require('../db');
 
 let databaseConnectionClosed = false;
 const logger = config.logger('spec');
+
+class EnrichedSuperRest extends SuperRest {
+  expect(res, ...args) {
+    try {
+      return super.expect(res, ...args);
+    } catch(err) {
+      throw enrichApiError(err, res);
+    }
+  }
+}
+
+exports.initSuperRest = function(options) {
+  return new EnrichedSuperRest(app, _.defaults({}, options, {
+    pathPrefix: '/api',
+    updateMethod: 'PATCH'
+  }));
+};
+
+exports.expect = chai.expect;
 
 exports.setUp = function() {
   after(() => {
@@ -61,4 +84,8 @@ exports.checkRecord = async function(model, id, options) {
   }
 
   return record;
+};
+
+exports.toArray = function(value) {
+  return _.isArray(value) ? value : [ value ];
 };

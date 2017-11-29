@@ -1,9 +1,8 @@
 const _ = require('lodash');
 const bcrypt = require('bcryptjs');
-const { expect } = require('chai');
 
 const User = require('../../models/user');
-const { checkRecord } = require('../utils');
+const { checkRecord, expect, toArray } = require('../utils');
 
 module.exports = function(actual, expected) {
 
@@ -19,22 +18,29 @@ module.exports = function(actual, expected) {
 
   expect(actual.active, 'user.active').to.equal(_.get(expected, 'active', true));
 
-  expect(actual.id, 'user.id').to.be.a('string');
   if (expected.id) {
     expect(actual.id, 'user.id').to.equal(expected.id);
+  } else {
+    expect(actual.id, 'user.id').to.be.a('string');
   }
 
   expect(actual.email, 'user.email').to.equal(expected.email);
 
   expect(actual.roles, 'user.roles').to.eql(_.get(expected, 'roles', []));
 
-  // TODO: expectations for createdAt & updatedAt
+  expect(actual.createdAt, 'user.createdAt').to.be.iso8601(...toArray(expected.createdAt));
+
+  if (expected.updatedAt == 'createdAt') {
+    expect(actual.updatedAt, 'user.updatedAt').to.equal(actual.createdAt);
+  } else {
+    expect(actual.updatedAt, 'user.updatedAt').to.be.iso8601(...toArray(expected.updatedAt));
+  }
 
   // Check that the corresponding user exists in the database.
-  return module.exports.db(_.merge({}, actual, _.pick(expected, 'password')));
+  return module.exports.inDb(_.merge({}, actual, _.pick(expected, 'password')));
 };
 
-module.exports.db = async function(expected) {
+module.exports.inDb = async function(expected) {
 
   const user = await checkRecord(User, expected.id);
   expect(user, 'db.user').to.be.an.instanceof(User);
@@ -44,8 +50,8 @@ module.exports.db = async function(expected) {
   expect(user.get('id'), 'db.user.id').to.be.a('string');
   expect(user.get('email'), 'db.user.email').to.equal(expected.email);
   expect(user.get('roles'), 'db.user.roles').to.eql(expected.roles);
-
-  // TODO: expectations for created_at & updated_at
+  expect(user.get('created_at'), 'db.user.created_at').to.be.sameMoment(expected.createdAt);
+  expect(user.get('updated_at'), 'db.user.updated_at').to.be.sameMoment(expected.updatedAt);
 
   if (expected.password) {
     expect(bcrypt.compareSync(expected.password, user.get('password_hash')), 'db.user.password_hash').to.equal(true);

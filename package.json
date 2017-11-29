@@ -24,9 +24,9 @@
     "migrate:test:rollback": "cross-env NODE_ENV=test knex migrate:rollback",
     "sample-data": "node scripts/sample-data.js",
     "start": "cross-env DEBUG=biopocket:* node ./bin/www",
-    "test": "cross-env NODE_ENV=test BCRYPT_COST=1 LOG_LEVEL=WARN nyc --reporter=html --reporter=text mocha server/**/*.spec.js",
+    "test": "cross-env NODE_ENV=test BCRYPT_COST=1 LOG_LEVEL=WARN nyc --reporter=html --reporter=text mocha --reporter=mocha-api-errors server/**/*.spec.js",
     "test:coveralls": "nyc report --reporter=text-lcov | coveralls",
-    "test:debug": "cross-env NODE_ENV=test BCRYPT_COST=1 LOG_LEVEL=TRACE nyc --reporter=html --reporter=text mocha server/**/*.spec.js"
+    "test:debug": "cross-env NODE_ENV=test BCRYPT_COST=1 LOG_LEVEL=TRACE nyc --reporter=html --reporter=text mocha --reporter=mocha-api-errors server/**/*.spec.js"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
@@ -52,20 +52,26 @@
     "babel-plugin-istanbul": "^4.1.5",
     "babel-register": "^6.26.0",
     "chai": "^4.1.2",
+    "chai-iso8601": "^1.0.0",
+    "chai-moment": "^0.1.0",
+    "chai-objects": "^1.0.0",
     "chance": "^1.0.12",
     "concurrently": "^3.5.1",
     "coveralls": "^3.0.0",
     "cross-env": "^5.1.1",
     "docdash": "^0.4.0",
+    "enrich-api-error": "^1.0.2",
     "get-port": "^3.2.0",
     "jsdoc": "^3.5.5",
     "live-server": "^1.2.0",
     "mkdirp": "^0.5.1",
     "mocha": "^4.0.1",
+    "mocha-api-errors": "^1.0.1",
     "nyc": "^11.4.0",
     "onchange": "^3.2.1",
     "raml2html": "^6.4.2",
     "rimraf": "^2.6.2",
+    "superrest": "^1.0.0",
     "supertest": "^3.0.0",
     "test-value-generator": "^1.0.1"
   }
