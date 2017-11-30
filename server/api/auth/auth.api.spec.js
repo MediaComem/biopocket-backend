@@ -38,6 +38,7 @@ describe('Authentication API', function() {
     });
 
     it('should log in a user', async function() {
+
       const res = this.test.res = await api.create('/auth', reqBody);
 
       expect(res.body.token).to.be.a('string');
@@ -48,6 +49,7 @@ describe('Authentication API', function() {
     });
 
     it('should log in an admin', async function() {
+
       await user.save({ roles: [ 'admin' ] });
       const res = this.test.res = await api.create('/auth', reqBody);
 
@@ -60,6 +62,7 @@ describe('Authentication API', function() {
     });
 
     it('should not log in a non-existent user', async function() {
+
       reqBody.email = userFixtures.email();
       const res = this.test.res = await api.create('/auth', reqBody, { expectedStatus: 401 });
 
@@ -70,6 +73,7 @@ describe('Authentication API', function() {
     });
 
     it('should not log in an inactive user', async function() {
+
       await user.save({ active: false });
       const res = this.test.res = await api.create('/auth', reqBody, { expectedStatus: 401 });
 
@@ -80,6 +84,7 @@ describe('Authentication API', function() {
     });
 
     it('should not log in with the wrong password', async function() {
+
       reqBody.password = userFixtures.password();
       const res = this.test.res = await api.create('/auth', reqBody, { expectedStatus: 401 });
 
@@ -90,6 +95,7 @@ describe('Authentication API', function() {
     });
 
     it('should not log in with no credentials', async function() {
+
       const res = this.test.res = await api.create('/auth', {}, { expectedStatus: 422 });
 
       expectErrors(res, [
@@ -111,6 +117,7 @@ describe('Authentication API', function() {
     });
 
     it('should not log in with invalid credentials', async function() {
+
       reqBody.email = 'foo';
       reqBody.password = '   ';
       const res = this.test.res = await api.create('/auth', reqBody, { expectedStatus: 422 });
