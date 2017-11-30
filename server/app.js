@@ -17,7 +17,6 @@ app.set('env', config.env);
 
 app.use(expressLogger);
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
 
 logger.debug(`CORS is ${config.cors ? 'enabled' : 'disabled'} (change with $CORS or config.cors)`);
 if (config.cors) {
