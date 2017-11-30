@@ -6,3 +6,4 @@
 * validate accept & content type
 * add jshint
 * export knex clean database
+* move nodemon to devDependencies

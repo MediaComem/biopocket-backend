@@ -15,6 +15,7 @@ if (process.env.NODE_ENV == 'test') {
 
 // Documentation development options
 exports.docs = {
+  // Uncomment this if you want to use another browser than your system's default
   //browser: 'Google Chrome',
   host: '127.0.0.1',
   open: true,
