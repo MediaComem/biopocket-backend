@@ -1,9 +1,10 @@
+const bodyParser = require('body-parser');
 const cors = require('cors');
 const express = require('express');
 const path = require('path');
-const bodyParser = require('body-parser');
 
 const config = require('../config');
+const api = require('./api');
 const db = require('./db');
 const { logger: expressLogger } = require('./utils/express');
 
@@ -23,7 +24,7 @@ if (config.cors) {
   app.use(cors());
 }
 
-app.use('/api', require('./api'));
+app.use('/api', api);
 app.use('/', (req, res) => res.send('biopocket'));
 
 // Catch 404 and forward to error handler.

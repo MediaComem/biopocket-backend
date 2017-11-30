@@ -3,8 +3,8 @@
  *
  * @module server/utils/jwt
  */
-const _ = require('lodash');
 const jwt = require('jsonwebtoken');
+const _ = require('lodash');
 const moment = require('moment');
 
 const config = require('../../config');

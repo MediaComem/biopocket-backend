@@ -97,7 +97,7 @@ function createLogger(name) {
 //
 //     config.path('foo', 'bar'); // => "/path/to/project/foo/bar"
 function joinProjectPath(...segments) {
-  return path.join.apply(path, [ root ].concat(segments));
+  return path.join(...([ root ].concat(segments)));
 }
 
 // Parses a string value as a boolean.

@@ -7,9 +7,9 @@
  * @see https://github.com/AlphaHydrae/valdsl
  */
 const _ = require('lodash');
+const valdsl = require('valdsl');
 
 const { ensureRequest } = require('../../utils/express');
-const valdsl = require('valdsl');
 
 const dsl = valdsl();
 exports.dsl = dsl;

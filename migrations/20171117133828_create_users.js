@@ -1,21 +1,17 @@
 const { logMigration } = require('../utils/migrations');
 
-exports.up = function(knex) {
+exports.up = async function(knex) {
   logMigration(knex);
 
-  return Promise
-    .resolve()
-    .then(() => createExtensions(knex))
-    .then(() => createUsers(knex));
+  await createExtensions(knex);
+  await createUsers(knex);
 };
 
-exports.down = function(knex) {
+exports.down = async function(knex) {
   logMigration(knex);
 
-  return Promise
-    .resolve()
-    .then(() => dropUsers(knex))
-    .then(() => dropExtensions(knex));
+  await dropUsers(knex);
+  await dropExtensions(knex);
 };
 
 function createExtensions(knex) {
@@ -26,7 +22,7 @@ function createExtensions(knex) {
 }
 
 function createUsers(knex) {
-  return knex.schema.createTable('users', (t) => {
+  return knex.schema.createTable('users', t => {
 
     t.bigIncrements('id').primary();
     t.specificType('api_id', 'uuid').notNullable().defaultTo(knex.raw('uuid_generate_v4()'));

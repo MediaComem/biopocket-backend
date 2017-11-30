@@ -18,7 +18,7 @@ module.exports = expressJwtPolicies({
 
       req.currentUser = user;
       logger.debug(`Authenticated with user ${user.get('api_id')}`);
-    }).then(next, next);
+    }).then(next).catch(next);
   },
 
   authenticationErrorHandler: function(err, req, res, next) {
