@@ -221,7 +221,7 @@ function validate(config) {
     throw new Error(`Unsupported log level "${config.logLevel}" (type ${typeof(config.logLevel)}); must be one of: ${SUPPORTED_LOG_LEVELS.join(', ')}`);
   } else if (!_.isInteger(config.port) || config.port < 1 || config.port > 65535) {
     throw new Error(`Unsupported port number "${config.port}" (type ${typeof(config.port)}); must be an integer between 1 and 65535`);
-  } else if (!_.isString(config.sessionSecret)) {
-    throw new Error(`Unsupported session secret "${config.sessionSecret}" (type ${typeof(config.sessionSecret)}); must be a string`);
+  } else if (!_.isString(config.sessionSecret) || config.sessionSecret == 'changeme') {
+    throw new Error(`Unsupported session secret "${config.sessionSecret}" (type ${typeof(config.sessionSecret)}); must be a string different than "changeme"`);
   }
 }
