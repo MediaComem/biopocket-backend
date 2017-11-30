@@ -1,7 +1,7 @@
 # TODO
 
 * serve coverage
-* document scripts & npm scripts
+* document scripts with JSDoc
 * extract href package
 * validate accept & content type
 * add jshint
