@@ -3,7 +3,6 @@
 The API for the BioPocket project, implemented with a Node.js Express server.
 
 [![Dependency Status](https://gemnasium.com/badges/github.com/MediaComem/biopocket-backend.svg)](https://gemnasium.com/github.com/MediaComem/biopocket-backend)
-
 [![Build Status](https://travis-ci.org/MediaComem/biopocket-backend.svg?branch=master)](https://travis-ci.org/MediaComem/biopocket-backend)
 [![Coverage Status](https://coveralls.io/repos/github/MediaComem/biopocket-backend/badge.svg?branch=master)](https://coveralls.io/github/MediaComem/biopocket-backend?branch=master)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE.txt)
