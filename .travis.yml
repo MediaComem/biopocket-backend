@@ -1,0 +1,19 @@
+language: node_js
+node_js:
+  - 8.9.1
+addons:
+  postgresql: 9.6
+services:
+  - postgresql
+env:
+  - NODE_ENV=test SESSION_SECRET=travis
+before_install:
+  - sudo apt-get -qq update
+  - sudo apt-get install postgresql-9.6-postgis-2.3
+before_script:
+  - psql -U postgres -c 'create database biopocket;'
+  - psql -U postgres -c 'create extension postgis;' biopocket
+  - psql -U postgres -c 'create extension "uuid-ossp";' biopocket
+  - npm run migrate:test
+after_success:
+  - npm run test:coveralls
