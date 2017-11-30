@@ -7,6 +7,8 @@ exports.cors = false;
 exports.db = 'postgres://localhost/biopocket';
 
 // Database URL for the test environment
+// You should use a different database for tests as all its data will
+// be deleted when running the tests.
 if (process.env.NODE_ENV == 'test') {
   exports.db = 'postgres://localhost/biopocket-test';
 }
