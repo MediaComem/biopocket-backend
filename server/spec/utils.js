@@ -1,3 +1,8 @@
+/**
+ * Test utilities.
+ *
+ * @module server/spec/utils
+ */
 const _ = require('lodash');
 const enrichApiError = require('enrich-api-error');
 const moment = require('moment');
@@ -21,14 +26,64 @@ class EnrichedSuperRest extends SuperRest {
   }
 }
 
+const expect = exports.expect = chai.expect;
+
+/**
+ * Ensures that a response from the server is a correctly formatted error response
+ * and that it contains the expected error or list of errors.
+ *
+ *     // Expect a single error.
+ *     expectErrors(res, {
+ *       code: 'something.wrong',
+ *       message: 'It went wrong...'
+ *     });
+ *
+ *     // Expect a list of errors.
+ *     expectErrors(res, [
+ *       {
+ *         code: 'something.wrong',
+ *         message: 'It went wrong...'
+ *       },
+ *       {
+ *         code: 'something.bad',
+ *         message: 'What?'
+ *       }
+ *     ]);
+ *
+ * An error response is expected to:
+ *
+ * * Have the application/json content type
+ * * Be a JSON object with a single `errors` property that is an array of errors
+ *
+ * @param {Response} res - A response object from a test.
+ *
+ * @param {object|object[]} - A single error or a list of errors that is expected to
+ *   be in the response. The response is expected to contain exactly this or these
+ *   errors and no others. If a single error is given, the response's `errors` array
+ *   is expected to contain exactly that error and no other. If a list is given, the
+ *   order of the errors is not checked.
+ */
+exports.expectErrors = function(res, expectedErrorOrErrors) {
+
+  expect(res.get('Content-Type'), 'res.headers.Content-Type').to.match(/^application\/json/);
+  expect(res.body, 'res.body').to.be.an('object');
+  expect(res.body, 'res.body').to.have.all.keys('errors');
+  expect(res.body.errors, 'res.body.errors').to.be.an('array');
+
+  // Check that at least one expected error was provided.
+  const expectedErrors = exports.toArray(expectedErrorOrErrors);
+  expect(expectedErrors).to.have.lengthOf.at.least(1);
+
+  // Check that the errors in the response match with chai-objects
+  expect(res.body.errors).to.have.objects(expectedErrors);
+};
+
 exports.initSuperRest = function(options) {
   return new EnrichedSuperRest(app, _.defaults({}, options, {
     pathPrefix: '/api',
     updateMethod: 'PATCH'
   }));
 };
-
-exports.expect = chai.expect;
 
 exports.setUp = function() {
   after(() => {
