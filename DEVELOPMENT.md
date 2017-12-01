@@ -10,12 +10,12 @@
 - [Configuration & environments](#configuration--environments)
   - [Local configuration](#local-configuration)
 - [Scripts](#scripts)
-  - [Development](#development)
-  - [Database](#database)
-  - [Documentation](#documentation)
-  - [Testing](#testing)
-  - [Utilities](#utilities)
-- [Database](#database-1)
+  - [Development scripts](#development-scripts)
+  - [Database scripts](#database-scripts)
+  - [Documentation scripts](#documentation-scripts)
+  - [Testing scripts](#testing-scripts)
+  - [Utility scripts](#utility-scripts)
+- [Database](#database)
   - [Migrations](#migrations)
   - [ORM](#orm)
 - [Logging](#logging)
@@ -25,11 +25,10 @@
   - [Authorization](#authorization)
   - [Policies](#policies)
     - [Serializing](#serializing)
-- [Validation](#validation)
-- [Documentation](#documentation-1)
+- [Documentation](#documentation)
   - [API RAML documentation](#api-raml-documentation)
   - [Source code JSDoc documentation](#source-code-jsdoc-documentation)
-- [Testing](#testing-1)
+- [Testing](#testing)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -419,8 +418,14 @@ Guidelines:
 * Document all reusable & utility functions (include an **example** if possible).
 * Document all database models:
   * Columns
-  * Extra methods
   * Virtual properties
+  * Extra methods
+* Document API routes (in `.routes.js` files) with a single-line comment (so
+  that it doesn't show in the JSDoc) indicating only the HTTP method and full
+  path to the resource, e.g. `// POST /api/users`.
+* Document API route implementations (in `.api.js` files) with a short sentence
+  indicating what it does without too much detail. Detailed API documentation
+  should be written in the RAML files.
 
 
 
@@ -453,6 +458,8 @@ Additionally, the following tools are used to generate code coverage reports:
 * [coveralls-node][coveralls-node] - Send test coverage to
   [Coveralls][coveralls]
 * [nyc][nyc] - [Istanbul][istanbul] code coverage command line interface
+
+TODO: test coverage configuration with babel/nyc
 
 
 
