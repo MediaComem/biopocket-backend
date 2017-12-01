@@ -133,7 +133,7 @@ Note that the automated tests **wipe the database clean** when running in the
 Various npm scripts are available to facilite running the server in development,
 test or production mode.
 
-### Development
+### Development scripts
 
 Useful scripts for day-to-day development.
 
@@ -144,7 +144,7 @@ Useful scripts for day-to-day development.
 | `npm run dev:server` | Run the server in development mode with live reload                                |
 | `npm start`          | Run the server                                                                     |
 
-### Database
+### Database scripts
 
 See the [Database](#database) section for more information.
 
@@ -157,7 +157,7 @@ See the [Database](#database) section for more information.
 | `npm run migrate:test:rollback` | Roll back the previous migration batch on the test database               |
 | `npm run sample-data`           | Generate sample data for development (see `scripts/sample-data.js`)       |
 
-### Documentation
+### Documentation scripts
 
 See the [Documentation](#documentation) section for more information.
 
@@ -174,7 +174,7 @@ See the [Documentation](#documentation) section for more information.
 | `npm run docs:src:watch` | Watch the project's source code documentation to automatically re-generate it when it changes |
 | `npm run docs:watch`     | Watch the project's documentation to automatically re-generate it when it changes             |
 
-### Testing
+### Testing scripts
 
 See the [Testing](#testing) section for more information.
 
@@ -184,7 +184,7 @@ See the [Testing](#testing) section for more information.
 | `npm run test:coveralls` | Send test coverage data to [Coveralls][coveralls] (used on Travis CI)                          |
 | `npm run test:debug`     | Run all automated tests with `$LOG_LEVEL` set to `TRACE` (all database queries will be logged) |
 
-### Utilities
+### Utility scripts
 
 | Script                 | Purpose                                                                                                       |
 | :---                   | :---                                                                                                          |
