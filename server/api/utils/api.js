@@ -112,7 +112,7 @@ exports.fetcher = function(options) {
 
       // Attach the record to the request object.
       req[requestProperty] = record;
-    }).then(next, next);
+    }).then(next).catch(next);
   };
 }
 
