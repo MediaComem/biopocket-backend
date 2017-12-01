@@ -234,8 +234,8 @@ extends Bookshelf's base Model.
 Console logging is done with the [log4js][log4js] library.
 
 The configuration object (exported by `config/index.js`) has a `logger` function
-which creates a named logger. Loggers have functions to log message at the
-various log levels.
+which creates a named logger. Loggers have methods to log message at the various
+log levels.
 
 Guidelines:
 
@@ -251,7 +251,16 @@ Guidelines:
 * `fatal` - An unexpected and unrecoverable error occurred. The server is not
   guaranteed to still be operating properly and should be restarted.
 
-Example:
+The server's log level can be configured by setting the `$LOG_LEVEL` environment
+variable or the `logLevel` configuration property. Only messages at or above the
+configured log level will be displayed. For example, if the configured log level
+is `INFO`, only messages at the `INFO`, `WARN`, `ERROR` and `FATAL` log levels
+will be displayed, while `TRACE` and `DEBUG` messages will not be.
+
+It is recommended to set the log level to `TRACE` in development, as HTTP
+requests and databases queries are only logged at that level.
+
+Usage example:
 
 ```js
 const config = require('../config');
