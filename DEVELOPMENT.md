@@ -202,15 +202,30 @@ enabled:
 * `postgis` to store geographic information.
 * `uuid-ossp` to generate UUIDs as API identifiers.
 
+The following libraries are used to facilitate working with the database:
+
+* [Knex][knex] - SQL query builder.
+* [Bookshelf][bookshelf] - JavaScript ORM for Node.js built on Knex.
+  * [bookshelf-touch][bookshelf-touch] - Bookshelf plugin to automatically
+    updated `created_at` and `updated_at` timestamps.
+* [pg][pg] Non-blocking PostgreSQL for Node.js (used by Knex).
+
 ### Migrations
 
 Database migration scripts are written in JavaScript in the `migrations`
-directory. Read the documentation on [Knex migrations][knex-migrations] for more
-information.
+directory and managed by [Knex][knex]. Read the documentation on [Knex
+migrations][knex-migrations] for more information.
+
+Several [database scripts](#database-scripts) are available as shortcuts to
+often-used Knex commands.
 
 ### ORM
 
-TODO: document bookshelf usage
+Database models are implemented with the [Bookshelf][bookshelf] ORM. You will
+find them in the `server/models` directory.
+
+The server has an Abstract base model which all other models extend. It iself
+extends Bookshelf's base Model.
 
 
 
@@ -413,6 +428,7 @@ Additionally, the following tools are used to generate code coverage reports:
 [bcrypt]: https://en.wikipedia.org/wiki/Bcrypt
 [bcryptjs]: https://www.npmjs.com/package/bcryptjs
 [bookshelf]: http://bookshelfjs.org
+[bookshelf-touch]: https://www.npmjs.com/package/bookshelf-touch
 [chai]: http://chaijs.com
 [chai-iso8601]: https://github.com/MediaComem/chai-iso8601
 [chai-moment]: https://www.npmjs.com/package/chai-moment
@@ -430,6 +446,7 @@ Additionally, the following tools are used to generate code coverage reports:
 [mocha]: https://mochajs.org
 [mocha-api-errors]: https://github.com/MediaComem/mocha-api-errors
 [nyc]: https://github.com/istanbuljs/nyc
+[pg]: https://www.npmjs.com/package/pg
 [raml]: https://raml.org
 [raml-spec]: https://github.com/raml-org/raml-spec/blob/master/versions/raml-10/raml-10.md
 [raml-traits]: https://github.com/raml-org/raml-spec/blob/master/versions/raml-10/raml-10.md#resource-types-and-traits
