@@ -15,7 +15,7 @@
     "docs:api:clean": "rimraf docs/api",
     "docs:api:watch": "onchange \"server/**/*.raml\" -- npm run docs:api",
     "docs:clean": "concurrently \"npm run docs:api:clean\" \"npm run docs:src:clean\"",
-    "docs:serve": "node scripts/serve-docs.js",
+    "docs:serve": "cross-env LOG_LEVEL=WARN node scripts/serve-docs.js",
     "docs:src": "jsdoc -c jsdoc.json",
     "docs:src:clean": "rimraf docs/src",
     "docs:src:watch": "onchange \"scripts/**/*.js\" \"server/**/*.js\" \"utils/**/*.js\" -- npm run docs:src",
