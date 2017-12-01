@@ -137,12 +137,14 @@ test or production mode.
 
 Useful scripts for day-to-day development.
 
-| Script               | Purpose                                                                            |
-| :---                 | :---                                                                               |
-| `npm run dev`        | Run the server and open the project's documentation with live reload               |
-| `npm run dev:docs`   | Generate the project's documentation and opens it in your browser with live reload |
-| `npm run dev:server` | Run the server in development mode with live reload                                |
-| `npm start`          | Run the server                                                                     |
+| Script               | Purpose                                                                                                                    |
+| :---                 | :---                                                                                                                       |
+| `npm run dev`        | Run the server and open the project's documentation with live reload                                                       |
+| `npm run dev:all`    | Run the server, open the project's documentation with live reload, and automatically run automated tests when code changes |
+| `npm run dev:docs`   | Generate the project's documentation and opens it in your browser with live reload                                         |
+| `npm run dev:server` | Run the server in development mode with live reload                                                                        |
+| `npm run dev:test`   | Run the automated tests and automatically re-runs them when code changes                                                   |
+| `npm start`          | Run the server                                                                                                             |
 
 ### Database scripts
 
@@ -178,11 +180,12 @@ See the [Documentation](#documentation) section for more information.
 
 See the [Testing](#testing) section for more information.
 
-| Script                   | Purpose                                                                                        |
-| :---                     | :---                                                                                           |
-| `npm test`               | Run all automated tests                                                                        |
-| `npm run test:coveralls` | Send test coverage data to [Coveralls][coveralls] (used on Travis CI)                          |
-| `npm run test:debug`     | Run all automated tests with `$LOG_LEVEL` set to `TRACE` (all database queries will be logged) |
+| Script                        | Purpose                                                                                        |
+| :---                          | :---                                                                                           |
+| `npm test`                    | Run all automated tests                                                                        |
+| `npm run test:coveralls`      | Send test coverage data to [Coveralls][coveralls] (used on Travis CI)                          |
+| `npm run test:debug`          | Run all automated tests with `$LOG_LEVEL` set to `TRACE` (all database queries will be logged) |
+| `npm run test:watch`          | Watch code for changes and automatically run the automated tests when it changes               |
 
 ### Utility scripts
 
