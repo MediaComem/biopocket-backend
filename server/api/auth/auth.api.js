@@ -44,6 +44,7 @@ exports.authenticate = route(async function(req, res) {
   }
 
   req.currentUser = user;
+  logger.info(`User ${user.get('api_id')} has logged in`);
 
   // Return a new JWT and the user.
   res.status(201).json({
