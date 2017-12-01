@@ -9,7 +9,7 @@ exports.user = function(data) {
   data = data || {};
 
   return createRecord(User, {
-    email: data.email || exports.email(data.firstName, data.lastName),
+    email: data.email || exports.email(),
     password: data.password || exports.password(),
     active: _.get(data, 'active', true),
     roles: data.roles || [],
