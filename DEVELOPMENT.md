@@ -194,15 +194,22 @@ TODO: document logging with log4js
 
 ## Security
 
-This server uses the [express-jwt-policies][express-jwt-policies] library which
-provides lightweight authentication and authorization with [JWT][jwt] tokens and
-user-provided policy functions.
+The main security features of this server are:
 
-You can find its configuration in `server/api/utils/auth.js`.
+* User account passwords are stored as a [bcrypt][bcrypt] hash.
+* API authentication and authorization is implemented using the
+  [express-jwt-policies][express-jwt-policies] library which works with
+  [JWT][jwt] tokens and user-provided policy functions.
 
-### Password storage
+  The configuration of the library can be found in `server/api/utils/auth.js`.
 
-TODO: document bcrypt usage
+### Password hashing
+
+The [bcryptjs][bcryptjs library] is used to compute the bcrypt hashes.
+
+The bcrypt cost factor can be adjusted when launching the server by providing
+the `$BCRYPT_COST` environment variable or setting the `bcryptCost`
+configuration property (see [Configuration](README.md#configuration)).
 
 ### Authentication
 
@@ -214,8 +221,8 @@ Unauthorized with a JSON error identifying the problem.
 ### Authorization
 
 BioPocket users can have a number of roles, such as `admin`. A standard user has
-no roles. Some API resources require the user to have specific roles in addition to being
-authenticated.
+no roles. Some API resources require the user to have specific roles in addition
+to being authenticated.
 
 If the user does not have sufficient privileges, the response's status code will
 be 403 Forbidden. In some cases, the status code can also be 404 Not Found (e.g.
@@ -282,6 +289,12 @@ exports.serialize = function(req, user) {
   return serialized;
 }
 ```
+
+
+
+## Validation
+
+TODO: documentation validation with valdsl
 
 
 
@@ -369,6 +382,8 @@ Additionally, the following tools are used to generate code coverage reports:
 
 [babel-plugin-istanbul]: https://github.com/istanbuljs/babel-plugin-istanbul
 [babel-require]: https://www.npmjs.com/package/babel-register
+[bcrypt]: https://en.wikipedia.org/wiki/Bcrypt
+[bcryptjs]: https://www.npmjs.com/package/bcryptjs
 [bookshelf]: http://bookshelfjs.org
 [chai]: http://chaijs.com
 [chai-iso8601]: https://github.com/MediaComem/chai-iso8601
