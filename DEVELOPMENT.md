@@ -371,12 +371,6 @@ exports.serialize = function(req, user) {
 
 
 
-## Validation
-
-TODO: documentation validation with valdsl
-
-
-
 ## Documentation
 
 The `README.md` file documents basic setup instructions and how to configure the
