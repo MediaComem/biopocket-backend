@@ -231,7 +231,34 @@ extends Bookshelf's base Model.
 
 ## Logging
 
-TODO: document logging with log4js
+Console logging is done with the [log4js][log4js] library.
+
+The configuration object (exported by `config/index.js`) has a `logger` function
+which creates a named logger. Loggers have functions to log message at the
+various log levels.
+
+Guidelines:
+
+* `trace` - Low-level debugging information (e.g. HTTP requests, database
+  queries).
+* `debug` - Debugging information.
+* `info` - Important high-level events (e.g. a resource was created, an e-mail
+  was sent).
+* `warn` - An unexpected error or situation occurred but it was handled
+  transparently for the user.
+* `error` - An unexpected error occurred (the user typically gets a 500 Internal
+  Server Error response) but the server is still running normally.
+* `fatal` - An unexpected and unrecoverable error occurred. The server is not
+  guaranteed to still be operating properly and should be restarted.
+
+Example:
+
+```js
+const config = require('../config');
+const logger = config.logger('what');
+logger.debug('Something happened')
+// [2000-01-01T00:00:00.000] [DEBUG] what - Something happened
+```
 
 
 
@@ -443,6 +470,7 @@ Additionally, the following tools are used to generate code coverage reports:
 [jwt]: https://jwt.io
 [knex]: http://knexjs.org
 [knex-migrations]: http://knexjs.org/#Migrations
+[log4js]: https://www.npmjs.com/package/log4js
 [mocha]: https://mochajs.org
 [mocha-api-errors]: https://github.com/MediaComem/mocha-api-errors
 [nyc]: https://github.com/istanbuljs/nyc
