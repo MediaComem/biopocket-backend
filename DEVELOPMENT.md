@@ -7,7 +7,8 @@
 - [Project structure](#project-structure)
   - [Server directory](#server-directory)
   - [API resource directory](#api-resource-directory)
-- [Environments](#environments)
+- [Configuration & environments](#configuration--environments)
+  - [Local configuration](#local-configuration)
 - [Scripts](#scripts)
   - [Development](#development)
   - [Database](#database)
@@ -19,11 +20,12 @@
   - [ORM](#orm)
 - [Logging](#logging)
 - [Security](#security)
-  - [Password storage](#password-storage)
+  - [Password hashing](#password-hashing)
   - [Authentication](#authentication)
   - [Authorization](#authorization)
   - [Policies](#policies)
     - [Serializing](#serializing)
+- [Validation](#validation)
 - [Documentation](#documentation-1)
   - [API RAML documentation](#api-raml-documentation)
   - [Source code JSDoc documentation](#source-code-jsdoc-documentation)
@@ -94,9 +96,35 @@ from being split into one file for each route for readability.
 
 
 
-## Environments
+## Configuration & environments
 
-TODO: document environments
+The server can be configured through environment variables or a configuration
+file.  This is implemented in `config/index.js` and documented in the
+[README](README.md).
+
+The server can run in 3 environments:
+
+* `development` - Used for local development with live reload.
+* `test` - Used to run automated tests.
+* `production` - Used to deploy the server for production.
+
+Which environment the server starts in is determined by the value of the
+`$NODE_ENV` environment variable or the `env` config property. By default, it
+starts in the `development` environment.
+
+### Local configuration
+
+You may use a local `config/local.js` configuration file (you can copy the
+example given in `config/local.sample.js`) to customize your configuration for
+local development.
+
+It is recommended that you use this file to vary some of the configuration
+properties depending on the value of the `$NODE_ENV` environment variable, as is
+shown in the example.
+
+Note that the automated tests **wipe the database clean** when running in the
+`test` environment, so you should connect to a different database in the
+`development` and `test` environments.
 
 
 
