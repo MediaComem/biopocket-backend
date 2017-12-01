@@ -1,7 +1,21 @@
 const Script = require('./script');
 
+/**
+ * Script to generate sample data for development.
+ *
+ * For now, this script basically runs `CreateAdminScript` and creates a default
+ * admin user with the e-mail `admin@example.com` and password `test`.
+ *
+ * Later on it might be augmented to generate useful data to test the
+ * application.
+ *
+ *     $> npm run sample-data
+ *
+ * @class
+ * @memberof module:scripts
+ */
 class SampleDataScript extends Script {
-  run() {
+  async run() {
 
     this.start = new Date().getTime();
 
@@ -9,7 +23,7 @@ class SampleDataScript extends Script {
     process.env.ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'test';
     process.env.NO_SCRIPT = true;
 
-    return require('./create-admin').run();
+    await require('./create-admin').run();
   }
 
   onSuccess() {

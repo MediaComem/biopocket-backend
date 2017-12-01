@@ -18,7 +18,7 @@
     "docs:serve": "node scripts/serve-docs.js",
     "docs:src": "jsdoc -c jsdoc.json",
     "docs:src:clean": "rimraf docs/src",
-    "docs:src:watch": "onchange \"server/**/*.js\" \"utils/**/*.js\" -- npm run docs:src",
+    "docs:src:watch": "onchange \"scripts/**/*.js\" \"server/**/*.js\" \"utils/**/*.js\" -- npm run docs:src",
     "docs:watch": "concurrently \"npm run docs:api:watch\" \"npm run docs:src:watch\"",
     "doctoc": "doctoc --notitle --github README.md DEVELOPMENT.md",
     "migrate": "knex migrate:latest",
