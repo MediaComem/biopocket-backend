@@ -1,2 +1,3 @@
+--ignore-dir=.nyc_output
 --ignore-dir=docs
 --ignore-dir=node_modules
