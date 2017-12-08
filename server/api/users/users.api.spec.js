@@ -44,7 +44,7 @@ describe('Users API', function() {
           .retrieve(`/users/${user.get('api_id')}`)
           .set('Authorization', `Bearer ${user.generateJwt()}`);
 
-        expectUser(res.body, getExpectedUser(user));
+        await expectUser(res.body, getExpectedUser(user));
       });
 
       it('should not retrieve another user', async function() {
@@ -89,7 +89,7 @@ describe('Users API', function() {
           .retrieve(`/users/${admin.get('api_id')}`)
           .set('Authorization', `Bearer ${admin.generateJwt()}`);
 
-        expectUser(res.body, getExpectedUser(admin));
+        await expectUser(res.body, getExpectedUser(admin));
       });
 
       it('should retrieve another user', async function() {
@@ -98,7 +98,7 @@ describe('Users API', function() {
           .retrieve(`/users/${user.get('api_id')}`)
           .set('Authorization', `Bearer ${admin.generateJwt()}`);
 
-        expectUser(res.body, getExpectedUser(user));
+        await expectUser(res.body, getExpectedUser(user));
       });
 
       it('should not retrieve a non-existent user', async function() {
@@ -142,7 +142,7 @@ describe('Users API', function() {
           .retrieve('/me')
           .set('Authorization', `Bearer ${user.generateJwt()}`);
 
-        expectUser(res.body, getExpectedUser(user));
+        await expectUser(res.body, getExpectedUser(user));
       });
     });
 
@@ -157,7 +157,7 @@ describe('Users API', function() {
           .retrieve('/me')
           .set('Authorization', `Bearer ${user.generateJwt()}`);
 
-        expectUser(res.body, getExpectedUser(user));
+        await expectUser(res.body, getExpectedUser(user));
       });
     });
   });

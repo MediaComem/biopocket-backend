@@ -16,6 +16,7 @@ modelFiles.forEach(modelFile => require(`../models/${modelFile}`));
 
 // Plug in API routes.
 router.use('/auth', require('./auth/auth.routes'));
+router.use('/locations', require('./locations/locations.routes'));
 router.use('/me', require('./users/users.me.routes'));
 router.use('/users', require('./users/users.routes'));
 
