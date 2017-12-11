@@ -15,8 +15,6 @@ const policy = require('./users.policy');
 exports.resourceName = 'user';
 
 /**
- * **GET /api/me** & **GET /api/users/:id**
- *
  * Retrieves a single user.
  *
  * @function

@@ -1,0 +1,23 @@
+usage: |
+  Apply this to resources whose serialization can be customized with the only/except query parameters,
+  i.e. those that use express-serializer in their implementation.
+
+  Resource-specific examples for the `only` and `except` query parameters must be provided.
+queryParameters:
+  only:
+    description: |
+      Whitelist of properties to include in the response.
+      (Properties also blacklisted with `except` will not be included.)
+
+      You may use dotted notation in complex objects, e.g. `sub.property`.
+    required: false
+    type: string[]
+    example: <<onlyExample>>
+  except:
+    description: |
+      Blacklist of properties not to include in the response.
+
+      You may use dotted notation in complex objects, e.g. `sub.property`.
+    required: false
+    type: string[]
+    example: <<exceptExample>>

@@ -20,32 +20,42 @@ module.exports = function(actual, expected) {
     expect(actual.id, 'location.id').to.be.a('string');
   }
 
-  expect(actual.name).to.equal(expected.name);
+  expect(actual.name, 'location.name').to.equal(expected.name);
 
-  if (_.has(expected, 'shortName')) {
-    expect(actual.shortName).to.equal(expected.shortName);
+  if (expected.shortName) {
+    expect(actual.shortName, 'location.shortName').to.equal(expected.shortName);
   } else {
-    expect(actual.shortName).to.equal(undefined);
+    expect(actual.shortName, 'location.shortName').to.equal(undefined);
   }
 
-  expect(actual.description).to.equal(expected.description);
-  expect(actual.phone).to.equal(expected.phone);
-  expect(actual.photoUrl).to.equal(expected.photoUrl);
-  expect(actual.siteUrl).to.equal(expected.siteUrl);
-  expect(actual.geometry).to.eql(expected.geometry);
+  expect(actual.description, 'location.description').to.equal(expected.description);
+  expect(actual.phone, 'location.phone').to.equal(expected.phone);
+  expect(actual.photoUrl, 'location.photoUrl').to.equal(expected.photoUrl);
+  expect(actual.siteUrl, 'location.siteUrl').to.equal(expected.siteUrl);
+  expect(actual.geometry, 'location.geometry').to.eql(expected.geometry);
 
-  expect(actual.address).to.be.an('object');
+  expect(actual.address, 'location.address').to.be.an('object');
 
   const expectedAddressKeys = [ 'street', 'city', 'state', 'zipCode' ];
-  if (_.has(actual.address, 'number')) {
+  if (expected.address.number) {
     expectedAddressKeys.push('number');
   }
 
-  expect(actual.address).to.have.all.keys(expectedAddressKeys);
-  expect(actual.address).to.eql(expected.address);
+  expect(actual.address, 'location.address').to.have.all.keys(expectedAddressKeys);
+  expect(actual.address.street, 'location.address.street').to.equal(expected.address.street);
 
-  expect(actual.properties).to.be.an('object');
-  expect(actual.properties).to.eql(expected.properties);
+  if (expected.address.number) {
+    expect(actual.address.number, 'location.address.number').to.equal(expected.address.number);
+  } else {
+    expect(actual.address.number, 'location.address.number').to.equal(undefined);
+  }
+
+  expect(actual.address.zipCode, 'location.address.zipCode').to.equal(expected.address.zipCode);
+  expect(actual.address.city, 'location.address.city').to.equal(expected.address.city);
+  expect(actual.address.state, 'location.address.state').to.equal(expected.address.state);
+
+  expect(actual.properties, 'location.properties').to.be.an('object');
+  expect(actual.properties, 'location.properties').to.eql(expected.properties);
 
   expect(actual.createdAt, 'location.createdAt').to.be.iso8601(...toArray(expected.createdAt));
 

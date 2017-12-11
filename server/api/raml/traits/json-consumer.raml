@@ -1,0 +1,12 @@
+usage: |
+  Apply this to resources that consumes JSON in the request body.
+responses:
+  400:
+    description: The request body is not valid JSON.
+    body:
+      text/html:
+        example: |
+          HTTP/1.1 400 Bad Request
+          Content-Type: text/html
+
+          Error: Unexpected token } in JSON at position 0

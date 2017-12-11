@@ -1,0 +1,15 @@
+type: object
+properties:
+  type:
+    type: string
+    description: The type of GeoJSON object.
+    required: true
+  coordinates:
+    type: array
+    items:
+      type: number
+      displayName: number
+    description: The coordinates (longitude & latitude).
+    minItems: 2
+    maxItems: 2
+    required: true

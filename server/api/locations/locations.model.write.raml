@@ -1,0 +1,76 @@
+type: object
+properties:
+  name:
+    type: string
+    description: The location's name.
+    minLength: 1
+    maxLength: 150
+    required: true
+  shortName:
+    type: string
+    description: A shorter name for the location, if available.
+    minLength: 1
+    maxLength: 30
+    required: false
+  description:
+    type: string
+    description: A detailed description of the location.
+    minLength: 1
+    maxLength: 2000
+    required: true
+  phone:
+    type: string
+    description: The location's phone number.
+    minLength: 1
+    maxLength: 20
+    required: true
+  photoUrl:
+    type: url
+    description: A URL of a picture of the location.
+    required: true
+  siteUrl:
+    type: url
+    description: A URL of the location's website or a related web page.
+    required: true
+  geometry:
+    type: geoJsonPoint
+    description: The location's geographical coordinates (a GeoJSON point).
+    required: true
+  address:
+    type: object
+    properties:
+      street:
+        type: string
+        description: The street name of the location's address.
+        minLength: 1
+        maxLength: 150
+        required: true
+      number:
+        type: string
+        description: The street number of the location's address.
+        minLength: 1
+        maxLength: 15
+        required: false
+      zipCode:
+        type: string
+        description: The zip code of the location's address.
+        minLength: 1
+        maxLength: 15
+        required: true
+      city:
+        type: string
+        description: The city of the location's address.
+        minLength: 1
+        maxLength: 100
+        required: true
+      state:
+        type: string
+        description: The state of the location's address.
+        minLength: 1
+        maxLength: 30
+        required: true
+  properties:
+    type: object
+    description: User-defined properties of the location.
+    required: false
+    properties: {}

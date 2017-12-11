@@ -5,13 +5,27 @@ baseUri: https://biopocket.ch/api
 version: 1
 mediaType: application/json
 
-traits: !include traits.raml
+traits:
+  authenticatedResource: !include raml/traits/authenticated-resource.raml
+  identifiableResource: !include raml/traits/identifiable-resource.raml
+  jsonConsumer: !include raml/traits/json-consumer.raml
+  protectedResource: !include raml/traits/protected-resource.raml
+  serializableResource: !include raml/traits/serializable-resource.raml
 
 types:
+
+  # Generic types
+  geoJsonPoint: !include raml/types/geojson-point.raml
+  url: !include raml/types/url.raml
+
+  # API resources
   Auth: !include auth/auth.model.raml
   AuthPost: !include auth/auth.model.post.raml
+  Location: !include locations/locations.model.raml
+  LocationWrite: !include locations/locations.model.write.raml
   User: !include users/users.model.raml
 
+# Routes
 /auth: !include auth/auth.raml
 /locations: !include locations/locations.raml
 /me: !include users/users.me.raml

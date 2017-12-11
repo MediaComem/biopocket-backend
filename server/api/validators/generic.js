@@ -26,6 +26,20 @@ exports.equals = function(value) {
 };
 
 /**
+ * Returns a ValDSL condition that checks whether the current value is set and not null.
+ *
+ * Used when doing partial updates with PATCH, when the next validations should be run
+ * only if the property is set and not null, otherwise the property should be cleared.
+ *
+ * @returns {function} A condition function.
+ */
+exports.isSetAndNotNull = function() {
+  return function(ctx) {
+    return ctx.get('valueSet') && ctx.get('value') !== null;
+  };
+};
+
+/**
  * Returns a ValDSL validator that checks whether an object has exactly the expected properties.
  *
  *     this.validate(
