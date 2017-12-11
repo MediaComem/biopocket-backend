@@ -29,6 +29,33 @@ class EnrichedSuperRest extends SuperRest {
 const expect = exports.expect = chai.expect;
 
 /**
+ * Ensures that a database record has been deleted by attempting to reload a fresh instance.
+ *
+ * @param {object} record - A database record (an instance of a Bookshelf model).
+ * @param {options} [options] - Options.
+ * @param {string} [options.idColumn="api_id"] - The column uniquely identifying the record.
+ * @returns {Promise} A promise that is resolved if no record with the same ID is found in the database, or rejected if one is found.
+ */
+exports.expectDeleted = async function(record, options) {
+  if (!record) {
+    throw new Error('Record is required');
+  }
+
+  options = options || {};
+  const idColumn = options.idColumn || 'api_id';
+
+  const id = record.get(idColumn);
+  if (!id) {
+    throw new Error('Record must have an ID');
+  }
+
+  const Model = record.constructor;
+  const freshRecord = await new Model({ [idColumn]: id }).fetch();
+
+  expect(freshRecord).to.equal(null);
+};
+
+/**
  * Ensures that a response from the server is a correctly formatted error response
  * and that it contains the expected error or list of errors.
  *
@@ -78,6 +105,34 @@ exports.expectErrors = function(res, expectedErrorOrErrors) {
   expect(res.body.errors).to.have.objects(expectedErrors);
 };
 
+/**
+ * Ensures that a database record has not changed by reloading a fresh instance and comparing its attributes.
+ *
+ * @param {object} record - A database record (an instance of a Bookshelf model).
+ * @param {object} [options] - Options.
+ * @param {string} [options.idColumn="api_id"] - The column uniquely identifying the record.
+ * @returns {Promise} A promise that is resolved if the record has not changed, or rejected if it has changed.
+ */
+exports.expectUnchanged = async function(record, options) {
+  if (!record) {
+    throw new Error('Record is required');
+  }
+
+  options = options || {};
+  const idColumn = options.idColumn || 'api_id';
+
+  const id = record.get(idColumn);
+  if (!id) {
+    throw new Error('Record must have an ID');
+  }
+
+  const Model = record.constructor;
+  const freshRecord = await new Model({ [idColumn]: id }).fetch();
+
+  expect(freshRecord).to.be.ok;
+  expect(freshRecord.attributes).to.eql(record.attributes);
+};
+
 exports.initSuperRest = function(options) {
   return new EnrichedSuperRest(app, _.defaults({}, options, {
     pathPrefix: '/api',
@@ -99,7 +154,7 @@ exports.cleanDatabase = async function() {
 
   // Sequences of tables to delete in order to avoid foreign key conflicts
   const tablesToDelete = [
-    [ 'users' ]
+    [ 'locations', 'users' ]
   ];
 
   for (let tableList of tablesToDelete) {

@@ -20,7 +20,7 @@ module.exports = bookshelf => {
             writeable: true,
           });
         } else {
-          options.query.returning.apply(options.query, Array.isArray(this.returningProperties) ? this.returningProperties : [ this.returningProperties ]);
+          options.query.returning.call(options.query, this.returningProperties);
         }
       });
 

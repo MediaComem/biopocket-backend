@@ -1,0 +1,19 @@
+usage: |
+  Apply this to resources that are identified by a unique ID,
+  and which respond with HTTP 404 Not Found if the ID is not found.
+responses:
+  404:
+    description: The requested <<name>> does not exist (or you are not authorized to access it).
+    body:
+      example: |
+        HTTP/1.1 404 Not Found
+        Content-Type: application/json
+
+        {
+          "errors": [
+            {
+              "code": "record.notFound",
+              "message": "No <<name>> was found with ID 7c4424de-66a0-4044-b872-c5fc77c4365."
+            }
+          ]
+        }

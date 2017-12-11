@@ -1,0 +1,24 @@
+usage: |
+  Apply this to resources which are protected by an authorization policy.
+
+  A description of the required `roles` must be provided. Use "none" if no specific role is required.
+
+  This trait automatically includes the `authenticatedResource` trait.
+is:
+  - authenticatedResource:
+      roles: <<roles>>
+responses:
+  403:
+    description: |
+      Your user account is not authorized to access this resource.
+      Contact the administrator to request more privileges.
+    body:
+      example: |
+        {
+          "errors": [
+            {
+              "code": "auth.forbidden",
+              "message": "You are not authorized to access this resource. Authenticate with a user account that has more privileges."
+            }
+          ]
+        }

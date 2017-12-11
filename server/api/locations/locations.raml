@@ -6,7 +6,10 @@ post:
   description: Create a new location.
   is:
     - jsonConsumer
+    - protectedResource:
+        roles: admin
   body:
+    type: LocationWrite
     example: |
       POST /api/locations HTTP/1.1
       Content-Type: application/json
@@ -34,6 +37,7 @@ post:
     201:
       description: The location was successfully created.
       body:
+        type: Location
         example: |
           HTTP/1.1 201 Created
           Content-Type: application/json
@@ -77,13 +81,228 @@ post:
                 "valueSet": false
               },
               {
-                "message": "must have a latitude between -90 and 90 as the second coordinate",
+                "message": "must be a number between -90 and 90",
                 "type": "json",
-                "location": "/geometry/coordinates",
-                "validator": "coordinates",
-                "cause": "invalidLatitude",
-                "value": [ "foo", 666 ],
+                "location": "/geometry/coordinates/1",
+                "validator": "latitude",
+                "value": 666,
                 "valueSet": true
               }
             ]
           }
+
+# GET /api/locations
+get:
+  description: List locations.
+  responses:
+    200:
+      description: The locations were successfully listed.
+      body:
+        type: Location[]
+        example: |
+          HTTP/1.1 200 OK
+          Content-Type: application/json
+
+          [
+            {
+              "id": "c821bc0f-85b4-44d5-9bbe-a30cf197c30a",
+              "name": "Somewhere over the rainbow",
+              "shortName": "Somewhere",
+              "description": "Somewhere over the rainbow blue birds fly and the dreams that you dreamed of really do come true.",
+              "phone": "5550001",
+              "photoUrl": "http://example.com/image.jpg",
+              "siteUrl": "http://example.com",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [ -73.957820, 40.772317 ]
+              },
+              "address": {
+                "street": "Riverside Drive",
+                "number": 210,
+                "city": "New York",
+                "state": "New York",
+                "zipCode": "10021"
+              },
+              "createdAt": "2000-01-01T16:30:00.123Z",
+              "updatedAt": "2000-02-03T17:00:00.123Z"
+            },
+            {
+              "id": "8b11a6fc-a1eb-4397-b585-1282c24268c4",
+              "name": "Nostrud velit sit commodo ad",
+              "description": "Laborum dolore laboris est labore commodo quis proident proident laborum laborum dolor adipisicing aliquip nisi.",
+              "phone": "5550002",
+              "photoUrl": "http://example.org/image.jpg",
+              "siteUrl": "http://example.org",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [ -98.765949, 30.751708 ]
+              },
+              "address": {
+                "street": "Shirley Ave",
+                "city": "Chicago",
+                "state": "IL",
+                "zipCode": "60185"
+              },
+              "createdAt": "2000-03-01T15:00:00.123Z",
+              "updatedAt": "2000-04-01T14:00:00.123Z"
+            }
+          ]
+
+/{id}:
+  uriParameters:
+    id:
+      description: The unique ID of the location.
+      type: string
+
+  # GET /api/locations/:id
+  get:
+    description: Retrieve a single location.
+    is:
+      - identifiableResource:
+          name: location
+      - serializableResource:
+          onlyExample: "?only=id&only=name&only=geometry"
+          exceptExample: "?except=address&except=siteUrl"
+    responses:
+      200:
+        description: The location was successfully created.
+        body:
+          type: Location
+          example: |
+            HTTP/1.1 200 OK
+            Content-Type: application/json
+
+            {
+              "id": "c821bc0f-85b4-44d5-9bbe-a30cf197c30a",
+              "name": "Somewhere over the rainbow",
+              "shortName": "Somewhere",
+              "description": "Somewhere over the rainbow blue birds fly and the dreams that you dreamed of really do come true.",
+              "phone": "5550001",
+              "photoUrl": "http://example.com/image.jpg",
+              "siteUrl": "http://example.com",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [ -73.957820, 40.772317 ]
+              },
+              "address": {
+                "street": "Riverside Drive",
+                "number": 210,
+                "city": "New York",
+                "state": "New York",
+                "zipCode": "10021"
+              },
+              "createdAt": "2000-01-01T16:30:00.123Z",
+              "updatedAt": "2000-02-03T17:00:00.123Z"
+            }
+
+  # PATCH /api/locations/:id
+  patch:
+    description: |
+      Update a location.
+
+      This is a **partial update**: you may omit required properties. Only properties sent
+      in the request body will be updated. Optional properties can be removed by setting
+      them to `null`.
+
+      The `geometry` property must be sent in its entirety to be updated, i.e. it must be a
+      full, valid GeoJSON point (for example, it's not possible to only send its
+      `coordinates` property).
+    is:
+      - identifiableResource:
+          name: location
+      - jsonConsumer:
+      - protectedResource:
+          roles: admin
+      - serializableResource:
+          onlyExample: "?only=id&only=name&only=geometry"
+          exceptExample: "?except=address&except=siteUrl"
+    body:
+      type: LocationWrite
+      example: |
+        PATCH /api/locations/c821bc0f-85b4-44d5-9bbe-a30cf197c30a HTTP/1.1
+        Content-Type: application/json
+
+        {
+          "name": "Somewhere over the rainbow",
+          "shortName": null,
+          "phone": "5550001",
+          "siteUrl": "http://example.com",
+          "geometry": {
+            "type": "Point",
+            "coordinates": [ -73.957820, 40.772317 ]
+          },
+          "address": {
+            "street": "Riverside Drive",
+            "city": "New York"
+          }
+        }
+    responses:
+      200:
+        description: The location was successfully updated.
+        body:
+          type: Location
+          example: |
+            HTTP/1.1 200 OK
+            Content-Type: application/json
+
+            {
+              "id": "c821bc0f-85b4-44d5-9bbe-a30cf197c30a",
+              "name": "Somewhere over the rainbow",
+              "description": "Somewhere over the rainbow blue birds fly and the dreams that you dreamed of really do come true.",
+              "phone": "5550001",
+              "photoUrl": "http://example.com/image.jpg",
+              "siteUrl": "http://example.com",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [ -73.957820, 40.772317 ]
+              },
+              "address": {
+                "street": "Riverside Drive",
+                "number": 210,
+                "city": "New York",
+                "state": "New York",
+                "zipCode": "10021"
+              },
+              "createdAt": "2000-01-01T16:30:00.123Z",
+              "updatedAt": "2000-02-03T17:00:00.123Z"
+            }
+      422:
+        description: The request body contains invalid data.
+        body:
+          example: |
+            HTTP/1.1 422 Unprocessable Entity
+            Content-Type: application/json
+
+            {
+              "errors": [
+                {
+                  "message": "must be of type string",
+                  "type": "json",
+                  "location": "/phone",
+                  "types": [ "string" ],
+                  "validator": "type",
+                  "value": 5550000,
+                  "valueSet": true
+                },
+                {
+                  "message": "must be a number between -90 and 90",
+                  "type": "json",
+                  "location": "/geometry/coordinates/1",
+                  "validator": "latitude",
+                  "value": 666,
+                  "valueSet": true
+                }
+              ]
+            }
+
+  # DELETE /api/locations/:id
+  delete:
+    description: Delete a location.
+    is:
+      - identifiableResource:
+          name: location
+      - protectedResource:
+          roles: admin
+    responses:
+      204:
+        description: The location was successfully deleted.
