@@ -10,8 +10,17 @@ const _ = require('lodash');
 const valdsl = require('valdsl');
 
 const { ensureRequest } = require('../../utils/express');
+const genericValidators = require('../validators/generic');
+const geoJsonValidators = require('../validators/geojson');
 
 const dsl = valdsl();
+
+// Add our custom validators to the DSL.
+dsl.dsl.extend(genericValidators);
+dsl.dsl.extend({
+  geoJsonPoint: geoJsonValidators.point
+});
+
 exports.dsl = dsl;
 
 /**

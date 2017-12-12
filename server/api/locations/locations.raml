@@ -1,0 +1,89 @@
+displayName: Locations
+description: Management of BioPocket locations of interest.
+
+# POST /api/locations
+post:
+  description: Create a new location.
+  is:
+    - jsonConsumer
+  body:
+    example: |
+      POST /api/locations HTTP/1.1
+      Content-Type: application/json
+
+      {
+        "name": "Somewhere over the rainbow",
+        "shortName": "Somewhere",
+        "description": "Somewhere over the rainbow blue birds fly and the dreams that you dreamed of really do come true.",
+        "phone": "5550001",
+        "photoUrl": "http://example.com/image.jpg",
+        "siteUrl": "http://example.com",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [ -73.957820, 40.772317 ]
+        },
+        "address": {
+          "street": "Riverside Drive",
+          "number": 210,
+          "city": "New York",
+          "state": "New York",
+          "zipCode": "10021"
+        }
+      }
+  responses:
+    201:
+      description: The location was successfully created.
+      body:
+        example: |
+          HTTP/1.1 201 Created
+          Content-Type: application/json
+
+          {
+            "id": "c821bc0f-85b4-44d5-9bbe-a30cf197c30a",
+            "name": "Somewhere over the rainbow",
+            "shortName": "Somewhere",
+            "description": "Somewhere over the rainbow blue birds fly and the dreams that you dreamed of really do come true.",
+            "phone": "5550001",
+            "photoUrl": "http://example.com/image.jpg",
+            "siteUrl": "http://example.com",
+            "geometry": {
+              "type": "Point",
+              "coordinates": [ -73.957820, 40.772317 ]
+            },
+            "address": {
+              "street": "Riverside Drive",
+              "number": 210,
+              "city": "New York",
+              "state": "New York",
+              "zipCode": "10021"
+            },
+            "createdAt": "2000-01-01T16:30:00.123Z",
+            "updatedAt": "2000-02-03T17:00:00.123Z"
+          }
+    422:
+      description: The request body contains invalid data.
+      body:
+        example: |
+          HTTP/1.1 422 Unprocessable Entity
+          Content-Type: application/json
+
+          {
+            "errors": [
+              {
+                "message": "is required",
+                "type": "json",
+                "location": "/name",
+                "validator": "required",
+                "valueSet": false
+              },
+              {
+                "message": "must have a latitude between -90 and 90 as the second coordinate",
+                "type": "json",
+                "location": "/geometry/coordinates",
+                "validator": "coordinates",
+                "cause": "invalidLatitude",
+                "value": [ "foo", 666 ],
+                "valueSet": true
+              }
+            ]
+          }
