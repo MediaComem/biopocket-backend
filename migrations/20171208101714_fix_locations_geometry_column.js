@@ -17,25 +17,19 @@ exports.down = async function(knex) {
 };
 
 async function fixLocationsGeometry(knex) {
+
   await knex.delete().from('locations');
 
   await knex.schema.alterTable('locations', t => {
-    t.dropColumn('geometry');
-  });
-
-  await knex.schema.alterTable('locations', t => {
-    t.specificType('geometry', 'geometry(POINT, 4326)').notNullable();
+    t.specificType('geometry', 'geometry(POINT, 4326)').notNullable().alter();
   });
 }
 
 async function unfixLocationsGeometry(knex) {
+
   await knex.delete().from('locations');
 
   await knex.schema.alterTable('locations', t => {
-    t.dropColumn('geometry');
-  });
-
-  await knex.schema.alterTable('locations', t => {
-    t.specificType('geometry', 'point').notNullable();
+    t.specificType('geometry', 'point').notNullable().alter();
   });
 }
