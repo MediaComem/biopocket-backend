@@ -178,13 +178,15 @@ function buildDatabaseUrl() {
   }
 
   // Add host and port
-  url += `${url}${host || 'localhost'}`;
+  url += `${host || 'localhost'}`;
   if (port) {
-    url += `${url}:${port}`;
+    url += `:${port}`;
   }
 
   // Add database name
-  return `${url}/${name || 'biopocket'}`;
+  url += `/${name || 'biopocket'}`;
+
+  return url;
 }
 
 // Returns a variable from the environment.
