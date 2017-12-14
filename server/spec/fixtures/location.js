@@ -28,6 +28,9 @@ const geoJsonFixtures = require('./geojson');
  *
  * @function
  * @param {object} [data={}] - Custom location data.
+ * @param {object} [data.bbox] - A bounding box within which the generated location should be
+ * @param {number[]} data.bbox.southWest - A longitude/latitude pair indicating the south-west corner of the bounding box
+ * @param {number[]} data.bbox.northEast - A longitude/latitude pair indicating the north-east corner of the bounding box
  * @param {string} [data.name]
  * @param {string} [data.shortName] - Set to `null` to create a location without a short name.
  * @param {string} [data.description]
@@ -52,7 +55,7 @@ exports.location = function(data = {}) {
     phone: data.phone || chance.phone(),
     photo_url: data.phoneUrl || chance.url({ domain: 'example.com', extensions: [ 'jpg' ] }),
     site_url: data.siteUrl || chance.url({ domain: 'example.com' }),
-    geometry: data.geometry || geoJsonFixtures.point(),
+    geometry: data.geometry || geoJsonFixtures.point(_.pick(data, 'bbox')),
     properties: data.properties || {},
     address_street: _.get(data, 'address.street', chance.street()),
     address_number: _.get(data, 'address.number', chance.integer({ min: 1, max: 100 }).toString()),

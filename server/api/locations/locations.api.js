@@ -7,7 +7,8 @@ const serialize = require('express-serializer');
 
 const Location = require('../../models/location');
 const { fetcher, route } = require('../utils/api');
-const { validateRequestBody } = require('../utils/validation');
+const { bbox: filterByBbox } = require('../utils/filters');
+const { validateRequestBody, validateValue } = require('../utils/validation');
 const { point: validateGeoJsonPoint } = require('../validators/geojson');
 const policy = require('./locations.policy');
 
@@ -36,7 +37,14 @@ exports.create = route(async (req, res) => {
  */
 exports.list = route(async (req, res) => {
 
-  const query = new Location();
+  await validateListRequest(req);
+
+  let query = new Location();
+
+  if (req.query.bbox) {
+    query = filterByBbox(query, req.query.bbox);
+  }
+
   const locations = await query.orderBy('name').orderBy('created_at').fetchAll();
 
   res.send(await serialize(req, locations.models, policy));
@@ -91,6 +99,25 @@ exports.fetchLocation = fetcher({
   coerce: id => id.toLowerCase(),
   validate: 'uuid'
 });
+
+/**
+ * Validates the query parameters of a request to list locations.
+ *
+ * @param {Request} req - An Express request object.
+ * @returns {Promise<ValidationErrorBundle>} - A promise that will be resolved if the request is valid, or rejected with a bundle of errors if it is invalid.
+ */
+function validateListRequest(req) {
+  return validateValue(req, 422, function() {
+    return this.parallel(
+      this.validate(
+        this.query('bbox'),
+        this.while(this.isSet()),
+        this.notBlank(),
+        this.bboxString()
+      )
+    );
+  });
+}
 
 /**
  * Validates the location in the request body.

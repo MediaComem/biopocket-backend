@@ -80,3 +80,23 @@ exports.properties = function(...properties) {
     }
   };
 };
+
+/**
+ * Returns a ValDSL function that changes the validated value from an Express request object to one of its query parameters.
+ *
+ * @param {string} param - The name of the query parameter to validate.
+ * @returns {function} A validator function.
+ */
+exports.query = function navigateToQueryParameter(param) {
+  return function(ctx) {
+
+    const request = ctx.get('value');
+
+    ctx.set({
+      type: 'query',
+      location: param,
+      value: request.query[param],
+      valueSet: _.has(request.query, param)
+    });
+  };
+};

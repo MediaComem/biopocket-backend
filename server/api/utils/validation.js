@@ -18,6 +18,7 @@ const dsl = valdsl();
 // Add our custom validators to the DSL.
 dsl.dsl.extend(genericValidators);
 dsl.dsl.extend({
+  bboxString: geoJsonValidators.bboxString,
   geoJsonPoint: geoJsonValidators.point
 });
 
@@ -37,7 +38,9 @@ exports.dsl = dsl;
  *   failed.
  */
 exports.validateValue = function(value, status, ...callbacks) {
-  if (!callbacks.length) {
+  if (!_.isInteger(status) || status < 100 || status > 599) {
+    throw new Error(`Status must be an HTTP status code between 100 and 599, got ${status} (type ${typeof(status)})`);
+  } else if (!callbacks.length) {
     throw new Error('At least one callback is required');
   } else if (_.find(callbacks, (c) => !_.isFunction(c))) {
     throw new Error('Additional arguments must be functions');

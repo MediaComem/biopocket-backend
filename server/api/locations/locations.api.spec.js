@@ -412,6 +412,91 @@ describe('Locations API', function() {
         });
       });
     });
+
+    describe('with locations in a specific area', function() {
+
+      let locations;
+      beforeEach(async function() {
+        locations = await Promise.all([
+          locationFixtures.location({ name: 'Location A - Somewhere', geometry: geoJsonFixtures.point({ coordinates: [ 10, 20 ] }) }),
+          locationFixtures.location({ name: 'Location C - Somewhere else', geometry: geoJsonFixtures.point({ coordinates: [ 20, 30 ] }) }),
+          locationFixtures.location({ name: 'Location B - Wheeeeeeee', geometry: geoJsonFixtures.point({ coordinates: [ 30, 40 ] }) })
+        ]);
+      });
+
+      it('should list all locations in the area', async function() {
+
+        const res = this.test.res = await api
+          .retrieve('/locations')
+          .query({
+            bbox: '0,0,50,50'
+          });
+
+        expect(res.body).to.be.an('array');
+        await expectLocation(res.body[0], getExpectedLocation(locations[0]));
+        await expectLocation(res.body[1], getExpectedLocation(locations[2]));
+        await expectLocation(res.body[2], getExpectedLocation(locations[1]));
+        expect(res.body).to.have.lengthOf(3);
+      });
+
+      it('should list one location in a small area', async function() {
+
+        const res = this.test.res = await api
+          .retrieve('/locations')
+          .query({
+            bbox: '5,15,15,25'
+          });
+
+        expect(res.body).to.be.an('array');
+        await expectLocation(res.body[0], getExpectedLocation(locations[0]));
+        expect(res.body).to.have.lengthOf(1);
+      });
+
+      it('should list multiple locations in a large area', async function() {
+
+        const res = this.test.res = await api
+          .retrieve('/locations')
+          .query({
+            bbox: '15,25,35,45'
+          });
+
+        expect(res.body).to.be.an('array');
+        await expectLocation(res.body[0], getExpectedLocation(locations[2]));
+        await expectLocation(res.body[1], getExpectedLocation(locations[1]));
+        expect(res.body).to.have.lengthOf(2);
+      });
+
+      it('should not list any location in the wrong area', async function() {
+
+        const res = this.test.res = await api
+          .retrieve('/locations')
+          .query({
+            bbox: '-20,-20,-10,-10'
+          });
+
+        expect(res.body).to.eql([]);
+      });
+
+      it('should not accept an invalid bounding box', async function() {
+
+        const res = this.test.res = await api
+          .retrieve('/locations', { expectedStatus: 422 })
+          .query({
+            bbox: '10,20,asd,30'
+          });
+
+        expectErrors(res, [
+          {
+            message: 'must be a number between -180 and 180',
+            type: 'query',
+            location: 'bbox[2]',
+            validator: 'longitude',
+            value: null,
+            valueSet: true
+          }
+        ]);
+      });
+    });
   });
 
   describe('GET /api/locations/:id', function() {
