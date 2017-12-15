@@ -44,7 +44,7 @@ exports.generateToken = function(properties) {
 
   if (jwtOptions.exp === undefined) {
     throw new Error(`JWT "exp" option is required`);
-  } else if (!_.isNumber(jwtOptions.exp)) {
+  } else if (!_.isFinite(jwtOptions.exp)) {
     throw new Error(`JWT "exp" option must be a number, got ${jwtOptions.exp} (${typeof(jwtOptions.exp)})`);
   } else if (jwtOptions.exp <= 0) {
     throw new Error(`JWT "exp" option must be greater than zero, got ${jwtOptions.exp}`);

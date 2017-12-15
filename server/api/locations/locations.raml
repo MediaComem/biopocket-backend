@@ -94,6 +94,18 @@ post:
 # GET /api/locations
 get:
   description: List locations.
+  queryParameters:
+    bbox:
+      description: |
+        A bounding box within which all the returned locations should be.
+
+        The value must be composed of 4 comma-separated numbers:
+
+        * The first 2 numbers are the coordinates (longitude & latitude) of the bounding box's **south-west** corner.
+        * The last 2 numbers are the coordinates (longitude & latitude) of the bounding box's **north-east** corner.
+      required: false
+      type: number[]
+      example: '?bbox=10,20,30,40'
   responses:
     200:
       description: The locations were successfully listed.
