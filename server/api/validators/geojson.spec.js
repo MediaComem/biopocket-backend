@@ -25,7 +25,6 @@ describe('GeoJSON validators', function() {
 
     it('should add an error if the bounding box is not a string', async function() {
       const err = await validate(10203040);
-      expect(err).not.to.equal(undefined);
       expectErrors(err, [
         {
           cause: 'wrongType',
@@ -40,7 +39,6 @@ describe('GeoJSON validators', function() {
 
     it('should add an error if the bounding box has the wrong number of coordinates', async function() {
       const err = await validate('10,20,30');
-      expect(err).not.to.equal(undefined);
       expectErrors(err, [
         {
           cause: 'wrongLength',
@@ -56,7 +54,6 @@ describe('GeoJSON validators', function() {
 
     it('should add an error if one of the coordinates is not a number', async function() {
       const err = await validate('10,asd,30,40');
-      expect(err).not.to.equal(undefined);
       expectErrors(err, [
         {
           location: 'bbox[1]',
@@ -143,7 +140,6 @@ describe('GeoJSON validators', function() {
 
       const err = await validate(point);
 
-      expect(err).not.to.equal(undefined);
       expectErrors(err, [
         {
           cause: 'missingProperties',
@@ -176,7 +172,6 @@ describe('GeoJSON validators', function() {
 
       const err = await validate(point);
 
-      expect(err).not.to.equal(undefined);
       expectErrors(err, [
         {
           cause: 'extraProperties',
@@ -199,7 +194,6 @@ describe('GeoJSON validators', function() {
 
       const err = await validate(point);
 
-      expect(err).not.to.equal(undefined);
       expectErrors(err, [
         {
           message: 'must be of type array',
@@ -222,7 +216,6 @@ describe('GeoJSON validators', function() {
 
       const err = await validate(point);
 
-      expect(err).not.to.equal(undefined);
       expectErrors(err, [
         {
           message: 'must be an array of 2 numbers (longitude & latitude)',
@@ -244,7 +237,6 @@ describe('GeoJSON validators', function() {
 
       const err = await validate(point);
 
-      expect(err).not.to.equal(undefined);
       expectErrors(err, [
         {
           message: 'must be an array of 2 numbers (longitude & latitude)',
@@ -266,7 +258,6 @@ describe('GeoJSON validators', function() {
 
       const err = await validate(point);
 
-      expect(err).not.to.equal(undefined);
       expectErrors(err, [
         {
           message: 'must be of type number',
@@ -289,7 +280,6 @@ describe('GeoJSON validators', function() {
 
       const err = await validate(point);
 
-      expect(err).not.to.equal(undefined);
       expectErrors(err, [
         {
           message: 'must be a number between -180 and 180',
@@ -311,7 +301,6 @@ describe('GeoJSON validators', function() {
 
       const err = await validate(point);
 
-      expect(err).not.to.equal(undefined);
       expectErrors(err, [
         {
           message: 'must be of type number',
@@ -334,7 +323,6 @@ describe('GeoJSON validators', function() {
 
       const err = await validate(point);
 
-      expect(err).not.to.equal(undefined);
       expectErrors(err, [
         {
           message: 'must be a number between -90 and 90',
@@ -360,6 +348,7 @@ describe('GeoJSON validators', function() {
 });
 
 function expectErrors(validationError, expectedErrors) {
+  expect(validationError).not.to.equal(undefined);
   const actualErrors = validationError.errors.map(err => _.omit(err, 'stack'));
   expect(actualErrors).to.have.objects(expectedErrors);
 }

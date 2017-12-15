@@ -63,7 +63,7 @@ exports.coordinates = function(data = {}) {
 };
 
 function ensureBbox(bbox) {
-  if (!bbox) {
+  if (!_.isObject(bbox)) {
     throw new Error('Bounding box must be an object');
   } else if (!bbox.southWest) {
     throw new Error('Bounding box must have a "southWest" property');
@@ -78,9 +78,7 @@ function ensureBbox(bbox) {
 }
 
 function ensureCoordinates(coordinates) {
-  if (!coordinates) {
-    throw new Error('Coordinates are required');
-  } else if (!_.isArray(coordinates)) {
+  if (!_.isArray(coordinates)) {
     throw new Error(`Coordinates must be an array, got ${typeof(coordinates)}`);
   } else if (coordinates.length != 2) {
     throw new Error(`Coordinates must be an array with 2 elements, but it has length ${coordinates.length}`);

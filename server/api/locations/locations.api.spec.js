@@ -418,9 +418,9 @@ describe('Locations API', function() {
       let locations;
       beforeEach(async function() {
         locations = await Promise.all([
-          locationFixtures.location({ name: 'Location A - Somewhere', geometry: geoJsonFixtures.point({ coordinates: [ 10, 20 ] }) }),
-          locationFixtures.location({ name: 'Location C - Somewhere else', geometry: geoJsonFixtures.point({ coordinates: [ 20, 30 ] }) }),
-          locationFixtures.location({ name: 'Location B - Wheeeeeeee', geometry: geoJsonFixtures.point({ coordinates: [ 30, 40 ] }) })
+          locationFixtures.location({ name: 'Location A - Somewhere', geometry: geoJsonFixtures.point({ bbox: { southWest: [ 9, 19 ], northEast: [ 11, 21 ] } }) }),
+          locationFixtures.location({ name: 'Location C - Somewhere else', geometry: geoJsonFixtures.point({ bbox: { southWest: [ 19, 29 ], northEast: [ 21, 31 ] } }) }),
+          locationFixtures.location({ name: 'Location B - Somewhere precise', geometry: geoJsonFixtures.point({ coordinates: [ 30, 40 ] }) })
         ]);
       });
 

@@ -104,7 +104,7 @@ function validateBboxStringCoordinate(ctx, coordinates, i, callback) {
       value: coordinates[i]
     });
 
-    return callback(coordinateCtx, i);
+    return callback(coordinateCtx);
   });
 }
 

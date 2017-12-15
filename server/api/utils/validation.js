@@ -39,7 +39,7 @@ exports.dsl = dsl;
  */
 exports.validateValue = function(value, status, ...callbacks) {
   if (!_.isInteger(status) || status < 100 || status > 599) {
-    throw new Error(`Status must be an HTTP status code between 100 and 599, got ${status} (type ${typeof(status)})`);
+    throw new Error(`Status must be an HTTP status code between 100 and 599, got ${_.isFinite(status) ? status : typeof(status)}`);
   } else if (!callbacks.length) {
     throw new Error('At least one callback is required');
   } else if (_.find(callbacks, (c) => !_.isFunction(c))) {
@@ -50,7 +50,7 @@ exports.validateValue = function(value, status, ...callbacks) {
     return this.validate(this.value(value), this.while(this.noError(this.atCurrentLocation())), ...callbacks);
   }).catch(function(err) {
     if (err.errors && !_.has(err, 'status')) {
-      err.status = status || 422;
+      err.status = status;
     }
 
     return Promise.reject(err);
