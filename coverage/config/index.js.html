@@ -1,0 +1,752 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for config/index.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../prettify.css" />
+    <link rel="stylesheet" href="../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../index.html">All files</a> / <a href="index.html">config</a> index.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">69.62% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>55/79</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">59.09% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>39/66</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>7/7</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">69.62% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>55/79</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line medium'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">16x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">14x</span>
+<span class="cline-any cline-yes">14x</span>
+<span class="cline-any cline-yes">14x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// This file exports a configuration object that is used throughout the
+// application to customize behavior. That object is built from environment
+// variables, an optional configuration file, and from default values.
+&nbsp;
+const _ = require('lodash');
+const fs = require('fs');
+const log4js = require('log4js');
+const path = require('path');
+&nbsp;
+const SUPPORTED_ENVIRONMENTS = [ 'development', 'production', 'test' ];
+const SUPPORTED_LOG_LEVELS = [ 'TRACE', 'DEBUG', 'INFO', 'WARN', 'ERROR', 'FATAL' ];
+&nbsp;
+const pkg = require(path.join('..', 'package'));
+const root = path.normalize(path.join(__dirname, '..'));
+&nbsp;
+// Immutable configuration &amp; utility functions
+const fixedConfig = {
+  logger: createLogger,
+  root: root,
+  version: pkg.version,
+  path: joinProjectPath
+};
+&nbsp;
+// Configuration from environment variables
+const configFromEnvironment = {
+  bcryptCost: parseConfigInt(get('BCRYPT_COST')),
+  cors: parseConfigBoolean(get('CORS')),
+  db: get('DATABASE_URL') || buildDatabaseUrl(),
+  docs: {
+    browser: get('DOCS_BROWSER'),
+    host: get('DOCS_HOST'),
+    open: get('DOCS_OPEN'),
+    port: get('DOCS_PORT')
+  },
+  env: process.env.NODE_ENV,
+  logLevel: get('LOG_LEVEL'),
+  port: parseConfigInt(get('PORT')),
+  sessionSecret: get('SESSION_SECRET')
+};
+&nbsp;
+// Configuration from a local file (`config/local.js` by default, or `$CONFIG`)
+let configFromLocalFile = {};
+const localConfigFile = path.resolve(root, get('CONFIG') || path.join('config', 'local.js'));
+<span class="missing-if-branch" title="if path not taken" >I</span>if (localConfigFile != joinProjectPath('config', 'local.js') &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >!fs.existsSync(localConfigFile))</span> {
+<span class="cstat-no" title="statement not covered" >  throw new Error(`No configuration file found at ${localConfigFile}`);</span>
+} else <span class="missing-if-branch" title="else path not taken" >E</span>if (fs.existsSync(localConfigFile)) {
+  const localConfig = require(localConfigFile);
+  configFromLocalFile = _.pick(localConfig,
+    'bcryptCost', 'cors', 'db',
+    'docs.browser', 'docs.host', 'docs.open', 'docs.port',
+    'env', 'logLevel', 'port', 'sessionSecret');
+}
+&nbsp;
+// Default configuration
+const defaultConfig = {
+  bcryptCost: 10,
+  cors: false,
+  db: 'postgres://localhost/biopocket',
+  docs: {
+    host: '127.0.0.1',
+    open: true,
+    port: undefined
+  },
+  env: 'development',
+  logLevel: 'INFO',
+  port: 3000
+};
+&nbsp;
+// Environment variables take precedence over the configuration file, and both
+// take precedence over the default configuration.
+const config = _.merge({}, defaultConfig, configFromLocalFile, configFromEnvironment, fixedConfig);
+&nbsp;
+validate(config);
+&nbsp;
+const logger = config.logger('config')
+logger.debug(`Environment is ${config.env} (change with $NODE_ENV or config.env)`);
+logger.debug(`bcrypt cost is ${config.bcryptCost} (change with $BCRYPT_COST or config.bcryptCost)`);
+logger.debug(`Log level is ${logger.level} (change with $LOG_LEVEL or config.logLevel)`);
+&nbsp;
+// Export the configuration
+module.exports = config;
+&nbsp;
+// Creates a named log4js logger with trace/debug/info/warn/error/fatal methods
+// you can use to log messages concerning a specific component.
+function createLogger(name) {
+&nbsp;
+  const logger = log4js.getLogger(name);
+  <span class="missing-if-branch" title="else path not taken" >E</span>if (config.logLevel) {
+    logger.level = config.logLevel.toUpperCase();
+  }
+&nbsp;
+  return logger;
+}
+&nbsp;
+// Returns a path formed by appending the specified segments to the project's
+// root directory.
+//
+//     config.path('foo', 'bar'); // =&gt; "/path/to/project/foo/bar"
+function joinProjectPath(...segments) {
+  return path.join(...([ root ].concat(segments)));
+}
+&nbsp;
+// Parses a string value as a boolean.
+//
+// * Returns the specified default value if the value is undefined.
+// * To be considered `true`, a boolean string must be "1", "y", "yes", "t" or
+//   "true" (case insensitive).
+// * If the value is not a boolean, it will be considered `true` if "truthy".
+function parseConfigBoolean(value, defaultValue) {
+  <span class="missing-if-branch" title="else path not taken" >E</span>if (value === undefined) {
+    return defaultValue;
+  } else <span class="cstat-no" title="statement not covered" >if (!_.isString(value)) {</span>
+<span class="cstat-no" title="statement not covered" >    return !!value;</span>
+  } else {
+<span class="cstat-no" title="statement not covered" >    return !!value.match(/^(1|y|yes|t|true)$/i);</span>
+  }
+}
+&nbsp;
+// Parse a string value as an integer.
+//
+// * Returns the specified default value if the value is undefined.
+function parseConfigInt(value, defaultValue) {
+  if (value === undefined) {
+    return defaultValue;
+  }
+&nbsp;
+  const parsed = parseInt(value, 10);
+  <span class="missing-if-branch" title="if path not taken" >I</span>if (_.isNaN(parsed)) {
+<span class="cstat-no" title="statement not covered" >    throw new Error(value + ' is not a valid integer');</span>
+  }
+&nbsp;
+  return parsed;
+}
+&nbsp;
+// Constructs a PostgreSQL database URL from several environment variables:
+//
+// * `$DATABASE_HOST` - The host to connect to (defaults to `localhost`)
+// * `$DATABASE_PORT` - The port to connect to on the host (none by default, will use PostgreSQL's default 5432 port)
+// * `$DATABASE_NAME` - The name of the database to connect to (defaults to `biopocket`)
+// * `$DATABASE_USERNAME` - The name of the PostgreSQL user to connect as (none by default)
+// * `$DATABASE_PASSWORD` - The password to authenticate with (none by default)
+//
+// Returns undefined if none of the variables are set.
+//
+//     buildDatabaseUrl(); // =&gt; undefined
+//
+//     process.env.DATABASE_NAME = 'biopocket'
+//     buildDatabaseUrl(); // =&gt; "postgres://localhost/biopocket"
+//
+//     process.env.DATABASE_HOST = 'db.example.com'
+//     process.env.DATABASE_PORT = '1337'
+//     process.env.DATABASE_NAME = 'thebiopocketdb'
+//     process.env.DATABASE_USERNAME = 'jdoe'
+//     process.env.DATABASE_PASSWORD = 'changeme'
+//     buildDatabaseUrl(); // =&gt; "postgres://jdoe:changeme@db.example.com:1337/thebiopocketdb"
+function buildDatabaseUrl() {
+&nbsp;
+  const host = get('DATABASE_HOST');
+  const port = get('DATABASE_PORT');
+  const name = get('DATABASE_NAME');
+  const username = get('DATABASE_USERNAME');
+  const password = get('DATABASE_PASSWORD');
+  <span class="missing-if-branch" title="else path not taken" >E</span>if (host === undefined &amp;&amp; port === undefined &amp;&amp; name === undefined &amp;&amp; username === undefined &amp;&amp; password === undefined) {
+    return undefined;
+  }
+&nbsp;
+  let url = <span class="cstat-no" title="statement not covered" >'postgres://';</span>
+&nbsp;
+  // Add credentials (if any)
+<span class="cstat-no" title="statement not covered" >  if (username) {</span>
+<span class="cstat-no" title="statement not covered" >    url += username;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    if (password) {</span>
+<span class="cstat-no" title="statement not covered" >      url += `:${password}`;</span>
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    url += '@';</span>
+  }
+&nbsp;
+  // Add host and port
+<span class="cstat-no" title="statement not covered" >  url += `${host || 'localhost'}`;</span>
+<span class="cstat-no" title="statement not covered" >  if (port) {</span>
+<span class="cstat-no" title="statement not covered" >    url += `:${port}`;</span>
+  }
+&nbsp;
+  // Add database name
+<span class="cstat-no" title="statement not covered" >  url += `/${name || 'biopocket'}`;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  return url;</span>
+}
+&nbsp;
+// Returns a variable from the environment.
+//
+// Given `"FOO"`, this function will look first in the `$FOO` environment
+// variable and returns its value if found. Otherwise, it will look for the
+// `$FOO_FILE` environment variable and, if found, will attempt to read the
+// contents of the file pointed to by its value. Otherwise it will return
+// undefined.
+function get(varName) {
+  if (_.has(process.env, varName)) {
+    return process.env[varName];
+  }
+&nbsp;
+  const fileVarName = `${varName}_FILE`;
+  <span class="missing-if-branch" title="else path not taken" >E</span>if (!_.has(process.env, fileVarName)) {
+    return undefined;
+  }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  return fs.readFileSync(process.env[fileVarName], 'utf8').trim();</span>
+}
+&nbsp;
+// Ensures all properties of the configuration are valid.
+function validate(config) {
+  <span class="missing-if-branch" title="if path not taken" >I</span>if (!_.isInteger(config.bcryptCost) || config.bcryptCost &lt; 1) {
+<span class="cstat-no" title="statement not covered" >    throw new Error(`Unsupported bcrypt cost "${config.bcryptCost}" (type ${typeof(config.bcryptCost)}); must be an integer greater than or equal to 1`);</span>
+  } else <span class="missing-if-branch" title="if path not taken" >I</span>if (!_.isBoolean(config.cors)) {
+<span class="cstat-no" title="statement not covered" >    throw new Error(`Unsupported CORS value "${config.cors}" (type ${typeof(config.cors)}); must be a boolean`);</span>
+  } else <span class="missing-if-branch" title="if path not taken" >I</span>if (!_.isString(config.db) || !config.db.match(/^postgres:\/\//)) {
+<span class="cstat-no" title="statement not covered" >    throw new Error(`Unsupported database URL "${config.db}" (type ${typeof(config.db)}); must be a string starting with "postgres://"`);</span>
+  } else <span class="missing-if-branch" title="if path not taken" >I</span>if (!_.includes(SUPPORTED_ENVIRONMENTS, config.env)) {
+<span class="cstat-no" title="statement not covered" >    throw new Error(`Unsupported environment "${JSON.stringify(config.env)}"; must be one of: ${SUPPORTED_ENVIRONMENTS.join(', ')}`);</span>
+  } else <span class="missing-if-branch" title="if path not taken" >I</span>if (!_.isString(config.logLevel) || !_.includes(SUPPORTED_LOG_LEVELS, config.logLevel.toUpperCase())) {
+<span class="cstat-no" title="statement not covered" >    throw new Error(`Unsupported log level "${config.logLevel}" (type ${typeof(config.logLevel)}); must be one of: ${SUPPORTED_LOG_LEVELS.join(', ')}`);</span>
+  } else <span class="missing-if-branch" title="if path not taken" >I</span>if (!_.isInteger(config.port) || config.port &lt; 1 || config.port &gt; 65535) {
+<span class="cstat-no" title="statement not covered" >    throw new Error(`Unsupported port number "${config.port}" (type ${typeof(config.port)}); must be an integer between 1 and 65535`);</span>
+  } else <span class="missing-if-branch" title="if path not taken" >I</span>if (!_.isString(config.sessionSecret) || config.sessionSecret == 'changeme') {
+<span class="cstat-no" title="statement not covered" >    throw new Error(`Unsupported session secret "${config.sessionSecret}" (type ${typeof(config.sessionSecret)}); must be a string different than "changeme"`);</span>
+  }
+}
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Tue Dec 19 2017 10:22:26 GMT+0100 (CET)
+</div>
+</div>
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../sorter.js"></script>
+</body>
+</html>

@@ -1,0 +1,374 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for server/spec/fixtures/geojson.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../../prettify.css" />
+    <link rel="stylesheet" href="../../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../../index.html">All files</a> / <a href="index.html">server/spec/fixtures</a> geojson.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>40/40</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>26/26</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>5/5</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>39/39</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line high'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">41x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">246x</span>
+<span class="cline-any cline-yes">246x</span>
+<span class="cline-any cline-yes">246x</span>
+<span class="cline-any cline-yes">246x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">246x</span>
+<span class="cline-any cline-yes">120x</span>
+<span class="cline-any cline-yes">110x</span>
+<span class="cline-any cline-yes">110x</span>
+<span class="cline-any cline-yes">110x</span>
+<span class="cline-any cline-yes">110x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">236x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">120x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">119x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">118x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">117x</span>
+<span class="cline-any cline-yes">113x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">110x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">235x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">234x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">465x</span>
+<span class="cline-any cline-yes">233x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">232x</span>
+<span class="cline-any cline-yes">232x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">230x</span>
+<span class="cline-any cline-yes">230x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">228x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">/**
+ * Test utilities to generate GeoJSON data.
+ *
+ * @module server/spec/fixtures/geojson
+ */
+const _ = require('lodash');
+const chance = require('chance').Chance();
+&nbsp;
+/**
+ * Generates a GeoJSON point with random coordinates.
+ *
+ *     const geoJsonFixtures = require('../spec/fixtures/geojson');
+ *
+ *     geoJsonFixtures.point();  // { type: 'Point', coordinates: [ -76, 48 ] }
+ *     geoJsonFixtures.point({ coordinates });  // { type: 'Point', coordinates: [ -76, 48 ] }
+ *
+ * @param {object} [data={}] - Custom point data.
+ * @param {object} [data.bbox] - A bounding box within which the generated point should be.
+ * @param {number[]} data.bbox.southWest - A longitude/latitude pair indicating the south-west corner of the bounding box.
+ * @param {number[]} data.bbox.northEast - A longitude/latitude pair indicating the north-east corner of the bounding box.
+ * @param {number[]} [data.coordinates] - The point's coordinates (longitude &amp; latitude).
+ * @returns {object} A GeoJSON point.
+ */
+exports.point = function(data = {}) {
+  return {
+    type: 'Point',
+    coordinates: data.coordinates ? ensureCoordinates(data.coordinates) : exports.coordinates(_.pick(data, 'bbox'))
+  };
+};
+&nbsp;
+/**
+ * Generates a random pair of coordinates (longitude &amp; latitude).
+ *
+ *     const geoJsonFixtures = require('../spec/fixtures/geojson');
+ *
+ *     geoJsonFixtures.coordinates();  // [ -76, 48 ]
+ *
+ * @param {object} [data={}] - Custom coordinates data.
+ * @param {object} [data.bbox] - A bounding box within which the generated coordinates should be.
+ * @param {number[]} data.bbox.southWest - A longitude/latitude pair indicating the south-west corner of the bounding box.
+ * @param {number[]} data.bbox.northEast - A longitude/latitude pair indicating the north-east corner of the bounding box.
+ * @returns {number[]} A GeoJSON coordinates pair.
+ */
+exports.coordinates = function(data = {}) {
+&nbsp;
+  let minLatitude = -90;
+  let maxLatitude = 90;
+  let minLongitude = -180;
+  let maxLongitude = 180;
+&nbsp;
+  if (data.bbox) {
+    const bbox = ensureBbox(data.bbox);
+    minLatitude = bbox.southWest[1];
+    maxLatitude = bbox.northEast[1];
+    minLongitude = bbox.southWest[0];
+    maxLongitude = bbox.northEast[0];
+  }
+&nbsp;
+  return [
+    chance.floating({ min: minLongitude, max: maxLongitude }),
+    chance.floating({ min: minLatitude, max: maxLatitude })
+  ];
+};
+&nbsp;
+function ensureBbox(bbox) {
+  if (!_.isObject(bbox)) {
+    throw new Error('Bounding box must be an object');
+  } else if (!bbox.southWest) {
+    throw new Error('Bounding box must have a "southWest" property');
+  } else if (!bbox.northEast) {
+    throw new Error('Bounding box must have a "northEast" property');
+  }
+&nbsp;
+  ensureCoordinates(bbox.southWest);
+  ensureCoordinates(bbox.northEast);
+&nbsp;
+  return bbox;
+}
+&nbsp;
+function ensureCoordinates(coordinates) {
+  if (!_.isArray(coordinates)) {
+    throw new Error(`Coordinates must be an array, got ${typeof(coordinates)}`);
+  } else if (coordinates.length != 2) {
+    throw new Error(`Coordinates must be an array with 2 elements, but it has length ${coordinates.length}`);
+  }
+&nbsp;
+  const nan = coordinates.find(value =&gt; !_.isFinite(value))
+  if (nan !== undefined) {
+    throw new Error(`Coordinates must contain only numbers, got ${typeof(nan)}`);
+  }
+&nbsp;
+  const longitude = coordinates[0];
+  if (longitude &lt; -180 || longitude &gt; 180) {
+    throw new Error(`Longitude must be between -180 and 180, got ${longitude}`);
+  }
+&nbsp;
+  const latitude = coordinates[1];
+  if (latitude &lt; -90 || latitude &gt; 90) {
+    throw new Error(`Latitude must be between -90 and 90, got ${latitude}`);
+  }
+&nbsp;
+  return coordinates;
+}
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Tue Dec 19 2017 10:22:26 GMT+0100 (CET)
+</div>
+</div>
+<script src="../../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../../sorter.js"></script>
+</body>
+</html>

@@ -1,0 +1,347 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for server/spec/expectations/location.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../../prettify.css" />
+    <link rel="stylesheet" href="../../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../../index.html">All files</a> / <a href="index.html">server/spec/expectations</a> location.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>60/60</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>16/16</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>2/2</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>60/60</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line high'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">18x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">18x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">18x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">18x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">18x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">18x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">const _ = require('lodash');
+&nbsp;
+const Location = require('../../models/location');
+const { checkRecord, expect, toArray } = require('../utils');
+&nbsp;
+module.exports = function(actual, expected) {
+&nbsp;
+  expect(actual, 'res.body').to.be.an('object');
+&nbsp;
+  const expectedKeys = [ 'id', 'name', 'description', 'phone', 'photoUrl', 'siteUrl', 'geometry', 'address', 'properties', 'createdAt', 'updatedAt' ];
+  if (_.has(actual, 'shortName')) {
+    expectedKeys.push('shortName');
+  }
+&nbsp;
+  expect(actual, 'res.body').to.have.all.keys(expectedKeys);
+&nbsp;
+  if (expected.id) {
+    expect(actual.id, 'location.id').to.equal(expected.id);
+  } else {
+    expect(actual.id, 'location.id').to.be.a('string');
+  }
+&nbsp;
+  expect(actual.name, 'location.name').to.equal(expected.name);
+&nbsp;
+  if (expected.shortName) {
+    expect(actual.shortName, 'location.shortName').to.equal(expected.shortName);
+  } else {
+    expect(actual.shortName, 'location.shortName').to.equal(undefined);
+  }
+&nbsp;
+  expect(actual.description, 'location.description').to.equal(expected.description);
+  expect(actual.phone, 'location.phone').to.equal(expected.phone);
+  expect(actual.photoUrl, 'location.photoUrl').to.equal(expected.photoUrl);
+  expect(actual.siteUrl, 'location.siteUrl').to.equal(expected.siteUrl);
+  expect(actual.geometry, 'location.geometry').to.eql(expected.geometry);
+&nbsp;
+  expect(actual.address, 'location.address').to.be.an('object');
+&nbsp;
+  const expectedAddressKeys = [ 'street', 'city', 'state', 'zipCode' ];
+  if (expected.address.number) {
+    expectedAddressKeys.push('number');
+  }
+&nbsp;
+  expect(actual.address, 'location.address').to.have.all.keys(expectedAddressKeys);
+  expect(actual.address.street, 'location.address.street').to.equal(expected.address.street);
+&nbsp;
+  if (expected.address.number) {
+    expect(actual.address.number, 'location.address.number').to.equal(expected.address.number);
+  } else {
+    expect(actual.address.number, 'location.address.number').to.equal(undefined);
+  }
+&nbsp;
+  expect(actual.address.zipCode, 'location.address.zipCode').to.equal(expected.address.zipCode);
+  expect(actual.address.city, 'location.address.city').to.equal(expected.address.city);
+  expect(actual.address.state, 'location.address.state').to.equal(expected.address.state);
+&nbsp;
+  expect(actual.properties, 'location.properties').to.be.an('object');
+  expect(actual.properties, 'location.properties').to.eql(expected.properties);
+&nbsp;
+  expect(actual.createdAt, 'location.createdAt').to.be.iso8601(...toArray(expected.createdAt));
+&nbsp;
+  if (expected.updatedAt == 'createdAt') {
+    expect(actual.updatedAt, 'location.updatedAt').to.equal(actual.createdAt);
+  } else {
+    expect(actual.updatedAt, 'location.updatedAt').to.be.iso8601(...toArray(expected.updatedAt));
+  }
+&nbsp;
+  // Check that the corresponding location exists in the database.
+  return module.exports.inDb(actual);
+};
+&nbsp;
+module.exports.inDb = async function(expected) {
+&nbsp;
+  const location = await checkRecord(Location, expected.id);
+  expect(location, 'db.location').to.be.an.instanceof(Location);
+&nbsp;
+  expect(location.get('api_id'), 'db.location.api_id').to.equal(expected.id);
+  expect(location.get('id'), 'db.location.id').to.be.a('string');
+  expect(location.get('name', 'db.location.name')).to.equal(expected.name);
+  expect(location.get('short_name'), 'db.location.short_name').to.equal(expected.shortName || null);
+  expect(location.get('description', 'db.location.description')).to.equal(expected.description);
+  expect(location.get('photo_url', 'db.location.photo_url')).to.equal(expected.photoUrl);
+  expect(location.get('site_url', 'db.location.site_url')).to.equal(expected.siteUrl);
+  expect(location.get('phone', 'db.location.phone')).to.equal(expected.phone);
+  expect(location.get('geometry', 'db.location.geometry')).to.eql(expected.geometry);
+  expect(location.get('properties', 'db.location.properties')).to.eql(expected.properties);
+  expect(location.get('address_street'), 'db.location.address_street').to.equal(expected.address.street);
+  expect(location.get('address_number'), 'db.location.address_number').to.equal(expected.address.number || null);
+  expect(location.get('address_zip_code'), 'db.location.address_zip_code').to.equal(expected.address.zipCode);
+  expect(location.get('address_city'), 'db.location.address_city').to.equal(expected.address.city);
+  expect(location.get('address_state'), 'db.location.address_state').to.equal(expected.address.state);
+  expect(location.get('created_at'), 'db.location.created_at').to.be.sameMoment(expected.createdAt);
+  expect(location.get('updated_at'), 'db.location.updated_at').to.be.sameMoment(expected.updatedAt);
+};
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Tue Dec 19 2017 10:22:26 GMT+0100 (CET)
+</div>
+</div>
+<script src="../../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../../sorter.js"></script>
+</body>
+</html>

@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>server/api/utils/auth - Documentation</title>
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Abstract.html">Abstract</a><ul class='methods'><li data-type='method'><a href="Abstract.html#parseFrom">parseFrom</a></li><li data-type='method'><a href="Abstract.html#serializeTo">serializeTo</a></li></ul></li><li><a href="Database.html">Database</a><ul class='methods'><li data-type='method'><a href="Database.html#close">close</a></li><li data-type='method'><a href="Database.html#open">open</a></li></ul></li><li><a href="Location.html">Location</a><ul class='methods'><li data-type='method'><a href="Location.html#parseFrom">parseFrom</a></li><li data-type='method'><a href="Location.html#serializeTo">serializeTo</a></li></ul></li><li><a href="module-scripts.AnonymizeScript.html">AnonymizeScript</a></li><li><a href="module-scripts.CreateAdminScript.html">CreateAdminScript</a></li><li><a href="module-scripts.SampleDataScript.html">SampleDataScript</a></li><li><a href="module-scripts-Script.html">Script</a><ul class='methods'><li data-type='method'><a href="module-scripts-Script.html#autoRun">autoRun</a></li><li data-type='method'><a href="module-scripts-Script.html#exit">exit</a></li><li data-type='method'><a href="module-scripts-Script.html#onFailure">onFailure</a></li><li data-type='method'><a href="module-scripts-Script.html#onSuccess">onSuccess</a></li><li data-type='method'><a href="module-scripts-Script.html#run">run</a></li></ul></li><li><a href="module-server_api_utils_errors-ApiError.html">ApiError</a></li><li><a href="User.html">User</a><ul class='methods'><li data-type='method'><a href="User.html#generateJwt">generateJwt</a></li><li data-type='method'><a href="User.html#hasPassword">hasPassword</a></li><li data-type='method'><a href="User.html#hasRole">hasRole</a></li><li data-type='method'><a href="User.html#isActive">isActive</a></li><li data-type='method'><a href="User.html#parseFrom">parseFrom</a></li><li data-type='method'><a href="User.html#serializeTo">serializeTo</a></li></ul></li></ul><h3>Modules</h3><ul><li><a href="module-scripts.html">scripts</a></li><li><a href="module-server_api_auth.html">server/api/auth</a><ul class='methods'><li data-type='method'><a href="module-server_api_auth.html#.authenticate">authenticate</a></li><li data-type='method'><a href="module-server_api_auth.html#.canAuthenticate">canAuthenticate</a></li></ul></li><li><a href="module-server_api_locations.html">server/api/locations</a><ul class='methods'><li data-type='method'><a href="module-server_api_locations.html#.canCreate">canCreate</a></li><li data-type='method'><a href="module-server_api_locations.html#.canDestroy">canDestroy</a></li><li data-type='method'><a href="module-server_api_locations.html#.canList">canList</a></li><li data-type='method'><a href="module-server_api_locations.html#.canRetrieve">canRetrieve</a></li><li data-type='method'><a href="module-server_api_locations.html#.canUpdate">canUpdate</a></li><li data-type='method'><a href="module-server_api_locations.html#.create">create</a></li><li data-type='method'><a href="module-server_api_locations.html#.destroy">destroy</a></li><li data-type='method'><a href="module-server_api_locations.html#.fetchLocation">fetchLocation</a></li><li data-type='method'><a href="module-server_api_locations.html#.list">list</a></li><li data-type='method'><a href="module-server_api_locations.html#.parse">parse</a></li><li data-type='method'><a href="module-server_api_locations.html#.retrieve">retrieve</a></li><li data-type='method'><a href="module-server_api_locations.html#.serialize">serialize</a></li><li data-type='method'><a href="module-server_api_locations.html#.update">update</a></li><li data-type='method'><a href="module-server_api_locations.html#~validateListRequest">validateListRequest</a></li><li data-type='method'><a href="module-server_api_locations.html#~validateLocation">validateLocation</a></li></ul></li><li><a href="module-server_api_users.html">server/api/users</a><ul class='methods'><li data-type='method'><a href="module-server_api_users.html#.canRetrieve">canRetrieve</a></li><li data-type='method'><a href="module-server_api_users.html#.fetchMe">fetchMe</a></li><li data-type='method'><a href="module-server_api_users.html#.fetchUser">fetchUser</a></li><li data-type='method'><a href="module-server_api_users.html#.retrieve">retrieve</a></li><li data-type='method'><a href="module-server_api_users.html#.serialize">serialize</a></li></ul></li><li><a href="module-server_api_utils_api.html">server/api/utils/api</a><ul class='methods'><li data-type='method'><a href="module-server_api_utils_api.html#.fetcher">fetcher</a></li><li data-type='method'><a href="module-server_api_utils_api.html#.route">route</a></li><li data-type='method'><a href="module-server_api_utils_api.html#.transactionalRoute">transactionalRoute</a></li></ul></li><li><a href="module-server_api_utils_auth.html">server/api/utils/auth</a><ul class='methods'><li data-type='method'><a href="module-server_api_utils_auth.html#~authenticatedResourceLoader">authenticatedResourceLoader</a></li><li data-type='method'><a href="module-server_api_utils_auth.html#~authenticationErrorHandler">authenticationErrorHandler</a></li><li data-type='method'><a href="module-server_api_utils_auth.html#~authorizationErrorHandler">authorizationErrorHandler</a></li></ul></li><li><a href="module-server_api_utils_errors.html">server/api/utils/errors</a><ul class='methods'><li data-type='method'><a href="module-server_api_utils_errors.html#.forbidden">forbidden</a></li><li data-type='method'><a href="module-server_api_utils_errors.html#.invalidAuthorization">invalidAuthorization</a></li><li data-type='method'><a href="module-server_api_utils_errors.html#.malformedAuthorization">malformedAuthorization</a></li><li data-type='method'><a href="module-server_api_utils_errors.html#.missingAuthorization">missingAuthorization</a></li><li data-type='method'><a href="module-server_api_utils_errors.html#.notFound">notFound</a></li><li data-type='method'><a href="module-server_api_utils_errors.html#.recordNotFound">recordNotFound</a></li><li data-type='method'><a href="module-server_api_utils_errors.html#.unauthorized">unauthorized</a></li></ul></li><li><a href="module-server_api_utils_filters.html">server/api/utils/filters</a><ul class='methods'><li data-type='method'><a href="module-server_api_utils_filters.html#.bbox">bbox</a></li></ul></li><li><a href="module-server_api_utils_policy.html">server/api/utils/policy</a><ul class='methods'><li data-type='method'><a href="module-server_api_utils_policy.html#.hasRole">hasRole</a></li><li data-type='method'><a href="module-server_api_utils_policy.html#.sameRecord">sameRecord</a></li></ul></li><li><a href="module-server_api_utils_validation.html">server/api/utils/validation</a><ul class='methods'><li data-type='method'><a href="module-server_api_utils_validation.html#.validateRequestBody">validateRequestBody</a></li><li data-type='method'><a href="module-server_api_utils_validation.html#.validateValue">validateValue</a></li></ul></li><li><a href="module-server_api_validators_generic.html">server/api/validators/generic</a><ul class='methods'><li data-type='method'><a href="module-server_api_validators_generic.html#.equals">equals</a></li><li data-type='method'><a href="module-server_api_validators_generic.html#.isSetAndNotNull">isSetAndNotNull</a></li><li data-type='method'><a href="module-server_api_validators_generic.html#.properties">properties</a></li><li data-type='method'><a href="module-server_api_validators_generic.html#.query">query</a></li></ul></li><li><a href="module-server_api_validators_geojson.html">server/api/validators/geojson</a><ul class='methods'><li data-type='method'><a href="module-server_api_validators_geojson.html#.bboxString">bboxString</a></li><li data-type='method'><a href="module-server_api_validators_geojson.html#.point">point</a></li></ul></li><li><a href="module-server_spec_fixtures_geojson.html">server/spec/fixtures/geojson</a><ul class='methods'><li data-type='method'><a href="module-server_spec_fixtures_geojson.html#.coordinates">coordinates</a></li><li data-type='method'><a href="module-server_spec_fixtures_geojson.html#.point">point</a></li></ul></li><li><a href="module-server_spec_fixtures_location.html">server/spec/fixtures/location</a><ul class='methods'><li data-type='method'><a href="module-server_spec_fixtures_location.html#.location">location</a></li><li data-type='method'><a href="module-server_spec_fixtures_location.html#.name">name</a></li><li data-type='method'><a href="module-server_spec_fixtures_location.html#.shortName">shortName</a></li></ul></li><li><a href="module-server_spec_fixtures_user.html">server/spec/fixtures/user</a><ul class='methods'><li data-type='method'><a href="module-server_spec_fixtures_user.html#.admin">admin</a></li><li data-type='method'><a href="module-server_spec_fixtures_user.html#.email">email</a></li><li data-type='method'><a href="module-server_spec_fixtures_user.html#.password">password</a></li><li data-type='method'><a href="module-server_spec_fixtures_user.html#.user">user</a></li></ul></li><li><a href="module-server_spec_utils.html">server/spec/utils</a><ul class='methods'><li data-type='method'><a href="module-server_spec_utils.html#.expectDeleted">expectDeleted</a></li><li data-type='method'><a href="module-server_spec_utils.html#.expectErrors">expectErrors</a></li><li data-type='method'><a href="module-server_spec_utils.html#.expectUnchanged">expectUnchanged</a></li></ul></li><li><a href="module-server_utils_express.html">server/utils/express</a><ul class='methods'><li data-type='method'><a href="module-server_utils_express.html#.ensureRequest">ensureRequest</a></li><li data-type='method'><a href="module-server_utils_express.html#.logger">logger</a></li></ul></li><li><a href="module-server_utils_jwt.html">server/utils/jwt</a><ul class='methods'><li data-type='method'><a href="module-server_utils_jwt.html#.generateToken">generateToken</a></li></ul></li><li><a href="module-server_utils_knex.html">server/utils/knex</a><ul class='methods'><li data-type='method'><a href="module-server_utils_knex.html#.logger">logger</a></li></ul></li><li><a href="module-utils.html">utils</a><ul class='methods'><li data-type='method'><a href="module-utils.html#.logMigration">logMigration</a></li></ul></li></ul>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">server/api/utils/auth</h1>
+    
+
+    
+
+
+
+
+<section>
+
+<header>
+    
+        
+            
+        
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+            <div class="description"><p>Configuration of the <a href="https://www.npmjs.com/package/express-jwt-policies">express-jwt-policies</a> library.</p>
+<p>The settings in this file influence the behavior of the <code>auth.authenticate</code>
+and <code>auth.authorize</code> functions used throughout <code>*.routes.js</code> files (in
+<code>server/api/{subject}</code> directories) for authentication and/or authorization.</p></div>
+        
+
+        
+            
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="server_api_utils_auth.js.html">server/api/utils/auth.js</a>, <a href="server_api_utils_auth.js.html#line1">line 1</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+    
+    </div>
+
+    
+
+    
+
+    
+
+     
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        
+            
+
+    
+
+    <h4 class="name" id="~authenticatedResourceLoader"><span class="type-signature">(inner) </span>authenticatedResourceLoader<span class="signature">(req, res, next)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="server_api_utils_auth.js.html">server/api/utils/auth.js</a>, <a href="server_api_utils_auth.js.html#line38">line 38</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li><a href="https://www.npmjs.com/package/express-jwt-policies">https://www.npmjs.com/package/express-jwt-policies</a></li>
+        </ul>
+    </dd>
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description">
+    <p>This middleware function is called by <strong>express-jwt-policies</strong> after
+successful validation of a JWT token.</p>
+<p>It loads the user account corresponding to the &quot;sub&quot; claim of the token,
+and attaches it to <code>req.currentUser</code> for later use by other middleware
+functions.</p>
+<p>If no matching user is found or the user is inactive, a standard
+unauthorized error (see <a href="module-server_api_utils_errors.html">module:server/api/utils/errors</a>) is
+forwarded to the next error middleware.  If another unexpected error
+occurs, it is also forwarded to the next error-handling middleware.</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>req</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Request</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Express request object.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>res</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Response</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Express response object.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>next</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Function that calls the next middleware in the stack.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="~authenticationErrorHandler"><span class="type-signature">(inner) </span>authenticationErrorHandler<span class="signature">(err, req, res, next)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="server_api_utils_auth.js.html">server/api/utils/auth.js</a>, <a href="server_api_utils_auth.js.html#line67">line 67</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li><a href="https://www.npmjs.com/package/express-jwt-policies">https://www.npmjs.com/package/express-jwt-policies</a></li>
+        </ul>
+    </dd>
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description">
+    <p>This error-handling middleware function is called by
+<strong>express-jwt-policies</strong> if an authentication error occurs (i.e. a problem
+with the JWT token or the authenticated resource loader above).</p>
+<p>If the error is a known error such as a missing or malformed JWT token, it
+is replaced by a standard unauthorized error (see <a href="module-server_api_utils_errors.html">module:server/api/utils/errors</a>) and forwarded to the next error-handling
+middleware. Unexpected errors are forwarded without change.</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>err</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Error</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The error that occurred.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>req</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Request</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Express request object.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>res</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Response</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Express response object.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>next</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Function that calls the next middleware in the stack.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="~authorizationErrorHandler"><span class="type-signature">(inner) </span>authorizationErrorHandler<span class="signature">(err, req, res, next)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="server_api_utils_auth.js.html">server/api/utils/auth.js</a>, <a href="server_api_utils_auth.js.html#line119">line 119</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li><a href="https://www.npmjs.com/package/express-jwt-policies">https://www.npmjs.com/package/express-jwt-policies</a></li>
+        </ul>
+    </dd>
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description">
+    <p>This error-handling middleware function is called by
+<strong>express-jwt-policies</strong> if an authorization error occurs (i.e. a custom
+policy function determined that a user does not have access to a specific
+resource).</p>
+<p>Such an error is usually replaced by a standard forbidden error (see <a href="module-server_api_utils_errors.html">module:server/api/utils/errors</a>) and forwarded to the next error-handling
+middleware.</p>
+<p>However, if the authorization options passed to <code>auth.authorize</code> include a
+<code>resourceName</code> property and a resource ID is found in <code>req.params.id</code>, then
+the error will instead be replaced by a standard record not found (404)
+error.</p>
+<p>This is meant to prevent unauthorized user from being able to tell the
+difference between a resource that does not exist and a resource which they
+are not authorized to access. If the former produced a 404 Not Found
+response and the latter a 403 Forbidden response, it would be a dead
+giveaway that the latter resource exists while the former does not.
+Responding with 404 Not Found in both cases conceals that information.</p>
+<p>If the resource has an identifier which is not <code>req.params.id</code>, a custom
+<code>resourceId</code> function can be passed to <code>auth.authorize</code> to retrieve the
+correct ID from the request:</p>
+<pre class="prettyprint source"><code>auth.authorize(policyFunc, {
+  resourceName: 'user',
+  resourceId: (req) => req.params.customId
+});</code></pre>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>err</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Error</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The error that occurred.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>req</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Request</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Express request object.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>res</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Response</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Express response object.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>next</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Function that calls the next middleware in the stack.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Dec 19 2017 10:22:23 GMT+0100 (CET) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+</body>
+</html>

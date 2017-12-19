@@ -1,0 +1,302 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for server/bookshelf-geometry.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../prettify.css" />
+    <link rel="stylesheet" href="../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../index.html">All files</a> / <a href="index.html">server</a> bookshelf-geometry.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">75.61% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>31/41</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">77.78% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>14/18</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">75% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>9/12</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">76.92% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>30/39</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line medium'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">57x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">57x</span>
+<span class="cline-any cline-yes">57x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">86x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">86x</span>
+<span class="cline-any cline-yes">86x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">86x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">39x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">39x</span>
+<span class="cline-any cline-yes">39x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">39x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">182x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">182x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">170x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">const knexPostgis = require('knex-postgis');
+const wellKnown = require('wellknown');
+&nbsp;
+module.exports = function(db) {
+&nbsp;
+  const st = knexPostgis(db);
+&nbsp;
+  return function(bookshelf) {
+&nbsp;
+    const proto = bookshelf.Model.prototype;
+&nbsp;
+    const protoProps = {};
+    enrichRelationsWithGeometry(protoProps, 'belongsTo', 'belongsToMany', 'hasMany', 'hasOne');
+&nbsp;
+    bookshelf.Model = bookshelf.Model.extend({
+      constructor: function() {
+        proto.constructor.apply(this, arguments);
+&nbsp;
+        const geomProperty = getGeomProperty(this);
+        if (geomProperty) {
+          this.query(qb =&gt; qb.select(`${this.tableName}.*`, st.asGeoJSON(geomProperty)));
+        }
+      },
+&nbsp;
+      parse: function(response) {
+        const parsed = proto.parse.call(this, response);
+&nbsp;
+        const geomProperty = getGeomProperty(this);
+        if (geomProperty &amp;&amp; parsed[geomProperty]) {
+          parsed[geomProperty] = JSON.parse(parsed[geomProperty]);
+        }
+&nbsp;
+        return parsed;
+      },
+&nbsp;
+      format: function(attributes) {
+        const formatted = proto.format.call(this, attributes);
+&nbsp;
+        const geomProperty = getGeomProperty(this);
+        if (geomProperty &amp;&amp; formatted[geomProperty]) {
+          formatted[geomProperty] = st.geomFromText(wellKnown.stringify(formatted[geomProperty]), 4326);
+        }
+&nbsp;
+        return attributes;
+      }
+    });
+&nbsp;
+    function getGeomProperty(record) {
+      <span class="missing-if-branch" title="if path not taken" >I</span>if (typeof(record.geometry) == 'string') {
+<span class="cstat-no" title="statement not covered" >        return record.geometry;</span>
+      } else if (record.geometry === true) {
+        return 'geometry';
+      } else <span class="missing-if-branch" title="if path not taken" >I</span>if (record.geometry !== undefined) {
+<span class="cstat-no" title="statement not covered" >        throw new Error(`Model "geometry" property must be a string or boolean, got ${JSON.stringify(record.geometry)} (${typeof(record.geometry)})`)</span>
+      }
+    }
+&nbsp;
+    function <span class="fstat-no" title="function not covered" >enrichRelationWithGeometry(</span>record, relationType, target, ...args) {
+      let relation = <span class="cstat-no" title="statement not covered" >proto[relationType].call(record, target, ...args);</span>
+&nbsp;
+      const targetProto = <span class="cstat-no" title="statement not covered" >db.model(target).prototype;</span>
+      const geomProperty = <span class="cstat-no" title="statement not covered" >getGeomProperty(targetProto);</span>
+<span class="cstat-no" title="statement not covered" >      if (geomProperty) {</span>
+<span class="cstat-no" title="statement not covered" >        relation = relation.query(<span class="fstat-no" title="function not covered" >qb</span> =&gt; <span class="cstat-no" title="statement not covered" >qb.select(`${targetProto.tableName}.*`, st.asGeoJSON(geomProperty)))</span>;</span>
+      }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >      return relation;</span>
+    }
+&nbsp;
+    function enrichRelationsWithGeometry(protoProps, ...relations) {
+      relations.forEach(relation =&gt; {
+        const originalRelationMethod = proto[relation];
+        protoProps[relation] = <span class="fstat-no" title="function not covered" >fu</span>nction(target, ...args) {
+<span class="cstat-no" title="statement not covered" >          return enrichRelationWithGeometry(this, relation, target, ...args);</span>
+        };
+      });
+    }
+  };
+};
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Fri Dec 08 2017 14:32:00 GMT+0100 (CET)
+</div>
+</div>
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../sorter.js"></script>
+</body>
+</html>

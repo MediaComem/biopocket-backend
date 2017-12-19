@@ -1,0 +1,668 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for server/spec/utils.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../prettify.css" />
+    <link rel="stylesheet" href="../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../index.html">All files</a> / <a href="index.html">server/spec</a> utils.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">88.61% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>70/79</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">71.43% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>20/28</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>13/13</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">88.46% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>69/78</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line high'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">49x</span>
+<span class="cline-any cline-yes">49x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">26x</span>
+<span class="cline-any cline-yes">26x</span>
+<span class="cline-any cline-yes">26x</span>
+<span class="cline-any cline-yes">26x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">26x</span>
+<span class="cline-any cline-yes">26x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">26x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">49x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">49x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">49x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">49x</span>
+<span class="cline-any cline-yes">98x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">49x</span>
+<span class="cline-any cline-yes">49x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">81x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">81x</span>
+<span class="cline-any cline-yes">846x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">846x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">81x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">27x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">27x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">27x</span>
+<span class="cline-any cline-yes">27x</span>
+<span class="cline-any cline-yes">27x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">27x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">78x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">/**
+ * Test utilities.
+ *
+ * @module server/spec/utils
+ */
+const _ = require('lodash');
+const enrichApiError = require('enrich-api-error');
+const moment = require('moment');
+const SuperRest = require('superrest');
+&nbsp;
+const app = require('../app');
+const chai = require('./chai');
+const config = require('../../config');
+const db = require('../db');
+&nbsp;
+let databaseConnectionClosed = false;
+const logger = config.logger('spec');
+&nbsp;
+class EnrichedSuperRest extends SuperRest {
+  expect(res, ...args) {
+    try {
+      return super.expect(res, ...args);
+    } catch(err) {
+<span class="cstat-no" title="statement not covered" >      throw enrichApiError(err, res);</span>
+    }
+  }
+}
+&nbsp;
+const expect = exports.expect = chai.expect;
+&nbsp;
+/**
+ * Ensures that a database record has been deleted by attempting to reload a fresh instance.
+ *
+ * @param {object} record - A database record (an instance of a Bookshelf model).
+ * @param {options} [options] - Options.
+ * @param {string} [options.idColumn="api_id"] - The column uniquely identifying the record.
+ * @returns {Promise} A promise that is resolved if no record with the same ID is found in the database, or rejected if one is found.
+ */
+exports.expectDeleted = async function(record, options) {
+  <span class="missing-if-branch" title="if path not taken" >I</span>if (!record) {
+<span class="cstat-no" title="statement not covered" >    throw new Error('Record is required');</span>
+  }
+&nbsp;
+  options = options || {};
+  const idColumn = options.idColumn || 'api_id';
+&nbsp;
+  const id = record.get(idColumn);
+  <span class="missing-if-branch" title="if path not taken" >I</span>if (!id) {
+<span class="cstat-no" title="statement not covered" >    throw new Error('Record must have an ID');</span>
+  }
+&nbsp;
+  const Model = record.constructor;
+  const freshRecord = await new Model({ [idColumn]: id }).fetch();
+&nbsp;
+  expect(freshRecord).to.equal(null);
+};
+&nbsp;
+/**
+ * Ensures that a response from the server is a correctly formatted error response
+ * and that it contains the expected error or list of errors.
+ *
+ *     // Expect a single error.
+ *     expectErrors(res, {
+ *       code: 'something.wrong',
+ *       message: 'It went wrong...'
+ *     });
+ *
+ *     // Expect a list of errors.
+ *     expectErrors(res, [
+ *       {
+ *         code: 'something.wrong',
+ *         message: 'It went wrong...'
+ *       },
+ *       {
+ *         code: 'something.bad',
+ *         message: 'What?'
+ *       }
+ *     ]);
+ *
+ * An error response is expected to:
+ *
+ * * Have the application/json content type
+ * * Be a JSON object with a single `errors` property that is an array of errors
+ *
+ * @param {Response} res - A response object from a test.
+ *
+ * @param {object|object[]} - A single error or a list of errors that is expected to
+ *   be in the response. The response is expected to contain exactly this or these
+ *   errors and no others. If a single error is given, the response's `errors` array
+ *   is expected to contain exactly that error and no other. If a list is given, the
+ *   order of the errors is not checked.
+ */
+exports.expectErrors = function(res, expectedErrorOrErrors) {
+&nbsp;
+  expect(res.get('Content-Type'), 'res.headers.Content-Type').to.match(/^application\/json/);
+  expect(res.body, 'res.body').to.be.an('object');
+  expect(res.body, 'res.body').to.have.all.keys('errors');
+  expect(res.body.errors, 'res.body.errors').to.be.an('array');
+&nbsp;
+  // Check that at least one expected error was provided.
+  const expectedErrors = exports.toArray(expectedErrorOrErrors);
+  expect(expectedErrors).to.have.lengthOf.at.least(1);
+&nbsp;
+  // Check that the errors in the response match with chai-objects
+  expect(res.body.errors).to.have.objects(expectedErrors);
+};
+&nbsp;
+/**
+ * Ensures that a database record has not changed by reloading a fresh instance and comparing its attributes.
+ *
+ * @param {object} record - A database record (an instance of a Bookshelf model).
+ * @param {object} [options] - Options.
+ * @param {string} [options.idColumn="api_id"] - The column uniquely identifying the record.
+ * @returns {Promise} A promise that is resolved if the record has not changed, or rejected if it has changed.
+ */
+exports.expectUnchanged = async function(record, options) {
+  <span class="missing-if-branch" title="if path not taken" >I</span>if (!record) {
+<span class="cstat-no" title="statement not covered" >    throw new Error('Record is required');</span>
+  }
+&nbsp;
+  options = options || {};
+  const idColumn = options.idColumn || 'api_id';
+&nbsp;
+  const id = record.get(idColumn);
+  <span class="missing-if-branch" title="if path not taken" >I</span>if (!id) {
+<span class="cstat-no" title="statement not covered" >    throw new Error('Record must have an ID');</span>
+  }
+&nbsp;
+  const Model = record.constructor;
+  const freshRecord = await new Model({ [idColumn]: id }).fetch();
+&nbsp;
+  expect(freshRecord).to.be.ok;
+  expect(freshRecord.attributes).to.eql(record.attributes);
+};
+&nbsp;
+exports.initSuperRest = function(options) {
+  return new EnrichedSuperRest(app, _.defaults({}, options, {
+    pathPrefix: '/api',
+    updateMethod: 'PATCH'
+  }));
+};
+&nbsp;
+exports.setUp = function() {
+  after(() =&gt; {
+    if (!databaseConnectionClosed) {
+      db.close();
+      databaseConnectionClosed = true;
+    }
+  });
+};
+&nbsp;
+exports.cleanDatabase = async function() {
+  const start = new Date().getTime();
+&nbsp;
+  // Sequences of tables to delete in order to avoid foreign key conflicts
+  const tablesToDelete = [
+    [ 'locations', 'users' ]
+  ];
+&nbsp;
+  for (let tableList of tablesToDelete) {
+    await Promise.all(tableList.map(table =&gt; db.knex.raw(`DELETE FROM ${table};`)));
+  }
+&nbsp;
+  const duration = (new Date().getTime() - start) / 1000;
+  logger.debug(`Cleaned database in ${duration}s`);
+}
+&nbsp;
+exports.createRecord = async function(model, data) {
+&nbsp;
+  const resolved = await Promise.resolve(data);
+&nbsp;
+  const values = _.mapValues(resolved, value =&gt; {
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (moment.isMoment(value)) {
+<span class="cstat-no" title="statement not covered" >      return value.toDate();</span>
+    } else {
+      return value;
+    }
+  });
+&nbsp;
+  return new model(values).save();
+};
+&nbsp;
+exports.checkRecord = async function(model, id, options) {
+  <span class="missing-if-branch" title="if path not taken" >I</span>if (!model) {
+<span class="cstat-no" title="statement not covered" >    throw new Error('Model is required');</span>
+  } else <span class="missing-if-branch" title="if path not taken" >I</span>if (!id) {
+<span class="cstat-no" title="statement not covered" >    throw new Error('Record ID is required');</span>
+  }
+&nbsp;
+  const idColumn = _.get(options, 'idColumn', 'api_id');
+  const record = await new model().where(idColumn, id).fetch();
+  <span class="missing-if-branch" title="if path not taken" >I</span>if (!record) {
+<span class="cstat-no" title="statement not covered" >    throw new Error(`No database record found with ID ${id}`);</span>
+  }
+&nbsp;
+  return record;
+};
+&nbsp;
+exports.toArray = function(value) {
+  return _.isArray(value) ? value : [ value ];
+};
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Tue Dec 19 2017 10:22:26 GMT+0100 (CET)
+</div>
+</div>
+<script src="../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../sorter.js"></script>
+</body>
+</html>

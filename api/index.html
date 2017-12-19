@@ -1,0 +1,678 @@
+<!DOCTYPE HTML><html><head><title>BioPocket API documentation</title><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="generator" content="https://github.com/raml2html/raml2html 6.4.2"><link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.3.0/styles/default.min.css"><script type="text/javascript" src="https://code.jquery.com/jquery-1.11.0.min.js"></script><script type="text/javascript" src="https://netdna.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script><script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.3.0/highlight.min.js"></script><script type="text/javascript">
+      $(document).ready(function() {
+        $('.page-header pre code, .top-resource-description pre code, .modal-body pre code').each(function(i, block) {
+          hljs.highlightBlock(block);
+        });
+
+        $('[data-toggle]').click(function() {
+          var selector = $(this).data('target') + ' pre code';
+          $(selector).each(function(i, block) {
+            hljs.highlightBlock(block);
+          });
+        });
+
+        // open modal on hashes like #_action_get
+        $(window).bind('hashchange', function(e) {
+          var anchor_id = document.location.hash.substr(1); //strip #
+          var element = $('#' + anchor_id);
+
+          // do we have such element + is it a modal?  --> show it
+          if (element.length && element.hasClass('modal')) {
+            element.modal('show');
+          }
+        });
+
+        // execute hashchange on first page load
+        $(window).trigger('hashchange');
+
+        // remove url fragment on modal hide
+        $('.modal').on('hidden.bs.modal', function() {
+          try {
+            if (history && history.replaceState) {
+                history.replaceState({}, '', '#');
+            }
+          } catch(e) {}
+        });
+      });
+    </script><style>
+      .hljs {
+        background: transparent;
+      }
+      .parent {
+        color: #999;
+      }
+      .list-group-item > .badge {
+        float: none;
+        margin-right: 6px;
+      }
+      .panel-title > .methods {
+        float: right;
+      }
+      .badge {
+        border-radius: 0;
+        text-transform: uppercase;
+        width: 70px;
+        font-weight: normal;
+        color: #f3f3f6;
+        line-height: normal;
+      }
+      .badge_get {
+        background-color: #63a8e2;
+      }
+      .badge_post {
+        background-color: #6cbd7d;
+      }
+      .badge_put {
+        background-color: #22bac4;
+      }
+      .badge_delete {
+        background-color: #d26460;
+      }
+      .badge_patch {
+        background-color: #ccc444;
+      }
+      .list-group, .panel-group {
+        margin-bottom: 0;
+      }
+      .panel-group .panel+.panel-white {
+        margin-top: 0;
+      }
+      .panel-group .panel-white {
+        border-bottom: 1px solid #F5F5F5;
+        border-radius: 0;
+      }
+      .panel-white:last-child {
+        border-bottom-color: white;
+        -webkit-box-shadow: none;
+        box-shadow: none;
+      }
+      .panel-white .panel-heading {
+        background: white;
+      }
+      .tab-pane ul {
+        padding-left: 2em;
+      }
+      .tab-pane h1 {
+        font-size: 1.3em;
+      }
+      .tab-pane h2 {
+        font-size: 1.2em;
+        padding-bottom: 4px;
+        border-bottom: 1px solid #ddd;
+      }
+      .tab-pane h3 {
+        font-size: 1.1em;
+      }
+      .tab-content {
+        border-left: 1px solid #ddd;
+        border-right: 1px solid #ddd;
+        border-bottom: 1px solid #ddd;
+        padding: 10px;
+      }
+      #sidebar {
+        margin-top: 30px;
+        padding-right: 5px;
+        overflow: auto;
+        height: 90%;
+      }
+      .top-resource-description {
+        border-bottom: 1px solid #ddd;
+        background: #fcfcfc;
+        padding: 15px 15px 0 15px;
+        margin: -15px -15px 10px -15px;
+      }
+      .resource-description {
+        border-bottom: 1px solid #fcfcfc;
+        background: #fcfcfc;
+        padding: 15px 15px 0 15px;
+        margin: -15px -15px 10px -15px;
+      }
+      .resource-description p:last-child {
+        margin: 0;
+      }
+      .list-group .badge {
+        float: left;
+      }
+      .method_description {
+        margin-left: 85px;
+      }
+      .method_description p:last-child {
+        margin: 0;
+      }
+      .list-group-item {
+        cursor: pointer;
+      }
+      .list-group-item:hover {
+        background-color: #f5f5f5;
+      }
+      pre code {
+        overflow: auto;
+        word-wrap: normal;
+        white-space: pre;
+      }
+      .items {
+        background: #f5f5f5;
+        color: #333;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        padding: 9.5px;
+        margin: 0 0 10px;
+        font-size: 13px;
+        line-height: 1.42857143;
+      }
+      .examples {
+        margin-left: 0.5em;
+      }
+      .resource-modal li > ul {
+        margin-bottom: 1em;
+      }
+    </style></head><body data-spy="scroll" data-target="#sidebar"><div class="container"><div class="row"><div class="col-md-9" role="main"><div class="page-header"><h1>BioPocket API documentation <small>version 1</small></h1><p>https://biopocket.ch/api</p></div><div class="panel panel-default"><div class="panel-heading"><h3 id="auth" class="panel-title">Authentication</h3></div><div class="panel-body"><div class="top-resource-description"><p>Management of authentication tokens.</p></div><div class="panel-group"><div class="panel panel-white resource-modal"><div class="panel-heading"><h4 class="panel-title"><a class="collapsed" data-toggle="collapse" href="#panel_auth"><span class="parent"></span>/auth</a> <span class="methods"><a href="#auth_post"><span class="badge badge_post">post</span></a></span></h4></div><div id="panel_auth" class="panel-collapse collapse"><div class="panel-body"><div class="list-group"><div onclick="window.location.href = '#auth_post'" class="list-group-item"><span class="badge badge_post">post</span><div class="method_description"><p>Creates a new, short-lived (2 weeks) authentication token for a user.</p><p>The authenticated user is also included in the response. Frontends may want to use the roles array to know what the user is authorized to do.</p></div><div class="clearfix"></div></div></div></div></div><div class="modal fade" tabindex="0" id="auth_post"><div class="modal-dialog modal-lg"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_post">post</span> <span class="parent"></span>/auth</h4></div><div class="modal-body"><div class="alert alert-info"><p>Creates a new, short-lived (2 weeks) authentication token for a user.</p><p>The authenticated user is also included in the response. Frontends may want to use the roles array to know what the user is authorized to do.</p></div><ul class="nav nav-tabs"><li class="active"><a href="#auth_post_request" data-toggle="tab">Request</a></li><li><a href="#auth_post_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="auth_post_request"><h3>Body</h3><p><strong>Media type</strong>: application/json</p><p><strong>Type</strong>: object</p><strong>Properties</strong><ul><li><strong>email</strong>: <em>required (string)</em><p>The e-mail address associated with the user account.</p></li><li><strong>password</strong>: <em>required (string)</em><p>The user account&#39;s password.</p></li></ul><p><strong>Example</strong>:</p><div class="examples"><pre><code>POST /api/auth HTTP/1.1
+Content-Type: application/json
+
+{
+  "email": "jdoe@example.com",
+  "password": "letmein"
+}
+</code></pre></div></div><div class="tab-pane" id="auth_post_response"><h2>HTTP status code <a href="http://httpstatus.es/201" target="_blank">201</a></h2><p>The authentication token was successfully created.</p><h3>Body</h3><p><strong>Media type</strong>: application/json</p><p><strong>Type</strong>: object</p><strong>Properties</strong><ul><li><strong>token</strong>: <em>(string)</em><p>A <a href="https://jwt.io">JWT</a> that can be used to authenticate to other API resources. You should send it as a bearer token in the Authorization header, e.g. <code>Authorization: Bearer TOKEN</code>.</p></li><li><strong>user</strong>: <em>(object)</em><ul><li><strong>active</strong>: <em>(boolean)</em><p>If false, the user account cannot authenticate and is not authorized to perform any action. New user accounts start active, but can be deactivated by an administrator.</p></li><li><strong>createdAt</strong>: <em>(datetime)</em><p>The time at which the user account was created.</p></li><li><strong>email</strong>: <em>(string)</em><p>The e-mail address associated to the user account.</p></li><li><strong>id</strong>: <em>(string)</em><p>The unique ID identifying the user account.</p></li><li><strong>roles</strong>: <em>(array of string)</em><p>The roles the user is authorized to perform.</p></li><li><strong>updatedAt</strong>: <em>(datetime)</em><p>The time at which the user account was last updated.</p></li></ul></li></ul><p><strong>Example</strong>:</p><div class="examples"><pre><code>HTTP/1.1 201 Created
+Content-Type: application/json
+
+{
+  "token": "eyJhbGciOiJIUzI1NiI.eyJzdWIiOiJmZDczYjM5OC04Zj.7s76ONko1DF",
+  "user": {
+    "active": true,
+    "createdAt": "2000-01-01T16:30:00.123Z",
+    "email": "jdoe@example.com",
+    "id": "7c4424de-66a0-4044-b872-c5fc77c4365e",
+    "roles": [
+      "admin"
+    ],
+    "updatedAt": "2000-02-03T17:00:00.123Z"
+  }
+}
+</code></pre></div><h2>HTTP status code <a href="http://httpstatus.es/400" target="_blank">400</a></h2><p>The request body is not valid JSON.</p><h3>Body</h3><p><strong>Media type</strong>: text/html</p><p><strong>Type</strong>: object</p><p><strong>Example</strong>:</p><div class="examples"><pre><code>HTTP/1.1 400 Bad Request
+Content-Type: text/html
+
+Error: Unexpected token } in JSON at position 0
+</code></pre></div><h2>HTTP status code <a href="http://httpstatus.es/401" target="_blank">401</a></h2><p>The credentials in the request body are invalid.</p><h3>Body</h3><p><strong>Media type</strong>: application/json</p><p><strong>Type</strong>: object</p><p><strong>Examples</strong>:</p><div class="examples"><p><strong>Invalid user</strong>:<br>No user account exists with the specified e-mail address, or it is inactive.</p><pre><code>{
+  "errors": [
+    {
+      "code": "auth.invalidUser",
+      "message": "This user account does not exist or is inactive."
+    }
+  ]
+}
+</code></pre><p><strong>Invalid credentials</strong>:<br>The specified password is not the correct one.</p><pre><code>{
+  "errors": [
+    {
+      "code": "auth.invalidCredentials",
+      "message": "The password is invalid."
+    }
+  ]
+}
+</code></pre></div><h2>HTTP status code <a href="http://httpstatus.es/422" target="_blank">422</a></h2><p>The request body contains invalid data.</p><h3>Body</h3><p><strong>Media type</strong>: application/json</p><p><strong>Type</strong>: object</p><p><strong>Example</strong>:</p><div class="examples"><pre><code>HTTP/1.1 422 Unprocessable Entity
+Content-Type: application/json
+
+{
+  "errors": [
+    {
+      "location": "/password",
+      "message": "is required",
+      "type": "json",
+      "validator": "required",
+      "valueSet": false
+    },
+    {
+      "location": "/email",
+      "message": "must be a valid e-mail address",
+      "type": "json",
+      "validator": "email",
+      "value": "jdoe",
+      "valueSet": true
+    }
+  ]
+}
+</code></pre></div></div></div></div></div></div></div></div></div></div></div><div class="panel panel-default"><div class="panel-heading"><h3 id="locations" class="panel-title">Locations</h3></div><div class="panel-body"><div class="top-resource-description"><p>Management of BioPocket locations of interest.</p></div><div class="panel-group"><div class="panel panel-white resource-modal"><div class="panel-heading"><h4 class="panel-title"><a class="collapsed" data-toggle="collapse" href="#panel_locations"><span class="parent"></span>/locations</a> <span class="methods"><a href="#locations_post"><span class="badge badge_post">post</span></a> <a href="#locations_get"><span class="badge badge_get">get</span></a></span></h4></div><div id="panel_locations" class="panel-collapse collapse"><div class="panel-body"><div class="list-group"><div onclick="window.location.href = '#locations_post'" class="list-group-item"><span class="badge badge_post">post</span><div class="method_description"><p>Create a new location.</p></div><div class="clearfix"></div></div><div onclick="window.location.href = '#locations_get'" class="list-group-item"><span class="badge badge_get">get</span><div class="method_description"><p>List locations.</p></div><div class="clearfix"></div></div></div></div></div><div class="modal fade" tabindex="0" id="locations_post"><div class="modal-dialog modal-lg"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_post">post</span> <span class="parent"></span>/locations</h4></div><div class="modal-body"><div class="alert alert-info"><p>Create a new location.</p></div><ul class="nav nav-tabs"><li class="active"><a href="#locations_post_request" data-toggle="tab">Request</a></li><li><a href="#locations_post_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="locations_post_request"><h3>Headers</h3><ul><li><strong>Authorization</strong>: <em>required (string)</em><p>You must authenticate by sending a JWT bearer token in this header. You may obtain a token by calling <code>POST /api/auth</code>.</p><p><strong>Required roles:</strong> <code>admin</code></p><p><strong>Example</strong>:</p><div class="examples"><pre><code>Authorization: Bearer eyJhbGciOiJIUzI1NiI.eyJzdWIiOiJmZDczYjM5OC04Zj.7s76ONko1DF</code></pre></div></li></ul><h3>Body</h3><p><strong>Media type</strong>: application/json</p><p><strong>Type</strong>: object</p><strong>Properties</strong><ul><li><strong>name</strong>: <em>required (string - minLength: 1 - maxLength: 150)</em><p>The location&#39;s name.</p></li><li><strong>shortName</strong>: <em>(string - minLength: 1 - maxLength: 30)</em><p>A shorter name for the location, if available.</p></li><li><strong>description</strong>: <em>required (string - minLength: 1 - maxLength: 2000)</em><p>A detailed description of the location.</p></li><li><strong>phone</strong>: <em>required (string - minLength: 1 - maxLength: 20)</em><p>The location&#39;s phone number.</p></li><li><strong>photoUrl</strong>: <em>required (string - maxLength: 500)</em><p>A URL of a picture of the location.</p></li><li><strong>siteUrl</strong>: <em>required (string - maxLength: 500)</em><p>A URL of the location&#39;s website or a related web page.</p></li><li><strong>geometry</strong>: <em>required (object)</em><p>The location&#39;s geographical coordinates (a GeoJSON point).</p><ul><li><strong>type</strong>: <em>required (string)</em><p>The type of GeoJSON object.</p></li><li><strong>coordinates</strong>: <em>required (array of number)</em><p>The coordinates (longitude &amp; latitude).</p></li></ul></li><li><strong>address</strong>: <em>required (object)</em><ul><li><strong>street</strong>: <em>required (string - minLength: 1 - maxLength: 150)</em><p>The street name of the location&#39;s address.</p></li><li><strong>number</strong>: <em>(string - minLength: 1 - maxLength: 15)</em><p>The street number of the location&#39;s address.</p></li><li><strong>zipCode</strong>: <em>required (string - minLength: 1 - maxLength: 15)</em><p>The zip code of the location&#39;s address.</p></li><li><strong>city</strong>: <em>required (string - minLength: 1 - maxLength: 100)</em><p>The city of the location&#39;s address.</p></li><li><strong>state</strong>: <em>required (string - minLength: 1 - maxLength: 30)</em><p>The state of the location&#39;s address.</p></li></ul></li><li><strong>properties</strong>: <em>(object)</em><p>User-defined properties of the location.</p><ul><li><strong></strong></li></ul></li></ul><p><strong>Example</strong>:</p><div class="examples"><pre><code>POST /api/locations HTTP/1.1
+Content-Type: application/json
+
+{
+  "name": "Somewhere over the rainbow",
+  "shortName": "Somewhere",
+  "description": "Somewhere over the rainbow blue birds fly and the dreams that you dreamed of really do come true.",
+  "phone": "5550001",
+  "photoUrl": "http://example.com/image.jpg",
+  "siteUrl": "http://example.com",
+  "geometry": {
+    "type": "Point",
+    "coordinates": [ -73.957820, 40.772317 ]
+  },
+  "address": {
+    "street": "Riverside Drive",
+    "number": 210,
+    "city": "New York",
+    "state": "New York",
+    "zipCode": "10021"
+  }
+}
+</code></pre></div></div><div class="tab-pane" id="locations_post_response"><h2>HTTP status code <a href="http://httpstatus.es/201" target="_blank">201</a></h2><p>The location was successfully created.</p><h3>Body</h3><p><strong>Media type</strong>: application/json</p><p><strong>Type</strong>: object</p><strong>Properties</strong><ul><li><strong>name</strong>: <em>required (string - minLength: 1 - maxLength: 150)</em><p>The location&#39;s name.</p></li><li><strong>shortName</strong>: <em>(string - minLength: 1 - maxLength: 30)</em><p>A shorter name for the location, if available.</p></li><li><strong>description</strong>: <em>required (string - minLength: 1 - maxLength: 2000)</em><p>A detailed description of the location.</p></li><li><strong>phone</strong>: <em>required (string - minLength: 1 - maxLength: 20)</em><p>The location&#39;s phone number.</p></li><li><strong>photoUrl</strong>: <em>required (string - maxLength: 500)</em><p>A URL of a picture of the location.</p></li><li><strong>siteUrl</strong>: <em>required (string - maxLength: 500)</em><p>A URL of the location&#39;s website or a related web page.</p></li><li><strong>geometry</strong>: <em>required (object)</em><p>The location&#39;s geographical coordinates (a GeoJSON point).</p><ul><li><strong>type</strong>: <em>required (string)</em><p>The type of GeoJSON object.</p></li><li><strong>coordinates</strong>: <em>required (array of number)</em><p>The coordinates (longitude &amp; latitude).</p></li></ul></li><li><strong>address</strong>: <em>required (object)</em><ul><li><strong>street</strong>: <em>required (string - minLength: 1 - maxLength: 150)</em><p>The street name of the location&#39;s address.</p></li><li><strong>number</strong>: <em>(string - minLength: 1 - maxLength: 15)</em><p>The street number of the location&#39;s address.</p></li><li><strong>zipCode</strong>: <em>required (string - minLength: 1 - maxLength: 15)</em><p>The zip code of the location&#39;s address.</p></li><li><strong>city</strong>: <em>required (string - minLength: 1 - maxLength: 100)</em><p>The city of the location&#39;s address.</p></li><li><strong>state</strong>: <em>required (string - minLength: 1 - maxLength: 30)</em><p>The state of the location&#39;s address.</p></li></ul></li><li><strong>properties</strong>: <em>(object)</em><p>User-defined properties of the location.</p><ul><li><strong></strong></li></ul></li><li><strong>id</strong>: <em>(string)</em><p>A unique ID identifying the location.</p></li><li><strong>createdAt</strong>: <em>(datetime)</em><p>The time at which the location was created.</p></li><li><strong>updatedAt</strong>: <em>(datetime)</em><p>The time at which the location was last updated.</p></li></ul><p><strong>Example</strong>:</p><div class="examples"><pre><code>HTTP/1.1 201 Created
+Content-Type: application/json
+
+{
+  "id": "c821bc0f-85b4-44d5-9bbe-a30cf197c30a",
+  "name": "Somewhere over the rainbow",
+  "shortName": "Somewhere",
+  "description": "Somewhere over the rainbow blue birds fly and the dreams that you dreamed of really do come true.",
+  "phone": "5550001",
+  "photoUrl": "http://example.com/image.jpg",
+  "siteUrl": "http://example.com",
+  "geometry": {
+    "type": "Point",
+    "coordinates": [ -73.957820, 40.772317 ]
+  },
+  "address": {
+    "street": "Riverside Drive",
+    "number": 210,
+    "city": "New York",
+    "state": "New York",
+    "zipCode": "10021"
+  },
+  "createdAt": "2000-01-01T16:30:00.123Z",
+  "updatedAt": "2000-02-03T17:00:00.123Z"
+}
+</code></pre></div><h2>HTTP status code <a href="http://httpstatus.es/400" target="_blank">400</a></h2><p>The request body is not valid JSON.</p><h3>Body</h3><p><strong>Media type</strong>: text/html</p><p><strong>Type</strong>: object</p><p><strong>Example</strong>:</p><div class="examples"><pre><code>HTTP/1.1 400 Bad Request
+Content-Type: text/html
+
+Error: Unexpected token } in JSON at position 0
+</code></pre></div><h2>HTTP status code <a href="http://httpstatus.es/401" target="_blank">401</a></h2><p>Authentication is required to access this resource. Either you have not authenticated or your credentials are invalid.</p><h3>Body</h3><p><strong>Media type</strong>: application/json</p><p><strong>Type</strong>: object</p><p><strong>Examples</strong>:</p><div class="examples"><p><strong>Missing authentication</strong>:<br>You have not sent an Authorization header in the request.</p><pre><code>{
+  "errors": [
+    {
+      "code": "auth.missingAuthorization",
+      "message": "Authentication is required to access this resource. Authenticate by providing a Bearer token in the Authorization header."
+    }
+  ]
+}
+</code></pre><p><strong>Malformed authentication</strong>:<br>The Authorization header of our request is not in the correct format. The required format is `Bearer TOKEN` where `TOKEN` is a valid JWT that you obtained by calling `POST /api/auth`.</p><pre><code>{
+  "errors": [
+    {
+      "code": "auth.malformedAuthorization",
+      "message": "The Authorization header is not in the correct format. It should be \"Authorization: Bearer TOKEN\"."
+    }
+  ]
+}
+</code></pre><p><strong>Invalid authentication</strong>:<br>The JWT bearer token you have sent in the Authorization header is invalid or has expired.</p><pre><code>{
+  "errors": [
+    {
+      "code": "auth.invalidAuthorization",
+      "message": "The Bearer token supplied in the Authorization header is invalid or has expired."
+    }
+  ]
+}
+</code></pre></div><h2>HTTP status code <a href="http://httpstatus.es/403" target="_blank">403</a></h2><p>Your user account is not authorized to access this resource. Contact the administrator to request more privileges.</p><h3>Body</h3><p><strong>Media type</strong>: application/json</p><p><strong>Type</strong>: object</p><p><strong>Example</strong>:</p><div class="examples"><pre><code>{
+  "errors": [
+    {
+      "code": "auth.forbidden",
+      "message": "You are not authorized to access this resource. Authenticate with a user account that has more privileges."
+    }
+  ]
+}
+</code></pre></div><h2>HTTP status code <a href="http://httpstatus.es/422" target="_blank">422</a></h2><p>The request body contains invalid data.</p><h3>Body</h3><p><strong>Media type</strong>: application/json</p><p><strong>Type</strong>: object</p><p><strong>Example</strong>:</p><div class="examples"><pre><code>HTTP/1.1 422 Unprocessable Entity
+Content-Type: application/json
+
+{
+  "errors": [
+    {
+      "message": "is required",
+      "type": "json",
+      "location": "/name",
+      "validator": "required",
+      "valueSet": false
+    },
+    {
+      "message": "must be a number between -90 and 90",
+      "type": "json",
+      "location": "/geometry/coordinates/1",
+      "validator": "latitude",
+      "value": 666,
+      "valueSet": true
+    }
+  ]
+}
+</code></pre></div></div></div></div></div></div></div><div class="modal fade" tabindex="0" id="locations_get"><div class="modal-dialog modal-lg"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_get">get</span> <span class="parent"></span>/locations</h4></div><div class="modal-body"><div class="alert alert-info"><p>List locations.</p></div><ul class="nav nav-tabs"><li class="active"><a href="#locations_get_request" data-toggle="tab">Request</a></li><li><a href="#locations_get_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="locations_get_request"><h3>Query Parameters</h3><ul><li><strong>bbox</strong>: <em>(array of number)</em><p>A bounding box within which all the returned locations should be.</p><p>The value must be composed of 4 comma-separated numbers:</p><ul><li>The first 2 numbers are the coordinates (longitude &amp; latitude) of the bounding box&#39;s <strong>south-west</strong> corner.</li><li>The last 2 numbers are the coordinates (longitude &amp; latitude) of the bounding box&#39;s <strong>north-east</strong> corner.</li></ul><p><strong>Example</strong>:</p><div class="examples"><pre><code>?bbox=10,20,30,40</code></pre></div></li></ul></div><div class="tab-pane" id="locations_get_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><p>The locations were successfully listed.</p><h3>Body</h3><p><strong>Media type</strong>: application/json</p><p><strong>Type</strong>: array of Location</p><p><strong>Items</strong>: Location</p><div class="items"><ul><li><strong>name</strong>: <em>required (string - minLength: 1 - maxLength: 150)</em><p>The location&#39;s name.</p></li><li><strong>shortName</strong>: <em>(string - minLength: 1 - maxLength: 30)</em><p>A shorter name for the location, if available.</p></li><li><strong>description</strong>: <em>required (string - minLength: 1 - maxLength: 2000)</em><p>A detailed description of the location.</p></li><li><strong>phone</strong>: <em>required (string - minLength: 1 - maxLength: 20)</em><p>The location&#39;s phone number.</p></li><li><strong>photoUrl</strong>: <em>required (string - maxLength: 500)</em><p>A URL of a picture of the location.</p></li><li><strong>siteUrl</strong>: <em>required (string - maxLength: 500)</em><p>A URL of the location&#39;s website or a related web page.</p></li><li><strong>geometry</strong>: <em>required (object)</em><p>The location&#39;s geographical coordinates (a GeoJSON point).</p><ul><li><strong>type</strong>: <em>required (string)</em><p>The type of GeoJSON object.</p></li><li><strong>coordinates</strong>: <em>required (array of number)</em><p>The coordinates (longitude &amp; latitude).</p></li></ul></li><li><strong>address</strong>: <em>required (object)</em><ul><li><strong>street</strong>: <em>required (string - minLength: 1 - maxLength: 150)</em><p>The street name of the location&#39;s address.</p></li><li><strong>number</strong>: <em>(string - minLength: 1 - maxLength: 15)</em><p>The street number of the location&#39;s address.</p></li><li><strong>zipCode</strong>: <em>required (string - minLength: 1 - maxLength: 15)</em><p>The zip code of the location&#39;s address.</p></li><li><strong>city</strong>: <em>required (string - minLength: 1 - maxLength: 100)</em><p>The city of the location&#39;s address.</p></li><li><strong>state</strong>: <em>required (string - minLength: 1 - maxLength: 30)</em><p>The state of the location&#39;s address.</p></li></ul></li><li><strong>properties</strong></li><li><strong>id</strong>: <em>(string)</em><p>A unique ID identifying the location.</p></li><li><strong>createdAt</strong>: <em>(datetime)</em><p>The time at which the location was created.</p></li><li><strong>updatedAt</strong>: <em>(datetime)</em><p>The time at which the location was last updated.</p></li></ul></div><p><strong>Example</strong>:</p><div class="examples"><pre><code>HTTP/1.1 200 OK
+Content-Type: application/json
+
+[
+  {
+    "id": "c821bc0f-85b4-44d5-9bbe-a30cf197c30a",
+    "name": "Somewhere over the rainbow",
+    "shortName": "Somewhere",
+    "description": "Somewhere over the rainbow blue birds fly and the dreams that you dreamed of really do come true.",
+    "phone": "5550001",
+    "photoUrl": "http://example.com/image.jpg",
+    "siteUrl": "http://example.com",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [ -73.957820, 40.772317 ]
+    },
+    "address": {
+      "street": "Riverside Drive",
+      "number": 210,
+      "city": "New York",
+      "state": "New York",
+      "zipCode": "10021"
+    },
+    "createdAt": "2000-01-01T16:30:00.123Z",
+    "updatedAt": "2000-02-03T17:00:00.123Z"
+  },
+  {
+    "id": "8b11a6fc-a1eb-4397-b585-1282c24268c4",
+    "name": "Nostrud velit sit commodo ad",
+    "description": "Laborum dolore laboris est labore commodo quis proident proident laborum laborum dolor adipisicing aliquip nisi.",
+    "phone": "5550002",
+    "photoUrl": "http://example.org/image.jpg",
+    "siteUrl": "http://example.org",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [ -98.765949, 30.751708 ]
+    },
+    "address": {
+      "street": "Shirley Ave",
+      "city": "Chicago",
+      "state": "IL",
+      "zipCode": "60185"
+    },
+    "createdAt": "2000-03-01T15:00:00.123Z",
+    "updatedAt": "2000-04-01T14:00:00.123Z"
+  }
+]
+</code></pre></div></div></div></div></div></div></div></div><div class="panel panel-white resource-modal"><div class="panel-heading"><h4 class="panel-title"><a class="collapsed" data-toggle="collapse" href="#panel_locations__id_"><span class="parent">/locations</span>/{id}</a> <span class="methods"><a href="#locations__id__get"><span class="badge badge_get">get</span></a> <a href="#locations__id__patch"><span class="badge badge_patch">patch</span></a> <a href="#locations__id__delete"><span class="badge badge_delete">delete</span></a></span></h4></div><div id="panel_locations__id_" class="panel-collapse collapse"><div class="panel-body"><div class="list-group"><div onclick="window.location.href = '#locations__id__get'" class="list-group-item"><span class="badge badge_get">get</span><div class="method_description"><p>Retrieve a single location.</p></div><div class="clearfix"></div></div><div onclick="window.location.href = '#locations__id__patch'" class="list-group-item"><span class="badge badge_patch">patch</span><div class="method_description"><p>Update a location.</p><p>This is a <strong>partial update</strong>: you may omit required properties. Only properties sent in the request body will be updated. Optional properties can be removed by setting them to <code>null</code>.</p><p>The <code>geometry</code> property must be sent in its entirety to be updated, i.e. it must be a full, valid GeoJSON point (for example, it&#39;s not possible to only send its <code>coordinates</code> property).</p></div><div class="clearfix"></div></div><div onclick="window.location.href = '#locations__id__delete'" class="list-group-item"><span class="badge badge_delete">delete</span><div class="method_description"><p>Delete a location.</p></div><div class="clearfix"></div></div></div></div></div><div class="modal fade" tabindex="0" id="locations__id__get"><div class="modal-dialog modal-lg"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_get">get</span> <span class="parent">/locations</span>/{id}</h4></div><div class="modal-body"><div class="alert alert-info"><p>Retrieve a single location.</p></div><ul class="nav nav-tabs"><li class="active"><a href="#locations__id__get_request" data-toggle="tab">Request</a></li><li><a href="#locations__id__get_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="locations__id__get_request"><h3>URI Parameters</h3><ul><li><strong>id</strong>: <em>required (string)</em><p>The unique ID of the location.</p></li></ul><h3>Query Parameters</h3><ul><li><strong>only</strong>: <em>(array of string)</em><p>Whitelist of properties to include in the response. (Properties also blacklisted with <code>except</code> will not be included.)</p><p>You may use dotted notation in complex objects, e.g. <code>sub.property</code>.</p><p><strong>Example</strong>:</p><div class="examples"><pre><code>?only=id&amp;only=name&amp;only=geometry</code></pre></div></li><li><strong>except</strong>: <em>(array of string)</em><p>Blacklist of properties not to include in the response.</p><p>You may use dotted notation in complex objects, e.g. <code>sub.property</code>.</p><p><strong>Example</strong>:</p><div class="examples"><pre><code>?except=address&amp;except=siteUrl</code></pre></div></li></ul></div><div class="tab-pane" id="locations__id__get_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><p>The location was successfully created.</p><h3>Body</h3><p><strong>Media type</strong>: application/json</p><p><strong>Type</strong>: object</p><strong>Properties</strong><ul><li><strong>name</strong>: <em>required (string - minLength: 1 - maxLength: 150)</em><p>The location&#39;s name.</p></li><li><strong>shortName</strong>: <em>(string - minLength: 1 - maxLength: 30)</em><p>A shorter name for the location, if available.</p></li><li><strong>description</strong>: <em>required (string - minLength: 1 - maxLength: 2000)</em><p>A detailed description of the location.</p></li><li><strong>phone</strong>: <em>required (string - minLength: 1 - maxLength: 20)</em><p>The location&#39;s phone number.</p></li><li><strong>photoUrl</strong>: <em>required (string - maxLength: 500)</em><p>A URL of a picture of the location.</p></li><li><strong>siteUrl</strong>: <em>required (string - maxLength: 500)</em><p>A URL of the location&#39;s website or a related web page.</p></li><li><strong>geometry</strong>: <em>required (object)</em><p>The location&#39;s geographical coordinates (a GeoJSON point).</p><ul><li><strong>type</strong>: <em>required (string)</em><p>The type of GeoJSON object.</p></li><li><strong>coordinates</strong>: <em>required (array of number)</em><p>The coordinates (longitude &amp; latitude).</p></li></ul></li><li><strong>address</strong>: <em>required (object)</em><ul><li><strong>street</strong>: <em>required (string - minLength: 1 - maxLength: 150)</em><p>The street name of the location&#39;s address.</p></li><li><strong>number</strong>: <em>(string - minLength: 1 - maxLength: 15)</em><p>The street number of the location&#39;s address.</p></li><li><strong>zipCode</strong>: <em>required (string - minLength: 1 - maxLength: 15)</em><p>The zip code of the location&#39;s address.</p></li><li><strong>city</strong>: <em>required (string - minLength: 1 - maxLength: 100)</em><p>The city of the location&#39;s address.</p></li><li><strong>state</strong>: <em>required (string - minLength: 1 - maxLength: 30)</em><p>The state of the location&#39;s address.</p></li></ul></li><li><strong>properties</strong></li><li><strong>id</strong>: <em>(string)</em><p>A unique ID identifying the location.</p></li><li><strong>createdAt</strong>: <em>(datetime)</em><p>The time at which the location was created.</p></li><li><strong>updatedAt</strong>: <em>(datetime)</em><p>The time at which the location was last updated.</p></li></ul><p><strong>Example</strong>:</p><div class="examples"><pre><code>HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+  "id": "c821bc0f-85b4-44d5-9bbe-a30cf197c30a",
+  "name": "Somewhere over the rainbow",
+  "shortName": "Somewhere",
+  "description": "Somewhere over the rainbow blue birds fly and the dreams that you dreamed of really do come true.",
+  "phone": "5550001",
+  "photoUrl": "http://example.com/image.jpg",
+  "siteUrl": "http://example.com",
+  "geometry": {
+    "type": "Point",
+    "coordinates": [ -73.957820, 40.772317 ]
+  },
+  "address": {
+    "street": "Riverside Drive",
+    "number": 210,
+    "city": "New York",
+    "state": "New York",
+    "zipCode": "10021"
+  },
+  "createdAt": "2000-01-01T16:30:00.123Z",
+  "updatedAt": "2000-02-03T17:00:00.123Z"
+}
+</code></pre></div><h2>HTTP status code <a href="http://httpstatus.es/404" target="_blank">404</a></h2><p>The requested location does not exist (or you are not authorized to access it).</p><h3>Body</h3><p><strong>Media type</strong>: application/json</p><p><strong>Type</strong>: object</p><p><strong>Example</strong>:</p><div class="examples"><pre><code>HTTP/1.1 404 Not Found
+Content-Type: application/json
+
+{
+  "errors": [
+    {
+      "code": "record.notFound",
+      "message": "No location was found with ID 7c4424de-66a0-4044-b872-c5fc77c4365."
+    }
+  ]
+}
+</code></pre></div></div></div></div></div></div></div><div class="modal fade" tabindex="0" id="locations__id__patch"><div class="modal-dialog modal-lg"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_patch">patch</span> <span class="parent">/locations</span>/{id}</h4></div><div class="modal-body"><div class="alert alert-info"><p>Update a location.</p><p>This is a <strong>partial update</strong>: you may omit required properties. Only properties sent in the request body will be updated. Optional properties can be removed by setting them to <code>null</code>.</p><p>The <code>geometry</code> property must be sent in its entirety to be updated, i.e. it must be a full, valid GeoJSON point (for example, it&#39;s not possible to only send its <code>coordinates</code> property).</p></div><ul class="nav nav-tabs"><li class="active"><a href="#locations__id__patch_request" data-toggle="tab">Request</a></li><li><a href="#locations__id__patch_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="locations__id__patch_request"><h3>URI Parameters</h3><ul><li><strong>id</strong>: <em>required (string)</em><p>The unique ID of the location.</p></li></ul><h3>Headers</h3><ul><li><strong>Authorization</strong>: <em>required (string)</em><p>You must authenticate by sending a JWT bearer token in this header. You may obtain a token by calling <code>POST /api/auth</code>.</p><p><strong>Required roles:</strong> <code>admin</code></p><p><strong>Example</strong>:</p><div class="examples"><pre><code>Authorization: Bearer eyJhbGciOiJIUzI1NiI.eyJzdWIiOiJmZDczYjM5OC04Zj.7s76ONko1DF</code></pre></div></li></ul><h3>Query Parameters</h3><ul><li><strong>only</strong>: <em>(array of string)</em><p>Whitelist of properties to include in the response. (Properties also blacklisted with <code>except</code> will not be included.)</p><p>You may use dotted notation in complex objects, e.g. <code>sub.property</code>.</p><p><strong>Example</strong>:</p><div class="examples"><pre><code>?only=id&amp;only=name&amp;only=geometry</code></pre></div></li><li><strong>except</strong>: <em>(array of string)</em><p>Blacklist of properties not to include in the response.</p><p>You may use dotted notation in complex objects, e.g. <code>sub.property</code>.</p><p><strong>Example</strong>:</p><div class="examples"><pre><code>?except=address&amp;except=siteUrl</code></pre></div></li></ul><h3>Body</h3><p><strong>Media type</strong>: application/json</p><p><strong>Type</strong>: object</p><strong>Properties</strong><ul><li><strong>name</strong>: <em>required (string - minLength: 1 - maxLength: 150)</em><p>The location&#39;s name.</p></li><li><strong>shortName</strong>: <em>(string - minLength: 1 - maxLength: 30)</em><p>A shorter name for the location, if available.</p></li><li><strong>description</strong>: <em>required (string - minLength: 1 - maxLength: 2000)</em><p>A detailed description of the location.</p></li><li><strong>phone</strong>: <em>required (string - minLength: 1 - maxLength: 20)</em><p>The location&#39;s phone number.</p></li><li><strong>photoUrl</strong>: <em>required (string - maxLength: 500)</em><p>A URL of a picture of the location.</p></li><li><strong>siteUrl</strong>: <em>required (string - maxLength: 500)</em><p>A URL of the location&#39;s website or a related web page.</p></li><li><strong>geometry</strong>: <em>required (object)</em><p>The location&#39;s geographical coordinates (a GeoJSON point).</p><ul><li><strong>type</strong>: <em>required (string)</em><p>The type of GeoJSON object.</p></li><li><strong>coordinates</strong>: <em>required (array of number)</em><p>The coordinates (longitude &amp; latitude).</p></li></ul></li><li><strong>address</strong>: <em>required (object)</em><ul><li><strong>street</strong>: <em>required (string - minLength: 1 - maxLength: 150)</em><p>The street name of the location&#39;s address.</p></li><li><strong>number</strong>: <em>(string - minLength: 1 - maxLength: 15)</em><p>The street number of the location&#39;s address.</p></li><li><strong>zipCode</strong>: <em>required (string - minLength: 1 - maxLength: 15)</em><p>The zip code of the location&#39;s address.</p></li><li><strong>city</strong>: <em>required (string - minLength: 1 - maxLength: 100)</em><p>The city of the location&#39;s address.</p></li><li><strong>state</strong>: <em>required (string - minLength: 1 - maxLength: 30)</em><p>The state of the location&#39;s address.</p></li></ul></li><li><strong>properties</strong></li></ul><p><strong>Example</strong>:</p><div class="examples"><pre><code>PATCH /api/locations/c821bc0f-85b4-44d5-9bbe-a30cf197c30a HTTP/1.1
+Content-Type: application/json
+
+{
+  "name": "Somewhere over the rainbow",
+  "shortName": null,
+  "phone": "5550001",
+  "siteUrl": "http://example.com",
+  "geometry": {
+    "type": "Point",
+    "coordinates": [ -73.957820, 40.772317 ]
+  },
+  "address": {
+    "street": "Riverside Drive",
+    "city": "New York"
+  }
+}
+</code></pre></div></div><div class="tab-pane" id="locations__id__patch_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><p>The location was successfully updated.</p><h3>Body</h3><p><strong>Media type</strong>: application/json</p><p><strong>Type</strong>: object</p><strong>Properties</strong><ul><li><strong>name</strong>: <em>required (string - minLength: 1 - maxLength: 150)</em><p>The location&#39;s name.</p></li><li><strong>shortName</strong>: <em>(string - minLength: 1 - maxLength: 30)</em><p>A shorter name for the location, if available.</p></li><li><strong>description</strong>: <em>required (string - minLength: 1 - maxLength: 2000)</em><p>A detailed description of the location.</p></li><li><strong>phone</strong>: <em>required (string - minLength: 1 - maxLength: 20)</em><p>The location&#39;s phone number.</p></li><li><strong>photoUrl</strong>: <em>required (string - maxLength: 500)</em><p>A URL of a picture of the location.</p></li><li><strong>siteUrl</strong>: <em>required (string - maxLength: 500)</em><p>A URL of the location&#39;s website or a related web page.</p></li><li><strong>geometry</strong>: <em>required (object)</em><p>The location&#39;s geographical coordinates (a GeoJSON point).</p><ul><li><strong>type</strong>: <em>required (string)</em><p>The type of GeoJSON object.</p></li><li><strong>coordinates</strong>: <em>required (array of number)</em><p>The coordinates (longitude &amp; latitude).</p></li></ul></li><li><strong>address</strong>: <em>required (object)</em><ul><li><strong>street</strong>: <em>required (string - minLength: 1 - maxLength: 150)</em><p>The street name of the location&#39;s address.</p></li><li><strong>number</strong>: <em>(string - minLength: 1 - maxLength: 15)</em><p>The street number of the location&#39;s address.</p></li><li><strong>zipCode</strong>: <em>required (string - minLength: 1 - maxLength: 15)</em><p>The zip code of the location&#39;s address.</p></li><li><strong>city</strong>: <em>required (string - minLength: 1 - maxLength: 100)</em><p>The city of the location&#39;s address.</p></li><li><strong>state</strong>: <em>required (string - minLength: 1 - maxLength: 30)</em><p>The state of the location&#39;s address.</p></li></ul></li><li><strong>properties</strong></li><li><strong>id</strong>: <em>(string)</em><p>A unique ID identifying the location.</p></li><li><strong>createdAt</strong>: <em>(datetime)</em><p>The time at which the location was created.</p></li><li><strong>updatedAt</strong>: <em>(datetime)</em><p>The time at which the location was last updated.</p></li></ul><p><strong>Example</strong>:</p><div class="examples"><pre><code>HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+  "id": "c821bc0f-85b4-44d5-9bbe-a30cf197c30a",
+  "name": "Somewhere over the rainbow",
+  "description": "Somewhere over the rainbow blue birds fly and the dreams that you dreamed of really do come true.",
+  "phone": "5550001",
+  "photoUrl": "http://example.com/image.jpg",
+  "siteUrl": "http://example.com",
+  "geometry": {
+    "type": "Point",
+    "coordinates": [ -73.957820, 40.772317 ]
+  },
+  "address": {
+    "street": "Riverside Drive",
+    "number": 210,
+    "city": "New York",
+    "state": "New York",
+    "zipCode": "10021"
+  },
+  "createdAt": "2000-01-01T16:30:00.123Z",
+  "updatedAt": "2000-02-03T17:00:00.123Z"
+}
+</code></pre></div><h2>HTTP status code <a href="http://httpstatus.es/400" target="_blank">400</a></h2><p>The request body is not valid JSON.</p><h3>Body</h3><p><strong>Media type</strong>: text/html</p><p><strong>Type</strong>: object</p><p><strong>Example</strong>:</p><div class="examples"><pre><code>HTTP/1.1 400 Bad Request
+Content-Type: text/html
+
+Error: Unexpected token } in JSON at position 0
+</code></pre></div><h2>HTTP status code <a href="http://httpstatus.es/401" target="_blank">401</a></h2><p>Authentication is required to access this resource. Either you have not authenticated or your credentials are invalid.</p><h3>Body</h3><p><strong>Media type</strong>: application/json</p><p><strong>Type</strong>: object</p><p><strong>Examples</strong>:</p><div class="examples"><p><strong>Missing authentication</strong>:<br>You have not sent an Authorization header in the request.</p><pre><code>{
+  "errors": [
+    {
+      "code": "auth.missingAuthorization",
+      "message": "Authentication is required to access this resource. Authenticate by providing a Bearer token in the Authorization header."
+    }
+  ]
+}
+</code></pre><p><strong>Malformed authentication</strong>:<br>The Authorization header of our request is not in the correct format. The required format is `Bearer TOKEN` where `TOKEN` is a valid JWT that you obtained by calling `POST /api/auth`.</p><pre><code>{
+  "errors": [
+    {
+      "code": "auth.malformedAuthorization",
+      "message": "The Authorization header is not in the correct format. It should be \"Authorization: Bearer TOKEN\"."
+    }
+  ]
+}
+</code></pre><p><strong>Invalid authentication</strong>:<br>The JWT bearer token you have sent in the Authorization header is invalid or has expired.</p><pre><code>{
+  "errors": [
+    {
+      "code": "auth.invalidAuthorization",
+      "message": "The Bearer token supplied in the Authorization header is invalid or has expired."
+    }
+  ]
+}
+</code></pre></div><h2>HTTP status code <a href="http://httpstatus.es/403" target="_blank">403</a></h2><p>Your user account is not authorized to access this resource. Contact the administrator to request more privileges.</p><h3>Body</h3><p><strong>Media type</strong>: application/json</p><p><strong>Type</strong>: object</p><p><strong>Example</strong>:</p><div class="examples"><pre><code>{
+  "errors": [
+    {
+      "code": "auth.forbidden",
+      "message": "You are not authorized to access this resource. Authenticate with a user account that has more privileges."
+    }
+  ]
+}
+</code></pre></div><h2>HTTP status code <a href="http://httpstatus.es/404" target="_blank">404</a></h2><p>The requested location does not exist (or you are not authorized to access it).</p><h3>Body</h3><p><strong>Media type</strong>: application/json</p><p><strong>Type</strong>: object</p><p><strong>Example</strong>:</p><div class="examples"><pre><code>HTTP/1.1 404 Not Found
+Content-Type: application/json
+
+{
+  "errors": [
+    {
+      "code": "record.notFound",
+      "message": "No location was found with ID 7c4424de-66a0-4044-b872-c5fc77c4365."
+    }
+  ]
+}
+</code></pre></div><h2>HTTP status code <a href="http://httpstatus.es/422" target="_blank">422</a></h2><p>The request body contains invalid data.</p><h3>Body</h3><p><strong>Media type</strong>: application/json</p><p><strong>Type</strong>: object</p><p><strong>Example</strong>:</p><div class="examples"><pre><code>HTTP/1.1 422 Unprocessable Entity
+Content-Type: application/json
+
+{
+  "errors": [
+    {
+      "message": "must be of type string",
+      "type": "json",
+      "location": "/phone",
+      "types": [ "string" ],
+      "validator": "type",
+      "value": 5550000,
+      "valueSet": true
+    },
+    {
+      "message": "must be a number between -90 and 90",
+      "type": "json",
+      "location": "/geometry/coordinates/1",
+      "validator": "latitude",
+      "value": 666,
+      "valueSet": true
+    }
+  ]
+}
+</code></pre></div></div></div></div></div></div></div><div class="modal fade" tabindex="0" id="locations__id__delete"><div class="modal-dialog modal-lg"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_delete">delete</span> <span class="parent">/locations</span>/{id}</h4></div><div class="modal-body"><div class="alert alert-info"><p>Delete a location.</p></div><ul class="nav nav-tabs"><li class="active"><a href="#locations__id__delete_request" data-toggle="tab">Request</a></li><li><a href="#locations__id__delete_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="locations__id__delete_request"><h3>URI Parameters</h3><ul><li><strong>id</strong>: <em>required (string)</em><p>The unique ID of the location.</p></li></ul><h3>Headers</h3><ul><li><strong>Authorization</strong>: <em>required (string)</em><p>You must authenticate by sending a JWT bearer token in this header. You may obtain a token by calling <code>POST /api/auth</code>.</p><p><strong>Required roles:</strong> <code>admin</code></p><p><strong>Example</strong>:</p><div class="examples"><pre><code>Authorization: Bearer eyJhbGciOiJIUzI1NiI.eyJzdWIiOiJmZDczYjM5OC04Zj.7s76ONko1DF</code></pre></div></li></ul></div><div class="tab-pane" id="locations__id__delete_response"><h2>HTTP status code <a href="http://httpstatus.es/204" target="_blank">204</a></h2><p>The location was successfully deleted.</p><h2>HTTP status code <a href="http://httpstatus.es/401" target="_blank">401</a></h2><p>Authentication is required to access this resource. Either you have not authenticated or your credentials are invalid.</p><h3>Body</h3><p><strong>Media type</strong>: application/json</p><p><strong>Type</strong>: object</p><p><strong>Examples</strong>:</p><div class="examples"><p><strong>Missing authentication</strong>:<br>You have not sent an Authorization header in the request.</p><pre><code>{
+  "errors": [
+    {
+      "code": "auth.missingAuthorization",
+      "message": "Authentication is required to access this resource. Authenticate by providing a Bearer token in the Authorization header."
+    }
+  ]
+}
+</code></pre><p><strong>Malformed authentication</strong>:<br>The Authorization header of our request is not in the correct format. The required format is `Bearer TOKEN` where `TOKEN` is a valid JWT that you obtained by calling `POST /api/auth`.</p><pre><code>{
+  "errors": [
+    {
+      "code": "auth.malformedAuthorization",
+      "message": "The Authorization header is not in the correct format. It should be \"Authorization: Bearer TOKEN\"."
+    }
+  ]
+}
+</code></pre><p><strong>Invalid authentication</strong>:<br>The JWT bearer token you have sent in the Authorization header is invalid or has expired.</p><pre><code>{
+  "errors": [
+    {
+      "code": "auth.invalidAuthorization",
+      "message": "The Bearer token supplied in the Authorization header is invalid or has expired."
+    }
+  ]
+}
+</code></pre></div><h2>HTTP status code <a href="http://httpstatus.es/403" target="_blank">403</a></h2><p>Your user account is not authorized to access this resource. Contact the administrator to request more privileges.</p><h3>Body</h3><p><strong>Media type</strong>: application/json</p><p><strong>Type</strong>: object</p><p><strong>Example</strong>:</p><div class="examples"><pre><code>{
+  "errors": [
+    {
+      "code": "auth.forbidden",
+      "message": "You are not authorized to access this resource. Authenticate with a user account that has more privileges."
+    }
+  ]
+}
+</code></pre></div><h2>HTTP status code <a href="http://httpstatus.es/404" target="_blank">404</a></h2><p>The requested location does not exist (or you are not authorized to access it).</p><h3>Body</h3><p><strong>Media type</strong>: application/json</p><p><strong>Type</strong>: object</p><p><strong>Example</strong>:</p><div class="examples"><pre><code>HTTP/1.1 404 Not Found
+Content-Type: application/json
+
+{
+  "errors": [
+    {
+      "code": "record.notFound",
+      "message": "No location was found with ID 7c4424de-66a0-4044-b872-c5fc77c4365."
+    }
+  ]
+}
+</code></pre></div></div></div></div></div></div></div></div></div></div></div><div class="panel panel-default"><div class="panel-heading"><h3 id="me" class="panel-title">Account</h3></div><div class="panel-body"><div class="top-resource-description"><p>Management of your user account.</p></div><div class="panel-group"><div class="panel panel-white resource-modal"><div class="panel-heading"><h4 class="panel-title"><a class="collapsed" data-toggle="collapse" href="#panel_me"><span class="parent"></span>/me</a> <span class="methods"><a href="#me_get"><span class="badge badge_get">get</span></a></span></h4></div><div id="panel_me" class="panel-collapse collapse"><div class="panel-body"><div class="list-group"><div onclick="window.location.href = '#me_get'" class="list-group-item"><span class="badge badge_get">get</span><div class="method_description"><p>Retrieve your own user account.</p></div><div class="clearfix"></div></div></div></div></div><div class="modal fade" tabindex="0" id="me_get"><div class="modal-dialog modal-lg"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_get">get</span> <span class="parent"></span>/me</h4></div><div class="modal-body"><div class="alert alert-info"><p>Retrieve your own user account.</p></div><ul class="nav nav-tabs"><li class="active"><a href="#me_get_request" data-toggle="tab">Request</a></li><li><a href="#me_get_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="me_get_request"><h3>Headers</h3><ul><li><strong>Authorization</strong>: <em>required (string)</em><p>You must authenticate by sending a JWT bearer token in this header. You may obtain a token by calling <code>POST /api/auth</code>.</p><p><strong>Required roles:</strong> <code>none</code></p><p><strong>Example</strong>:</p><div class="examples"><pre><code>Authorization: Bearer eyJhbGciOiJIUzI1NiI.eyJzdWIiOiJmZDczYjM5OC04Zj.7s76ONko1DF</code></pre></div></li></ul><h3>Query Parameters</h3><ul><li><strong>only</strong>: <em>(array of string)</em><p>Whitelist of properties to include in the response. (Properties also blacklisted with <code>except</code> will not be included.)</p><p>You may use dotted notation in complex objects, e.g. <code>sub.property</code>.</p><p><strong>Example</strong>:</p><div class="examples"><pre><code>?only=id&amp;only=email</code></pre></div></li><li><strong>except</strong>: <em>(array of string)</em><p>Blacklist of properties not to include in the response.</p><p>You may use dotted notation in complex objects, e.g. <code>sub.property</code>.</p><p><strong>Example</strong>:</p><div class="examples"><pre><code>?except=roles&amp;except=updatedAt</code></pre></div></li></ul></div><div class="tab-pane" id="me_get_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><p>Your user account was successfully retrieved.</p><h3>Body</h3><p><strong>Media type</strong>: application/json</p><p><strong>Type</strong>: object</p><strong>Properties</strong><ul><li><strong>active</strong>: <em>(boolean)</em><p>If false, the user account cannot authenticate and is not authorized to perform any action. New user accounts start active, but can be deactivated by an administrator.</p></li><li><strong>createdAt</strong>: <em>(datetime)</em><p>The time at which the user account was created.</p></li><li><strong>email</strong>: <em>(string)</em><p>The e-mail address associated to the user account.</p></li><li><strong>id</strong>: <em>(string)</em><p>The unique ID identifying the user account.</p></li><li><strong>roles</strong>: <em>(array of string)</em><p>The roles the user is authorized to perform.</p></li><li><strong>updatedAt</strong>: <em>(datetime)</em><p>The time at which the user account was last updated.</p></li></ul><p><strong>Example</strong>:</p><div class="examples"><pre><code>HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+  "active": true,
+  "createdAt": "2000-01-01T16:30:00.123Z",
+  "email": "jdoe@example.com",
+  "id": "10d38b2c-b7ed-41de-986c-bff87031291e",
+  "roles": [
+    "admin"
+  ],
+  "updatedAt": "2000-02-03T17:00:00.123Z"
+}
+</code></pre></div><h2>HTTP status code <a href="http://httpstatus.es/401" target="_blank">401</a></h2><p>Authentication is required to access this resource. Either you have not authenticated or your credentials are invalid.</p><h3>Body</h3><p><strong>Media type</strong>: application/json</p><p><strong>Type</strong>: object</p><p><strong>Examples</strong>:</p><div class="examples"><p><strong>Missing authentication</strong>:<br>You have not sent an Authorization header in the request.</p><pre><code>{
+  "errors": [
+    {
+      "code": "auth.missingAuthorization",
+      "message": "Authentication is required to access this resource. Authenticate by providing a Bearer token in the Authorization header."
+    }
+  ]
+}
+</code></pre><p><strong>Malformed authentication</strong>:<br>The Authorization header of our request is not in the correct format. The required format is `Bearer TOKEN` where `TOKEN` is a valid JWT that you obtained by calling `POST /api/auth`.</p><pre><code>{
+  "errors": [
+    {
+      "code": "auth.malformedAuthorization",
+      "message": "The Authorization header is not in the correct format. It should be \"Authorization: Bearer TOKEN\"."
+    }
+  ]
+}
+</code></pre><p><strong>Invalid authentication</strong>:<br>The JWT bearer token you have sent in the Authorization header is invalid or has expired.</p><pre><code>{
+  "errors": [
+    {
+      "code": "auth.invalidAuthorization",
+      "message": "The Bearer token supplied in the Authorization header is invalid or has expired."
+    }
+  ]
+}
+</code></pre></div><h2>HTTP status code <a href="http://httpstatus.es/403" target="_blank">403</a></h2><p>Your user account is not authorized to access this resource. Contact the administrator to request more privileges.</p><h3>Body</h3><p><strong>Media type</strong>: application/json</p><p><strong>Type</strong>: object</p><p><strong>Example</strong>:</p><div class="examples"><pre><code>{
+  "errors": [
+    {
+      "code": "auth.forbidden",
+      "message": "You are not authorized to access this resource. Authenticate with a user account that has more privileges."
+    }
+  ]
+}
+</code></pre></div></div></div></div></div></div></div></div></div></div></div><div class="panel panel-default"><div class="panel-heading"><h3 id="users" class="panel-title">Users</h3></div><div class="panel-body"><div class="top-resource-description"><p>Management of BioPocket user accounts.</p></div><div class="panel-group"><div class="panel panel-white resource-modal"><div class="panel-heading"><h4 class="panel-title"><a class="collapsed" data-toggle="collapse" href="#panel_users__id_"><span class="parent">/users</span>/{id}</a> <span class="methods"><a href="#users__id__get"><span class="badge badge_get">get</span></a></span></h4></div><div id="panel_users__id_" class="panel-collapse collapse"><div class="panel-body"><div class="list-group"><div onclick="window.location.href = '#users__id__get'" class="list-group-item"><span class="badge badge_get">get</span><div class="method_description"><p>Retrieve a user account.</p></div><div class="clearfix"></div></div></div></div></div><div class="modal fade" tabindex="0" id="users__id__get"><div class="modal-dialog modal-lg"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_get">get</span> <span class="parent">/users</span>/{id}</h4></div><div class="modal-body"><div class="alert alert-info"><p>Retrieve a user account.</p></div><ul class="nav nav-tabs"><li class="active"><a href="#users__id__get_request" data-toggle="tab">Request</a></li><li><a href="#users__id__get_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="users__id__get_request"><h3>URI Parameters</h3><ul><li><strong>id</strong>: <em>required (string)</em><p>The unique ID of the user account.</p></li></ul><h3>Headers</h3><ul><li><strong>Authorization</strong>: <em>required (string)</em><p>You must authenticate by sending a JWT bearer token in this header. You may obtain a token by calling <code>POST /api/auth</code>.</p><p><strong>Required roles:</strong> <code>admin (or you must be the owner of the user account)</code></p><p><strong>Example</strong>:</p><div class="examples"><pre><code>Authorization: Bearer eyJhbGciOiJIUzI1NiI.eyJzdWIiOiJmZDczYjM5OC04Zj.7s76ONko1DF</code></pre></div></li></ul><h3>Query Parameters</h3><ul><li><strong>only</strong>: <em>(array of string)</em><p>Whitelist of properties to include in the response. (Properties also blacklisted with <code>except</code> will not be included.)</p><p>You may use dotted notation in complex objects, e.g. <code>sub.property</code>.</p><p><strong>Example</strong>:</p><div class="examples"><pre><code>?only=id&amp;only=email</code></pre></div></li><li><strong>except</strong>: <em>(array of string)</em><p>Blacklist of properties not to include in the response.</p><p>You may use dotted notation in complex objects, e.g. <code>sub.property</code>.</p><p><strong>Example</strong>:</p><div class="examples"><pre><code>?except=roles&amp;except=updatedAt</code></pre></div></li></ul></div><div class="tab-pane" id="users__id__get_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><p>The user account was successfully retrieved.</p><h3>Body</h3><p><strong>Media type</strong>: application/json</p><p><strong>Type</strong>: object</p><strong>Properties</strong><ul><li><strong>active</strong>: <em>(boolean)</em><p>If false, the user account cannot authenticate and is not authorized to perform any action. New user accounts start active, but can be deactivated by an administrator.</p></li><li><strong>createdAt</strong>: <em>(datetime)</em><p>The time at which the user account was created.</p></li><li><strong>email</strong>: <em>(string)</em><p>The e-mail address associated to the user account.</p></li><li><strong>id</strong>: <em>(string)</em><p>The unique ID identifying the user account.</p></li><li><strong>roles</strong>: <em>(array of string)</em><p>The roles the user is authorized to perform.</p></li><li><strong>updatedAt</strong>: <em>(datetime)</em><p>The time at which the user account was last updated.</p></li></ul><p><strong>Example</strong>:</p><div class="examples"><pre><code>HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+  "active": true,
+  "createdAt": "2000-01-01T16:30:00.123Z",
+  "email": "jdoe@example.com",
+  "id": "10d38b2c-b7ed-41de-986c-bff87031291e",
+  "roles": [
+    "admin"
+  ],
+  "updatedAt": "2000-02-03T17:00:00.123Z"
+}
+</code></pre></div><h2>HTTP status code <a href="http://httpstatus.es/401" target="_blank">401</a></h2><p>Authentication is required to access this resource. Either you have not authenticated or your credentials are invalid.</p><h3>Body</h3><p><strong>Media type</strong>: application/json</p><p><strong>Type</strong>: object</p><p><strong>Examples</strong>:</p><div class="examples"><p><strong>Missing authentication</strong>:<br>You have not sent an Authorization header in the request.</p><pre><code>{
+  "errors": [
+    {
+      "code": "auth.missingAuthorization",
+      "message": "Authentication is required to access this resource. Authenticate by providing a Bearer token in the Authorization header."
+    }
+  ]
+}
+</code></pre><p><strong>Malformed authentication</strong>:<br>The Authorization header of our request is not in the correct format. The required format is `Bearer TOKEN` where `TOKEN` is a valid JWT that you obtained by calling `POST /api/auth`.</p><pre><code>{
+  "errors": [
+    {
+      "code": "auth.malformedAuthorization",
+      "message": "The Authorization header is not in the correct format. It should be \"Authorization: Bearer TOKEN\"."
+    }
+  ]
+}
+</code></pre><p><strong>Invalid authentication</strong>:<br>The JWT bearer token you have sent in the Authorization header is invalid or has expired.</p><pre><code>{
+  "errors": [
+    {
+      "code": "auth.invalidAuthorization",
+      "message": "The Bearer token supplied in the Authorization header is invalid or has expired."
+    }
+  ]
+}
+</code></pre></div><h2>HTTP status code <a href="http://httpstatus.es/403" target="_blank">403</a></h2><p>Your user account is not authorized to access this resource. Contact the administrator to request more privileges.</p><h3>Body</h3><p><strong>Media type</strong>: application/json</p><p><strong>Type</strong>: object</p><p><strong>Example</strong>:</p><div class="examples"><pre><code>{
+  "errors": [
+    {
+      "code": "auth.forbidden",
+      "message": "You are not authorized to access this resource. Authenticate with a user account that has more privileges."
+    }
+  ]
+}
+</code></pre></div><h2>HTTP status code <a href="http://httpstatus.es/404" target="_blank">404</a></h2><p>The requested user does not exist (or you are not authorized to access it).</p><h3>Body</h3><p><strong>Media type</strong>: application/json</p><p><strong>Type</strong>: object</p><p><strong>Example</strong>:</p><div class="examples"><pre><code>HTTP/1.1 404 Not Found
+Content-Type: application/json
+
+{
+  "errors": [
+    {
+      "code": "record.notFound",
+      "message": "No user was found with ID 7c4424de-66a0-4044-b872-c5fc77c4365."
+    }
+  ]
+}
+</code></pre></div></div></div></div></div></div></div></div></div></div></div></div><div class="col-md-3"><div id="sidebar" class="hidden-print affix" role="complementary"><ul class="nav nav-pills nav-stacked"><li><a href="#auth">Authentication</a></li><li><a href="#locations">Locations</a></li><li><a href="#me">Account</a></li><li><a href="#users">Users</a></li></ul></div></div></div></div></body></html>

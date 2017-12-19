@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>server/api/utils/api.js - Documentation</title>
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Abstract.html">Abstract</a><ul class='methods'><li data-type='method'><a href="Abstract.html#parseFrom">parseFrom</a></li><li data-type='method'><a href="Abstract.html#serializeTo">serializeTo</a></li></ul></li><li><a href="Database.html">Database</a><ul class='methods'><li data-type='method'><a href="Database.html#close">close</a></li><li data-type='method'><a href="Database.html#open">open</a></li></ul></li><li><a href="Location.html">Location</a><ul class='methods'><li data-type='method'><a href="Location.html#parseFrom">parseFrom</a></li><li data-type='method'><a href="Location.html#serializeTo">serializeTo</a></li></ul></li><li><a href="module-scripts.AnonymizeScript.html">AnonymizeScript</a></li><li><a href="module-scripts.CreateAdminScript.html">CreateAdminScript</a></li><li><a href="module-scripts.SampleDataScript.html">SampleDataScript</a></li><li><a href="module-scripts-Script.html">Script</a><ul class='methods'><li data-type='method'><a href="module-scripts-Script.html#autoRun">autoRun</a></li><li data-type='method'><a href="module-scripts-Script.html#exit">exit</a></li><li data-type='method'><a href="module-scripts-Script.html#onFailure">onFailure</a></li><li data-type='method'><a href="module-scripts-Script.html#onSuccess">onSuccess</a></li><li data-type='method'><a href="module-scripts-Script.html#run">run</a></li></ul></li><li><a href="module-server_api_utils_errors-ApiError.html">ApiError</a></li><li><a href="User.html">User</a><ul class='methods'><li data-type='method'><a href="User.html#generateJwt">generateJwt</a></li><li data-type='method'><a href="User.html#hasPassword">hasPassword</a></li><li data-type='method'><a href="User.html#hasRole">hasRole</a></li><li data-type='method'><a href="User.html#isActive">isActive</a></li><li data-type='method'><a href="User.html#parseFrom">parseFrom</a></li><li data-type='method'><a href="User.html#serializeTo">serializeTo</a></li></ul></li></ul><h3>Modules</h3><ul><li><a href="module-scripts.html">scripts</a></li><li><a href="module-server_api_auth.html">server/api/auth</a><ul class='methods'><li data-type='method'><a href="module-server_api_auth.html#.authenticate">authenticate</a></li><li data-type='method'><a href="module-server_api_auth.html#.canAuthenticate">canAuthenticate</a></li></ul></li><li><a href="module-server_api_locations.html">server/api/locations</a><ul class='methods'><li data-type='method'><a href="module-server_api_locations.html#.canCreate">canCreate</a></li><li data-type='method'><a href="module-server_api_locations.html#.canDestroy">canDestroy</a></li><li data-type='method'><a href="module-server_api_locations.html#.canList">canList</a></li><li data-type='method'><a href="module-server_api_locations.html#.canRetrieve">canRetrieve</a></li><li data-type='method'><a href="module-server_api_locations.html#.canUpdate">canUpdate</a></li><li data-type='method'><a href="module-server_api_locations.html#.create">create</a></li><li data-type='method'><a href="module-server_api_locations.html#.destroy">destroy</a></li><li data-type='method'><a href="module-server_api_locations.html#.fetchLocation">fetchLocation</a></li><li data-type='method'><a href="module-server_api_locations.html#.list">list</a></li><li data-type='method'><a href="module-server_api_locations.html#.parse">parse</a></li><li data-type='method'><a href="module-server_api_locations.html#.retrieve">retrieve</a></li><li data-type='method'><a href="module-server_api_locations.html#.serialize">serialize</a></li><li data-type='method'><a href="module-server_api_locations.html#.update">update</a></li><li data-type='method'><a href="module-server_api_locations.html#~validateListRequest">validateListRequest</a></li><li data-type='method'><a href="module-server_api_locations.html#~validateLocation">validateLocation</a></li></ul></li><li><a href="module-server_api_users.html">server/api/users</a><ul class='methods'><li data-type='method'><a href="module-server_api_users.html#.canRetrieve">canRetrieve</a></li><li data-type='method'><a href="module-server_api_users.html#.fetchMe">fetchMe</a></li><li data-type='method'><a href="module-server_api_users.html#.fetchUser">fetchUser</a></li><li data-type='method'><a href="module-server_api_users.html#.retrieve">retrieve</a></li><li data-type='method'><a href="module-server_api_users.html#.serialize">serialize</a></li></ul></li><li><a href="module-server_api_utils_api.html">server/api/utils/api</a><ul class='methods'><li data-type='method'><a href="module-server_api_utils_api.html#.fetcher">fetcher</a></li><li data-type='method'><a href="module-server_api_utils_api.html#.route">route</a></li><li data-type='method'><a href="module-server_api_utils_api.html#.transactionalRoute">transactionalRoute</a></li></ul></li><li><a href="module-server_api_utils_auth.html">server/api/utils/auth</a><ul class='methods'><li data-type='method'><a href="module-server_api_utils_auth.html#~authenticatedResourceLoader">authenticatedResourceLoader</a></li><li data-type='method'><a href="module-server_api_utils_auth.html#~authenticationErrorHandler">authenticationErrorHandler</a></li><li data-type='method'><a href="module-server_api_utils_auth.html#~authorizationErrorHandler">authorizationErrorHandler</a></li></ul></li><li><a href="module-server_api_utils_errors.html">server/api/utils/errors</a><ul class='methods'><li data-type='method'><a href="module-server_api_utils_errors.html#.forbidden">forbidden</a></li><li data-type='method'><a href="module-server_api_utils_errors.html#.invalidAuthorization">invalidAuthorization</a></li><li data-type='method'><a href="module-server_api_utils_errors.html#.malformedAuthorization">malformedAuthorization</a></li><li data-type='method'><a href="module-server_api_utils_errors.html#.missingAuthorization">missingAuthorization</a></li><li data-type='method'><a href="module-server_api_utils_errors.html#.notFound">notFound</a></li><li data-type='method'><a href="module-server_api_utils_errors.html#.recordNotFound">recordNotFound</a></li><li data-type='method'><a href="module-server_api_utils_errors.html#.unauthorized">unauthorized</a></li></ul></li><li><a href="module-server_api_utils_filters.html">server/api/utils/filters</a><ul class='methods'><li data-type='method'><a href="module-server_api_utils_filters.html#.bbox">bbox</a></li></ul></li><li><a href="module-server_api_utils_policy.html">server/api/utils/policy</a><ul class='methods'><li data-type='method'><a href="module-server_api_utils_policy.html#.hasRole">hasRole</a></li><li data-type='method'><a href="module-server_api_utils_policy.html#.sameRecord">sameRecord</a></li></ul></li><li><a href="module-server_api_utils_validation.html">server/api/utils/validation</a><ul class='methods'><li data-type='method'><a href="module-server_api_utils_validation.html#.validateRequestBody">validateRequestBody</a></li><li data-type='method'><a href="module-server_api_utils_validation.html#.validateValue">validateValue</a></li></ul></li><li><a href="module-server_api_validators_generic.html">server/api/validators/generic</a><ul class='methods'><li data-type='method'><a href="module-server_api_validators_generic.html#.equals">equals</a></li><li data-type='method'><a href="module-server_api_validators_generic.html#.isSetAndNotNull">isSetAndNotNull</a></li><li data-type='method'><a href="module-server_api_validators_generic.html#.properties">properties</a></li><li data-type='method'><a href="module-server_api_validators_generic.html#.query">query</a></li></ul></li><li><a href="module-server_api_validators_geojson.html">server/api/validators/geojson</a><ul class='methods'><li data-type='method'><a href="module-server_api_validators_geojson.html#.bboxString">bboxString</a></li><li data-type='method'><a href="module-server_api_validators_geojson.html#.point">point</a></li></ul></li><li><a href="module-server_spec_fixtures_geojson.html">server/spec/fixtures/geojson</a><ul class='methods'><li data-type='method'><a href="module-server_spec_fixtures_geojson.html#.coordinates">coordinates</a></li><li data-type='method'><a href="module-server_spec_fixtures_geojson.html#.point">point</a></li></ul></li><li><a href="module-server_spec_fixtures_location.html">server/spec/fixtures/location</a><ul class='methods'><li data-type='method'><a href="module-server_spec_fixtures_location.html#.location">location</a></li><li data-type='method'><a href="module-server_spec_fixtures_location.html#.name">name</a></li><li data-type='method'><a href="module-server_spec_fixtures_location.html#.shortName">shortName</a></li></ul></li><li><a href="module-server_spec_fixtures_user.html">server/spec/fixtures/user</a><ul class='methods'><li data-type='method'><a href="module-server_spec_fixtures_user.html#.admin">admin</a></li><li data-type='method'><a href="module-server_spec_fixtures_user.html#.email">email</a></li><li data-type='method'><a href="module-server_spec_fixtures_user.html#.password">password</a></li><li data-type='method'><a href="module-server_spec_fixtures_user.html#.user">user</a></li></ul></li><li><a href="module-server_spec_utils.html">server/spec/utils</a><ul class='methods'><li data-type='method'><a href="module-server_spec_utils.html#.expectDeleted">expectDeleted</a></li><li data-type='method'><a href="module-server_spec_utils.html#.expectErrors">expectErrors</a></li><li data-type='method'><a href="module-server_spec_utils.html#.expectUnchanged">expectUnchanged</a></li></ul></li><li><a href="module-server_utils_express.html">server/utils/express</a><ul class='methods'><li data-type='method'><a href="module-server_utils_express.html#.ensureRequest">ensureRequest</a></li><li data-type='method'><a href="module-server_utils_express.html#.logger">logger</a></li></ul></li><li><a href="module-server_utils_jwt.html">server/utils/jwt</a><ul class='methods'><li data-type='method'><a href="module-server_utils_jwt.html#.generateToken">generateToken</a></li></ul></li><li><a href="module-server_utils_knex.html">server/utils/knex</a><ul class='methods'><li data-type='method'><a href="module-server_utils_knex.html#.logger">logger</a></li></ul></li><li><a href="module-utils.html">utils</a><ul class='methods'><li data-type='method'><a href="module-utils.html#.logMigration">logMigration</a></li></ul></li></ul>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">server/api/utils/api.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * API utilities.
+ *
+ * @module server/api/utils/api
+ */
+const _ = require('lodash');
+
+const db = require('../../db');
+const errors = require('./errors');
+
+/**
+ * Creates a middleware function that will fetch the record identified by the
+ * current URL and attach it to the request. If no record is found, an HTTP 404
+ * Not Found response will be sent.
+ *
+ *     const fetcher = require('./fetcher');
+ *     const User = require('./models/user');
+ *
+ *     const fetchUser = fetcher({
+ *       model: User,
+ *       resourceName: 'user'
+ *     });
+ *
+ *     router.get('/api/users/:id', fetchUser, (req, res) => {
+ *       // req.user has been fetched, or HTTP 404 not found sent
+ *       res.send(req.user);
+ *     });
+ *
+ * @param {object} options - Fetcher options.
+ *
+ * @param {function} options.model - The database model to use to fetch the resource.
+ *
+ * @param {string} options.resourceName - The name of the API resource (used in error messages).
+ *
+ * @param {string} [options.column] - The database column containing the identifier (defaults to `api_id`).
+ *
+ * @param {string} [options.urlParameter] - The URL parameter containing the resource identifier (defaults to `id`).
+ *
+ * @param {function} [options.queryHandler] - An optional function to modify the database query (it will receive
+ *   the query and the request as arguments, and should return the updated query).
+ *
+ * @param {string} [options.requestProperty] - The request property to attach the fetched record to (defaults to `options.resourceName`).
+ *
+ * @param {string[]} [options.eagerLoad] - Relations to eager-load when fetching the resource.
+ *
+ * @returns {function} A middleware function.
+ */
+exports.fetcher = function(options) {
+  if (!_.isObject(options)) {
+    throw new Error('An options object is required');
+  } else if (!_.isFunction(options.model)) {
+    throw new Error('The "model" option must be a database model');
+  } else if (_.has(options, 'queryHandler') &amp;&amp; !_.isFunction(options.queryHandler)) {
+    throw new Error('The "queryHandler" option must be a function');
+  } else if (!_.isString(options.resourceName)) {
+    throw new Error('The "resourceName" option must be a string (e.g. the name of the model)');
+  } else if (_.has(options, 'requestProperty') &amp;&amp; !_.isString(options.requestProperty)) {
+    throw new Error('The "requestProperty" option must be a string');
+  }
+
+  const Model = options.model;
+  const column = options.column || 'api_id';
+  const urlParameter = options.urlParameter || 'id';
+  const queryHandler = options.queryHandler;
+  const resourceName = options.resourceName;
+  const requestProperty = options.requestProperty || resourceName;
+  const eagerLoad = options.eagerLoad || [];
+
+  let validate = () => true;
+  if (options.validate == 'uuid') {
+    validate = id => !!id.match(/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i);
+  } else if (_.isFunction(options.validate)) {
+    validate = options.validate;
+  } else if (options.validate !== undefined) {
+    throw new Error('The "validate" option must be a function or the string "uuid"');
+  }
+
+  let coerce = value => value;
+  if (_.isFunction(options.coerce)) {
+    coerce = options.coerce;
+  } else if (options.coerce !== undefined) {
+    throw new Error(`The "coerce" option must be a function`);
+  }
+
+  return function(req, res, next) {
+    Promise.resolve().then(async () => {
+
+      const resourceId = req.params[urlParameter];
+
+      // Make sure the ID is valid.
+      const resourceIdValid = await Promise.resolve(validate(resourceId));
+      if (!resourceIdValid) {
+        throw errors.recordNotFound(resourceName, resourceId);
+      }
+
+      // Coerce the ID.
+      const coercedResourceId = await Promise.resolve(coerce(resourceId));
+
+      // Prepare the query to fetch the record.
+      let query = new Model({ [column]: coercedResourceId });
+
+      // Pass the query through the handler (if any).
+      if (_.isFunction(queryHandler)) {
+        query = queryHandler(query, req);
+      }
+
+      // Perform the query.
+      const record = await query.fetch({ withRelated: eagerLoad })
+      if (!record) {
+        throw errors.recordNotFound(resourceName, resourceId);
+      }
+
+      // Attach the record to the request object.
+      req[requestProperty] = record;
+    }).then(next).catch(next);
+  };
+}
+
+/**
+ * Converts a promise-based function into an Express middleware function.
+ *
+ *     route(async (req, res) => {
+ *
+ *       // Asynchronous code
+ *       const data = await fetchData();
+ *
+ *       // Errors caught by promise chain and automatically passed to next(err)
+ *       if (!data) {
+ *         throw new Error('No data available');
+ *       }
+ *
+ *       res.send(data);
+ *     });
+ *
+ * @param {function} routeFunc - The asynchronous route implementation.
+ *
+ * @returns {function} A middleware function.
+ */
+exports.route = function makeRoute(routeFunc) {
+  return function(req, res, next) {
+    Promise.resolve().then(() => routeFunc(req, res, next)).catch(next);
+  };
+};
+
+/**
+ * Converts a promise-based function into an Express middleware function (like
+ * `route`), and wraps the route into a database transaction.
+ *
+ * Any error thrown will cause the transaction to be rolled back.
+ *
+ *     transactionalRoute(async (req, res) => {
+ *
+ *       // Asynchronous code
+ *       const user = await fetchUser();
+ *
+ *       // Any error will roll back the transaction.
+ *       await user.save(req.body);
+ *
+ *       res.send(user);
+ *     });
+ *
+ * @param {function} routeFunc - The asynchronous route implementation.
+ *
+ * @returns {function} A middleware function.
+ */
+exports.transactionalRoute = function makeTransactionalRoute(routeFunc) {
+  return makeRoute(function(req, res, next) {
+    return db.transaction(() => routeFunc(req, res, next));
+  });
+};
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Dec 19 2017 10:22:23 GMT+0100 (CET) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+</body>
+</html>

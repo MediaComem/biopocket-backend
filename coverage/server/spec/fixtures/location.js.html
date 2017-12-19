@@ -1,0 +1,356 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for server/spec/fixtures/location.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../../prettify.css" />
+    <link rel="stylesheet" href="../../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../../index.html">All files</a> / <a href="index.html">server/spec/fixtures</a> location.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>13/13</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">94.12% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>16/17</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>3/3</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>13/13</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line high'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">40x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">40x</span>
+<span class="cline-any cline-yes">40x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">/**
+ * Test utilities to generate location-related data.
+ *
+ * @module server/spec/fixtures/location
+ */
+const chance = require('chance').Chance();
+const _ = require('lodash');
+const { unique: uniqueGenerator } = require('test-value-generator');
+&nbsp;
+const Location = require('../../models/location');
+const { createRecord } = require('../utils');
+const geoJsonFixtures = require('./geojson');
+&nbsp;
+/**
+ * Generates a random location record and saves it to the database.
+ *
+ * All of the generated location's properties are assigned random values unless
+ * changed with the `data` argument.
+ *
+ *     const locationFixtures = require('../spec/fixtures/location');
+ *
+ *     const location = await locationFixtures.location({
+ *       name: 'Custom name'
+ *     });
+ *
+ *     console.log(location.get('name'));        // "Custom name"
+ *     console.log(location.get('short_name'));  // "Lorem ipsum"
+ *
+ * @function
+ * @param {object} [data={}] - Custom location data.
+ * @param {object} [data.bbox] - A bounding box within which the generated location should be
+ * @param {number[]} data.bbox.southWest - A longitude/latitude pair indicating the south-west corner of the bounding box
+ * @param {number[]} data.bbox.northEast - A longitude/latitude pair indicating the north-east corner of the bounding box
+ * @param {string} [data.name]
+ * @param {string} [data.shortName] - Set to `null` to create a location without a short name.
+ * @param {string} [data.description]
+ * @param {string} [data.phone]
+ * @param {string} [data.photoUrl]
+ * @param {string} [data.siteUrl]
+ * @param {object} [data.geometry]
+ * @param {object} [data.properties={}]
+ * @param {object} [data.address]
+ * @param {string} [data.address.street]
+ * @param {string} [data.address.number] - Set to `null` to create an address without a number
+ * @param {string} [data.address.zipCode]
+ * @param {string} [data.address.city]
+ * @param {string} [data.address.state]
+ * @returns {Promise&lt;Location&gt;} A promise that will be resolved with the saved location.
+ */
+exports.location = function(data = {}) {
+  return createRecord(Location, {
+    name: data.name || exports.name(),
+    short_name: _.has(data, 'shortName') ? <span class="branch-0 cbranch-no" title="branch not covered" >data.shortName </span>: exports.shortName(),
+    description: data.description || chance.paragraph(),
+    phone: data.phone || chance.phone(),
+    photo_url: data.phoneUrl || chance.url({ domain: 'example.com', extensions: [ 'jpg' ] }),
+    site_url: data.siteUrl || chance.url({ domain: 'example.com' }),
+    geometry: data.geometry || geoJsonFixtures.point(_.pick(data, 'bbox')),
+    properties: data.properties || {},
+    address_street: _.get(data, 'address.street', chance.street()),
+    address_number: _.get(data, 'address.number', chance.integer({ min: 1, max: 100 }).toString()),
+    address_zip_code: _.get(data, 'address.zipCode', chance.zip()),
+    address_city: _.get(data, 'address.city', chance.city()),
+    address_state: _.get(data, 'address.state', chance.state()),
+    created_at: data.createdAt,
+    updated_at: data.updatedAt
+  });
+};
+&nbsp;
+/**
+ * Generates a unique random location name.
+ *
+ *     const locationFixtures = require('../spec/fixtures/location');
+ *
+ *     locationFixtures.name();  // "Lorem ipsum aute ad dolor exercitation labore amet"
+ *
+ * @function
+ * @returns {string} A name for a location.
+ */
+exports.name = uniqueGenerator(function() {
+  return chance.sentence();
+});
+&nbsp;
+/**
+ * Generates a unique random location short name.
+ *
+ *     const locationFixtures = require('../spec/fixtures/location');
+ *
+ *     locationFixtures.shortName();  // "Lorem"
+ *
+ * @function
+ * @returns {string} A short name for a location.
+ */
+exports.shortName = uniqueGenerator(function() {
+  const word = chance.word();
+  return word[0].toUpperCase() + word.slice(1);
+})
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Tue Dec 19 2017 10:22:26 GMT+0100 (CET)
+</div>
+</div>
+<script src="../../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../../sorter.js"></script>
+</body>
+</html>

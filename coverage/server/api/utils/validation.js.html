@@ -1,0 +1,434 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for server/api/utils/validation.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../../prettify.css" />
+    <link rel="stylesheet" href="../../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../../index.html">All files</a> / <a href="index.html">server/api/utils</a> validation.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>35/35</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">91.3% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>21/23</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>8/8</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>33/33</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line high'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">34x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">30x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">30x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">28x</span>
+<span class="cline-any cline-yes">28x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10x</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">28x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">18x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">18x</span>
+<span class="cline-any cline-yes">18x</span>
+<span class="cline-any cline-yes">18x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">18x</span>
+<span class="cline-any cline-yes">18x</span>
+<span class="cline-any cline-yes">18x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">18x</span>
+<span class="cline-any cline-yes">18x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">28x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">/**
+ * API validation utilities.
+ *
+ * You should be familiar with the [valdsl](https://github.com/AlphaHydrae/valdsl) validation library.
+ *
+ * @module server/api/utils/validation
+ * @see https://github.com/AlphaHydrae/valdsl
+ */
+const _ = require('lodash');
+const valdsl = require('valdsl');
+&nbsp;
+const { ensureRequest } = require('../../utils/express');
+const genericValidators = require('../validators/generic');
+const geoJsonValidators = require('../validators/geojson');
+&nbsp;
+const dsl = valdsl();
+&nbsp;
+// Add our custom validators to the DSL.
+dsl.dsl.extend(genericValidators);
+dsl.dsl.extend({
+  bboxString: geoJsonValidators.bboxString,
+  geoJsonPoint: geoJsonValidators.point
+});
+&nbsp;
+exports.dsl = dsl;
+&nbsp;
+/**
+ * Asynchronously validates an arbitrary value with any number of validators.
+ * This function returns a promise which is resolved if validation is
+ * successful. It is rejected if validation fails.
+ *
+ * @param {*} value - The value to validate.
+ * @param {number} status - The HTTP status code that the response should have if validation fails.
+ * @param {function[]} callbacks - Validation callbacks.
+ * @returns {Promise&lt;ValidationContext&gt;} A promise that will be resolved with
+ *   an empty valdsl ValidationContext if validation was successful, or rejected
+ *   with a valdsl ValidationErrorBundle containing the list of errors if validation
+ *   failed.
+ */
+exports.validateValue = function(value, status, ...callbacks) {
+  if (!_.isInteger(status) || status &lt; 100 || status &gt; 599) {
+    throw new Error(`Status must be an HTTP status code between 100 and 599, got ${_.isFinite(status) ? status : typeof(status)}`);
+  } else if (!callbacks.length) {
+    throw new Error('At least one callback is required');
+  } else if (_.find(callbacks, (c) =&gt; !_.isFunction(c))) {
+    throw new Error('Additional arguments must be functions');
+  }
+&nbsp;
+  const validationPromise = dsl(function() {
+    return this.validate(this.value(value), this.while(this.noError(this.atCurrentLocation())), ...callbacks);
+  }).catch(function(err) {
+    if (err.errors &amp;&amp; !_.has(err, 'status')) {
+      err.status = status;
+    }
+&nbsp;
+    return Promise.reject(err);
+  });
+&nbsp;
+  return toNativePromise(validationPromise);
+};
+&nbsp;
+/**
+ * Asynchronously validates the body of the specified request with any number
+ * of validators.  This function returns a promise which is resolved if
+ * validation is successful. It is rejected if validation fails.
+ *
+ *     function validateAuthentication(req) {
+ *       return validate.requestBody(req, function() {
+ *         return this.parallel(
+ *           this.validate(
+ *             this.json('/email'),
+ *             this.required(),
+ *             this.type('string'),
+ *             this.email()
+ *           ),
+ *           this.validate(
+ *             this.json('/password'),
+ *             this.required(),
+ *             this.type('string'),
+ *             this.notBlank()
+ *           )
+ *         );
+ *       })
+ *     }
+ *
+ * @param {Request} req - The Express request object to validate.
+ *
+ * @param {object} [options] - Validation options (may be omitted).
+ *
+ * @param {number} [options.status=422] - The HTTP status code that the response should have if validation fails.
+ *
+ * @param {string[]} [options.types=["object"]] - The list of allowed types for the request body.
+ *   Only a single object is considered valid by default, but you might want to specify `["array"]` for
+ *   a batch operation (or both, i.e. `["array", "object"]`).
+ *
+ * @param {function[]} callbacks - Validation callbacks.
+ *
+ * @returns {Promise&lt;ValidationContext&gt;} A promise that will be resolved with
+ *   an empty valdsl ValidationContext if validation was successful, or rejected
+ *   with a valdsl ValidationErrorBundle containing the list of errors if validation
+ *   failed.
+ */
+exports.validateRequestBody = function(req, options, ...callbacks) {
+  ensureRequest(req);
+&nbsp;
+  <span class="missing-if-branch" title="else path not taken" >E</span>if (_.isFunction(options)) {
+    callbacks.unshift(options);
+    options = {};
+  }
+&nbsp;
+  options = options || <span class="branch-1 cbranch-no" title="branch not covered" >{};</span>
+  const status = options.status || 422;
+  const types = options.types || [ 'object' ];
+&nbsp;
+  return exports.validateValue(req, status, function() {
+    return this.validate(this.property('body'), this.type(...types), ...callbacks);
+  });
+};
+&nbsp;
+// FIXME: remove this fix when issue is resolved (https://github.com/petkaantonov/bluebird/issues/1404)
+function toNativePromise(promise) {
+  return new Promise((resolve, reject) =&gt; promise.then(resolve, reject));
+};
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Tue Dec 19 2017 10:22:26 GMT+0100 (CET)
+</div>
+</div>
+<script src="../../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../../sorter.js"></script>
+</body>
+</html>
