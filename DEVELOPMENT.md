@@ -162,18 +162,19 @@ See the [Database](#database) section for more information.
 
 See the [Documentation](#documentation) section for more information.
 
-| Script                   | Purpose                                                                                       |
-| :---                     | :---                                                                                          |
-| `npm run docs`           | Generate the project's documentation                                                          |
-| `npm run docs:api`       | Generate the project's API documentation                                                      |
-| `npm run docs:api:clean` | Delete the project's API documentation                                                        |
-| `npm run docs:api:watch` | Watch the project's API documentation to automatically re-generate it when it changes         |
-| `npm run docs:clean`     | Delete the project's documentation                                                            |
-| `npm run docs:serve`     | Open the project's documentation in your browser with live reload                             |
-| `npm run docs:src`       | Generate the project's source code documentation                                              |
-| `npm run docs:src:clean` | Delete the project's source code documentation                                                |
-| `npm run docs:src:watch` | Watch the project's source code documentation to automatically re-generate it when it changes |
-| `npm run docs:watch`     | Watch the project's documentation to automatically re-generate it when it changes             |
+| Script                   | Purpose                                                                                                   |
+| :---                     | :---                                                                                                      |
+| `npm run docs`           | Generate the project's documentation (also runs all automated tests to generate the code coverage report) |
+| `npm run docs:api`       | Generate the project's API documentation                                                                  |
+| `npm run docs:api:clean` | Delete the project's API documentation                                                                    |
+| `npm run docs:api:watch` | Watch the project's API documentation to automatically re-generate it when it changes                     |
+| `npm run docs:clean`     | Delete the project's documentation                                                                        |
+| `npm run docs:publish`   | Publish the project's documentation on [GitHub Pages][docs]                                               |
+| `npm run docs:serve`     | Open the project's documentation in your browser with live reload                                         |
+| `npm run docs:src`       | Generate the project's source code documentation                                                          |
+| `npm run docs:src:clean` | Delete the project's source code documentation                                                            |
+| `npm run docs:src:watch` | Watch the project's source code documentation to automatically re-generate it when it changes             |
+| `npm run docs:watch`     | Watch the project's documentation to automatically re-generate it when it changes                         |
 
 ### Testing scripts
 
@@ -476,6 +477,7 @@ TODO: test coverage configuration with babel/nyc
 [chance]: http://chancejs.com
 [coveralls]: https://coveralls.io
 [coveralls-node]: https://www.npmjs.com/package/coveralls
+[docs]: https://mediacomem.github.io/biopocket-backend/
 [enrich-api-error]: https://github.com/MediaComem/enrich-api-error
 [express-jwt-policies]: https://github.com/MediaComem/express-jwt-policies#readme
 [istanbul]: https://istanbul.js.org
