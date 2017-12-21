@@ -3,6 +3,8 @@
 /config/local.js
 /config/*.local.js
 /coverage
-/docs/*
-!/docs/index.html
+/docs/api
+/docs/coverage
+/docs/database/index.html
+/docs/src
 /node_modules

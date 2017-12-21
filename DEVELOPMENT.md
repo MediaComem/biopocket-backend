@@ -47,6 +47,8 @@ This is the overall project structure.
 | `coverage`               | Test coverage report (created after running automated tests)                                            |
 | `docs`                   | Project documentation (generate all documentation with `npm run docs` or `npm run dev`)                 |
 | `docs/api`               | API documentation (created after running `npm run docs:api`, `npm run docs` or `npm run dev`)           |
+| `docs/coverage`          | Test coverage report (created after running `npm test` or `npm run test:unit`)                          |
+| `docs/database`          | XML diagram of the database's relational model (editable with [draw.io][draw.io])                       |
 | `docs/index.html`        | Home page of the project's documentation (with links to GitHub and the API & source code documentation) |
 | `docs/src`               | Source code documentation (created after running `npm run docs:src`, `npm run docs` or `npm run dev`)   |
 | `migrations`             | [Knex][knex] database migrations (see [Database](#database))                                            |
@@ -169,6 +171,7 @@ See the [Documentation](#documentation) section for more information.
 | `npm run docs:api:clean` | Delete the project's API documentation                                                                    |
 | `npm run docs:api:watch` | Watch the project's API documentation to automatically re-generate it when it changes                     |
 | `npm run docs:clean`     | Delete the project's documentation                                                                        |
+| `npm run docs:database`  | Embed the [draw.io][draw.io] XML database diagram into the documentation                                  |
 | `npm run docs:publish`   | Publish the project's documentation on [GitHub Pages][docs]                                               |
 | `npm run docs:serve`     | Open the project's documentation in your browser with live reload                                         |
 | `npm run docs:src`       | Generate the project's source code documentation                                                          |
@@ -478,6 +481,7 @@ TODO: test coverage configuration with babel/nyc
 [coveralls]: https://coveralls.io
 [coveralls-node]: https://www.npmjs.com/package/coveralls
 [docs]: https://mediacomem.github.io/biopocket-backend/
+[draw.io]: https://www.draw.io/
 [enrich-api-error]: https://github.com/MediaComem/enrich-api-error
 [express-jwt-policies]: https://github.com/MediaComem/express-jwt-policies#readme
 [istanbul]: https://istanbul.js.org
