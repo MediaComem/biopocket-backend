@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>server/api/auth - Documentation</title>
+    <title>Global - Documentation</title>
 
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
@@ -27,7 +27,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">server/api/auth</h1>
+    <h1 class="page-title">Global</h1>
     
 
     
@@ -39,8 +39,9 @@
 
 <header>
     
+        <h2>
         
-            
+        </h2>
         
     
 </header>
@@ -49,22 +50,9 @@
     <div class="container-overview">
     
         
-            <div class="description"><p>Authentication API.</p></div>
-        
-
-        
-            
-
-
-
 
 <dl class="details">
 
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="server_api_auth_auth.api.js.html">server/api/auth/auth.api.js</a>, <a href="server_api_auth_auth.api.js.html#line1">line 1</a>
-    </li></ul></dd>
     
 
     
@@ -101,30 +89,7 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        
 
         
     
@@ -150,7 +115,7 @@
 
     
 
-    <h4 class="name" id=".authenticate"><span class="type-signature">(static) </span>authenticate<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="embedDatabaseDiagram"><span class="type-signature">(async) </span>embedDatabaseDiagram<span class="signature">()</span><span class="type-signature"></span></h4>
 
     
 
@@ -162,7 +127,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="server_api_auth_auth.api.js.html">server/api/auth/auth.api.js</a>, <a href="server_api_auth_auth.api.js.html#line29">line 29</a>
+        <a href="scripts_embed-database-diagram.js.html">scripts/embed-database-diagram.js</a>, <a href="scripts_embed-database-diagram.js.html#line22">line 22</a>
     </li></ul></dd>
     
 
@@ -202,9 +167,11 @@
 
 
 <div class="description">
-    <p><strong>POST /api/auth</strong></p>
-<p>Creates a new, short-lived (2 weeks) authentication token for a user.
-The correct e-mail and password must be provided.</p>
+    <p>Reads the database diagram in <code>docs/database/diagram.xml</code>, embeds it in the
+handlebars template in <code>docs/database/diagram.hbs</code>, and saves the result to
+<code>docs/database/index.html</code>.</p>
+<p>The diagram can then be accessed from the main documentation page.</p>
+<p>The XML diagram can be edited with https://www.draw.io/</p>
 </div>
 
 
@@ -229,108 +196,6 @@ The correct e-mail and password must be provided.</p>
 
 
 
-
-
-        
-            
-
-    
-
-    <h4 class="name" id=".canAuthenticate"><span class="type-signature">(static) </span>canAuthenticate<span class="signature">()</span><span class="type-signature"> &rarr; {boolean}</span></h4>
-
-    
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="server_api_auth_auth.policy.js.html">server/api/auth/auth.policy.js</a>, <a href="server_api_auth_auth.policy.js.html#line1">line 1</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-<div class="description">
-    <p>Anyone can attempt to authenticate. Always returns true.</p>
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">boolean</span>
-
-
-    </dd>
-</dl>
-
-    
 
 
         
