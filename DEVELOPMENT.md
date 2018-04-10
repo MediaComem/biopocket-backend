@@ -183,12 +183,13 @@ See the [Documentation](#documentation) section for more information.
 
 See the [Testing](#testing) section for more information.
 
-| Script                        | Purpose                                                                                        |
-| :---                          | :---                                                                                           |
-| `npm test`                    | Run all automated tests                                                                        |
-| `npm run test:coveralls`      | Send test coverage data to [Coveralls][coveralls] (used on Travis CI)                          |
-| `npm run test:debug`          | Run all automated tests with `$LOG_LEVEL` set to `TRACE` (all database queries will be logged) |
-| `npm run test:watch`          | Watch code for changes and automatically run the automated tests when it changes               |
+| Script                   | Purpose                                                                                        |
+| :---                     | :---                                                                                           |
+| `npm test`               | Run all automated tests                                                                        |
+| `npm run test:coveralls` | Send test coverage data to [Coveralls][coveralls] (used on Travis CI)                          |
+| `npm run test:debug`     | Run all automated tests with `$LOG_LEVEL` set to `TRACE` (all database queries will be logged) |
+| `npm run test:watch`     | Watch code for changes and automatically run the automated tests when it changes               |
+| `npm run start:e2e`      | Run the server in the test environment with appropriate settings                               |
 
 ### Utility scripts
 
