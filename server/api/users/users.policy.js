@@ -29,7 +29,7 @@ exports.canRetrieve = function(req) {
  * @returns {object} A serialized user.
  */
 exports.serialize = function(req, user) {
-  ensureRequest(req);
+  ensureRequest(req, 'First argument');
 
   const serialized = {
     email: user.get('email')
