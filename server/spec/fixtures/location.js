@@ -28,9 +28,12 @@ const geoJsonFixtures = require('./geojson');
  *
  * @function
  * @param {object} [data={}] - Custom location data.
- * @param {object} [data.bbox] - A bounding box within which the generated location should be
- * @param {number[]} data.bbox.southWest - A longitude/latitude pair indicating the south-west corner of the bounding box
- * @param {number[]} data.bbox.northEast - A longitude/latitude pair indicating the north-east corner of the bounding box
+ * @param {object} [data.bbox] - A bounding box within which the generated location should be.
+ * @param {number[]} data.bbox.southWest - A longitude/latitude pair indicating the south-west corner of the bounding box.
+ * @param {number[]} data.bbox.northEast - A longitude/latitude pair indicating the north-east corner of the bounding box.
+ * @param {number[]} [data.bbox.padding] - 1 to 4 numbers indicating the padding of the bounding box
+ *                                         (much like CSS padding, 1 number is all 4 directions, 2 numbers is northing/easting,
+ *                                         3 numbers is north/easting/south, 4 numbers is north/east/south/west).
  * @param {string} [data.name]
  * @param {string} [data.shortName] - Set to `null` to create a location without a short name.
  * @param {string} [data.description]
@@ -41,7 +44,7 @@ const geoJsonFixtures = require('./geojson');
  * @param {object} [data.properties={}]
  * @param {object} [data.address]
  * @param {string} [data.address.street]
- * @param {string} [data.address.number] - Set to `null` to create an address without a number
+ * @param {string} [data.address.number] - Set to `null` to create an address without a number.
  * @param {string} [data.address.zipCode]
  * @param {string} [data.address.city]
  * @param {string} [data.address.state]
