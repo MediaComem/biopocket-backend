@@ -30,7 +30,7 @@
     "migrate:test:rollback": "cross-env NODE_ENV=test knex migrate:rollback",
     "sample-data": "node scripts/sample-data.js",
     "start": "node ./bin/www",
-    "start:e2e": "BCRYPT_COST=1 CORS=true NODE_ENV=test SESSION_SECRET=secret npm run dev:server",
+    "start:e2e": "cross-env BCRYPT_COST=1 CORS=true NODE_ENV=test SESSION_SECRET=secret npm run dev:server",
     "test": "cross-env NODE_ENV=test BCRYPT_COST=1 LOG_LEVEL=WARN nyc --reporter=html mocha --reporter=mocha-api-errors server/**/*.spec.js",
     "test:coveralls": "nyc report --reporter=text-lcov | coveralls",
     "test:debug": "cross-env NODE_ENV=test BCRYPT_COST=1 LOG_LEVEL=TRACE nyc --reporter=html --reporter=text mocha --reporter=mocha-api-errors server/**/*.spec.js",
