@@ -1,8 +1,6 @@
 const Abstract = require('./abstract');
 const db = require('../db');
 
-const proto = Abstract.prototype;
-
 /**
  * A location of interest in the BioPocket platform, such as a travel office or biodiversity landmark.
  *

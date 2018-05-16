@@ -20,7 +20,7 @@ class EnrichedSuperRest extends SuperRest {
   expect(res, ...args) {
     try {
       return super.expect(res, ...args);
-    } catch(err) {
+    } catch (err) {
       throw enrichApiError(err, res);
     }
   }
@@ -133,6 +133,37 @@ exports.expectUnchanged = async function(record, options) {
   expect(freshRecord.attributes).to.eql(record.attributes);
 };
 
+/**
+ * Expects that the given record has a `created_at` and an `updated_at` property
+ * that are instances of Date.
+ * By default, also expects that both have the same value.
+ * You can pass an `hasBeenCreated` option to `false`, in which case the `updated_at` property should be after the `created_at` property.
+ * @param {object} record - A database record (an instance of a Bookshelf model).
+ * @param {object} [options] - Options.
+ * @param {string} [options.hasBeenCreated="true"] - Indicates wether the given record has just been created or not.
+ */
+exports.expectTouchTimestamps = function(record, options) {
+  const created = record.get('created_at');
+  if (!created) {
+    throw new Error('Record must have a created_at property!');
+  }
+
+  const updated = record.get('updated_at');
+  if (!updated) {
+    throw new Error('Record must have an updated_at property!');
+  }
+
+  options = options || { hasBeenCreated: true }
+
+  expect(created).to.be.an.instanceOf(Date);
+  expect(updated).to.be.an.instanceOf(Date);
+  if (options.hasBeenCreated) {
+    expect(updated, 'record updated_at').to.be.sameMoment(created);
+  } else {
+    expect(updated, 'record updated_at').to.be.afterMoment(created);
+  }
+}
+
 exports.initSuperRest = function(options) {
   return new EnrichedSuperRest(app, _.defaults({}, options, {
     pathPrefix: '/api',
@@ -154,7 +185,8 @@ exports.cleanDatabase = async function() {
 
   // Sequences of tables to delete in order to avoid foreign key conflicts
   const tablesToDelete = [
-    [ 'locations', 'users' ]
+    ['locations', 'users', 'actions'],
+    ['themes']
   ];
 
   for (let tableList of tablesToDelete) {
@@ -197,5 +229,5 @@ exports.checkRecord = async function(model, id, options) {
 };
 
 exports.toArray = function(value) {
-  return _.isArray(value) ? value : [ value ];
+  return _.isArray(value) ? value : [value];
 };

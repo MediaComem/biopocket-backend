@@ -8,6 +8,8 @@ const config = require('../config');
 
 const logger = config.logger('db');
 
+const logEnabled = Symbol('logEnabled');
+
 /**
  * Configures a knex instance to log queries during a migration.
  *
@@ -26,6 +28,21 @@ const logger = config.logger('db');
  *     };
  */
 exports.logMigration = function(knex) {
-  logger.trace('BEGIN;');
-  knex.on('query-response', (res, obj, builder) => logger.trace(builder.toString()));
+  if (!knex[logEnabled]) {
+    logger.trace('BEGIN;');
+    knex.on('query-response', (res, obj, builder) => logger.trace(builder.toString()));
+  }
+  knex[logEnabled] = true;
 };
+
+/**
+ * Adds the two touch columns to the given table :
+ * * `created_at` - timestamp, not null, unique
+ * * `updated_at` - timestamp, not null, unique
+ * 
+ * @param {Object} table - A Knex object representing the table
+ */
+exports.addTouchColumnsOn = function(table) {
+  table.timestamp('created_at', true).notNullable().index();
+  table.timestamp('updated_at', true).notNullable().index();
+}

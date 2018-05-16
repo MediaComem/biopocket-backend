@@ -56,7 +56,7 @@ exports.location = function(data = {}) {
     short_name: _.has(data, 'shortName') ? data.shortName : exports.shortName(),
     description: data.description || chance.paragraph(),
     phone: data.phone || chance.phone(),
-    photo_url: data.phoneUrl || chance.url({ domain: 'example.com', extensions: [ 'jpg' ] }),
+    photo_url: data.photoUrl || chance.url({ domain: 'example.com', extensions: [ 'jpg' ] }),
     site_url: data.siteUrl || chance.url({ domain: 'example.com' }),
     geometry: data.geometry || geoJsonFixtures.point(_.pick(data, 'bbox')),
     properties: data.properties || {},

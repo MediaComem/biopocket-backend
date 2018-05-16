@@ -4,8 +4,6 @@ const inflection = require('inflection');
 const db = require('../db');
 const { queryBuilder, pagination } = require('../api/utils/query-builder');
 
-const proto = db.bookshelf.Model.prototype;
-
 /**
  * Abstract database model.
  *
