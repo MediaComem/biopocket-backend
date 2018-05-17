@@ -25,9 +25,7 @@ const Abstract = db.bookshelf.Model.extend({
    *
    * @see {@link https://github.com/MediaComem/orm-query-builder}
    */
-  queryBuilder: function(options) {
-    return queryBuilder(_.extend(options, { baseQuery: this }));
-  },
+  queryBuilder: createQueryBuilder,
 
   /**
    * Returns a query builder initialized with this record as a base query and with pagination
@@ -41,9 +39,7 @@ const Abstract = db.bookshelf.Model.extend({
    *
    * @see {@link https://github.com/MediaComem/orm-query-builder}
    */
-  paginatedQueryBuilder: function(options = {}) {
-    return this.queryBuilder(_.omit(options, 'pagination')).use(pagination(options.pagination));
-  },
+  paginatedQueryBuilder: createPaginatedQueryBuilder,
 
   /**
    * Parses data from the specified source into this record's columns.
@@ -178,9 +174,7 @@ const Abstract = db.bookshelf.Model.extend({
    *
    * @see {@link https://github.com/MediaComem/orm-query-builder}
    */
-  queryBuilder: function(options) {
-    return queryBuilder(_.extend(options, { baseQuery: this }));
-  },
+  queryBuilder: createQueryBuilder,
 
   /**
    * Returns a query builder initialized with this model as a base query and with pagination
@@ -194,9 +188,15 @@ const Abstract = db.bookshelf.Model.extend({
    *
    * @see {@link https://github.com/MediaComem/orm-query-builder}
    */
-  paginatedQueryBuilder: function(options = {}) {
-    return this.queryBuilder(_.omit(options, 'pagination')).use(pagination(options.pagination));
-  }
+  paginatedQueryBuilder: createPaginatedQueryBuilder
 });
+
+function createQueryBuilder(options) {
+  return queryBuilder(_.extend(options, { baseQuery: this }));
+}
+
+function createPaginatedQueryBuilder(options = {}) {
+  return this.queryBuilder(_.omit(options, 'pagination')).use(pagination(options.pagination));
+}
 
 module.exports = Abstract;

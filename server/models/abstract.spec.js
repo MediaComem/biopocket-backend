@@ -31,7 +31,7 @@ describe('Abstract model', function() {
 
     // An ORM Query Builder plugin that adds an "ORDER BY name" clause to the query.
     const orderByName = {
-      use: builder => builder.before('end', context => context.set('query', context.get('query').query(qb => qb.orderBy('name'))))
+      use: builder => builder.before('end', context => context.set('query', context.get('query').orderBy('name')))
     };
 
     /**

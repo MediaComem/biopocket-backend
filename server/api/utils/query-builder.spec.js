@@ -7,6 +7,37 @@ const { filter: filterFactory, queryBuilder: queryBuilderFactory } = require('./
 
 describe('Query builder utilities', function() {
   describe('filter', function() {
+    it('should modify a query using a value and filter functions', async function() {
+
+      const Model = Abstract.extend({});
+
+      const mockQuery = new Model(); // The base query.
+      const updatedQuery = mockQuery.clone().where('foo', 'bar'); // The updated query.
+
+      const valueFunc = stub().returns(42); // The value function that retrieves the value that will be used by the filter function.
+      const filterFunc = stub().returns(updatedQuery); // The filter function.
+      const filter = filterFactory(valueFunc, filterFunc);
+
+      const mockContext = {
+        get: stub().returns(mockQuery),
+        set: stub()
+      };
+
+      await expect(filter(mockContext)).to.eventually.equal(undefined);
+
+      expect(valueFunc).to.have.been.calledWithExactly(mockContext);
+      expect(valueFunc).to.have.callCount(1);
+      expect(mockContext.get).to.have.been.calledWithExactly('query');
+      expect(mockContext.get).to.have.been.calledImmediatelyAfter(valueFunc);
+      expect(mockContext.get).to.have.callCount(1);
+      expect(filterFunc).to.have.been.calledWithExactly(mockQuery, 42, mockContext);
+      expect(filterFunc).to.have.been.calledImmediatelyAfter(mockContext.get);
+      expect(filterFunc).to.have.callCount(1);
+      expect(mockContext.set).to.have.been.calledWithExactly('query', updatedQuery); // Make sure the query was updated.
+      expect(mockContext.set).to.have.been.calledImmediatelyAfter(filterFunc);
+      expect(mockContext.set).to.have.callCount(1);
+    });
+
     it('should not call the filter function or modify the query if the value function returns undefined', async function() {
 
       const valueFunc = stub(); // Returns undefined.
