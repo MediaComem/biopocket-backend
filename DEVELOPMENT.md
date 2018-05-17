@@ -18,6 +18,7 @@
 - [Database](#database)
   - [Migrations](#migrations)
   - [ORM](#orm)
+  - [Query builder](#query-builder)
 - [Logging](#logging)
 - [Security](#security)
   - [Password hashing](#password-hashing)
@@ -231,8 +232,14 @@ often-used Knex commands.
 Database models are implemented with the [Bookshelf][bookshelf] ORM. You will
 find them in the `server/models` directory.
 
-The server has an Abstract base model which all other models extend. It iself
+The server has an Abstract base model which all other models extend. It itself
 extends Bookshelf's base Model.
+
+### Query builder
+
+The [ORM Query Builder][orm-query-builder] library is used as a wrapper around
+Bookshelf to facilitate complex database queries with filters, pagination and
+sorting.
 
 
 
@@ -444,10 +451,13 @@ The server has an automated test suite developed using the following tools:
   * [mocha-api-errors][mocha-api-errors] - Mocha reporter with more detailed
     stack traces for API errors
 * [Chai][chai] - BDD/TDD assertion library
+  * [chai-as-promised][chai-as-promised] - Asynchronous Chai assertions.
   * [chai-iso8601][chai-iso8601] - Chai matcher for ISO-8601 date strings
   * [chai-moment][chai-moment] - Chai matchers for dates
   * [chai-objects][chai-objects] - Chai matcher for object arrays
+  * [sinon-chai][sinon-chai] - Chai assertions for Sinon spies and stubs.
 * [Chance][chance] - Minimalist generator of random strings, numbers, etc.
+* [Sinon][sinon] - Test spies, stubs and mocks.
 * [SuperTest][supertest] - Super-agent driven library for testing Node.js HTTP
   servers using a fluent API
   * [SuperREST][superrest] - SuperTest helpers to test REST APIs
@@ -475,6 +485,7 @@ TODO: test coverage configuration with babel/nyc
 [bookshelf]: http://bookshelfjs.org
 [bookshelf-touch]: https://www.npmjs.com/package/bookshelf-touch
 [chai]: http://chaijs.com
+[chai-as-promised]: https://github.com/domenic/chai-as-promised
 [chai-iso8601]: https://github.com/MediaComem/chai-iso8601
 [chai-moment]: https://www.npmjs.com/package/chai-moment
 [chai-objects]: https://github.com/MediaComem/chai-objects
@@ -494,10 +505,13 @@ TODO: test coverage configuration with babel/nyc
 [mocha]: https://mochajs.org
 [mocha-api-errors]: https://github.com/MediaComem/mocha-api-errors
 [nyc]: https://github.com/istanbuljs/nyc
+[orm-query-builder]: https://github.com/MediaComem/orm-query-builder
 [pg]: https://www.npmjs.com/package/pg
 [raml]: https://raml.org
 [raml-spec]: https://github.com/raml-org/raml-spec/blob/master/versions/raml-10/raml-10.md
 [raml-traits]: https://github.com/raml-org/raml-spec/blob/master/versions/raml-10/raml-10.md#resource-types-and-traits
+[sinon]: http://sinonjs.org
+[sinon-chai]: https://github.com/domenic/sinon-chai
 [superrest]: https://github.com/MediaComem/superrest
 [supertest]: https://github.com/visionmedia/supertest
 [test-value-generator]: https://github.com/MediaComem/test-value-generator

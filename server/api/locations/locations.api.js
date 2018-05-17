@@ -7,7 +7,8 @@ const serialize = require('express-serializer');
 
 const Location = require('../../models/location');
 const { fetcher, route } = require('../utils/api');
-const { bbox: filterByBbox } = require('../utils/filters');
+const { filterByBbox } = require('../utils/filters');
+const { filter, singleQueryParam, sorting } = require('../utils/query-builder');
 const { validateRequestBody, validateValue } = require('../utils/validation');
 const { point: validateGeoJsonPoint } = require('../validators/geojson');
 const policy = require('./locations.policy');
@@ -39,14 +40,18 @@ exports.list = route(async (req, res) => {
 
   await validateListRequest(req);
 
-  let query = new Location();
+  const builder = Location
+    .queryBuilder()
+    .before('end', filter(singleQueryParam('bbox', String), filterByBbox))
+    // TODO: use this variant once pagination is in place
+    // .use(filter(singleQueryParam('bbox', String), filterByBbox))
+    .use(
+      sorting()
+        .sorts('name', 'createdAt')
+        .default('name', 'createdAt')
+    );
 
-  if (req.query.bbox) {
-    query = filterByBbox(query, req.query.bbox);
-  }
-
-  const locations = await query.orderBy('name').orderBy('created_at').fetchAll();
-
+  const locations = await builder.execute({ req, res });
   res.send(await serialize(req, locations.models, policy));
 });
 

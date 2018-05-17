@@ -11,7 +11,7 @@ const logger = config.logger('api');
 const router = express.Router();
 
 // Make sure all models are loaded.
-const modelFiles = _.without(glob.sync('*', { cwd: config.path('server', 'models') }), 'abstract.js');
+const modelFiles = _.without(glob.sync('*', { cwd: config.path('server', 'models') }), 'abstract.js').filter(file => !file.match(/\.spec\.js$/));
 modelFiles.forEach(modelFile => require(`../models/${modelFile}`));
 
 // Plug in API routes.

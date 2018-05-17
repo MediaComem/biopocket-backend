@@ -1,6 +1,8 @@
 const _ = require('lodash');
-const db = require('../db');
 const inflection = require('inflection');
+
+const db = require('../db');
+const { queryBuilder, pagination } = require('../api/utils/query-builder');
 
 const proto = db.bookshelf.Model.prototype;
 
@@ -11,6 +13,33 @@ const proto = db.bookshelf.Model.prototype;
  * @extends bookshelf.Model
  */
 const Abstract = db.bookshelf.Model.extend({
+
+  /**
+   * Returns a query builder initialized with this record as a base query.
+   *
+   * @method
+   * @memberof Abstract
+   * @instance
+   * @param {object} options - The query builder's options.
+   * @returns {OrmQueryBuilder} A query builder.
+   *
+   * @see {@link https://github.com/MediaComem/orm-query-builder}
+   */
+  queryBuilder: createQueryBuilder,
+
+  /**
+   * Returns a query builder initialized with this record as a base query and with pagination
+   * enabled.
+   *
+   * @method
+   * @memberof Abstract
+   * @instance
+   * @param {object} options - The query builder's options.
+   * @returns {OrmQueryBuilder} A query builder.
+   *
+   * @see {@link https://github.com/MediaComem/orm-query-builder}
+   */
+  paginatedQueryBuilder: createPaginatedQueryBuilder,
 
   /**
    * Parses data from the specified source into this record's columns.
@@ -132,6 +161,42 @@ const Abstract = db.bookshelf.Model.extend({
 
     return target;
   }
+}, {
+
+  /**
+   * Returns a query builder initialized with this model as a base query.
+   *
+   * @method
+   * @memberof Abstract
+   * @static
+   * @param {object} options - The query builder's options.
+   * @returns {OrmQueryBuilder} A query builder.
+   *
+   * @see {@link https://github.com/MediaComem/orm-query-builder}
+   */
+  queryBuilder: createQueryBuilder,
+
+  /**
+   * Returns a query builder initialized with this model as a base query and with pagination
+   * enabled.
+   *
+   * @method
+   * @memberof Abstract
+   * @static
+   * @param {object} options - The query builder's options.
+   * @returns {OrmQueryBuilder} A query builder.
+   *
+   * @see {@link https://github.com/MediaComem/orm-query-builder}
+   */
+  paginatedQueryBuilder: createPaginatedQueryBuilder
 });
+
+function createQueryBuilder(options) {
+  return queryBuilder(_.extend(options, { baseQuery: this }));
+}
+
+function createPaginatedQueryBuilder(options = {}) {
+  return this.queryBuilder(_.omit(options, 'pagination')).use(pagination(options.pagination));
+}
 
 module.exports = Abstract;

@@ -101,7 +101,7 @@ exports.validateValue = function(value, status, ...callbacks) {
  *   failed.
  */
 exports.validateRequestBody = function(req, options, ...callbacks) {
-  ensureRequest(req);
+  ensureRequest(req, 'First argument');
 
   if (_.isFunction(options)) {
     callbacks.unshift(options);

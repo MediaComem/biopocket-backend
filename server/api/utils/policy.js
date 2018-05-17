@@ -14,7 +14,7 @@ const { ensureRequest } = require('../../utils/express');
  * @returns {boolean} True if the current user has the specified role, false otherwise.
  */
 exports.hasRole = function(req, role) {
-  ensureRequest(req);
+  ensureRequest(req, 'First argument');
   return req.currentUser && req.currentUser.isActive() && req.currentUser.hasRole(role);
 };
 

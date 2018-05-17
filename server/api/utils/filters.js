@@ -16,7 +16,7 @@
  * @param {string} bboxString - A bounding box string (4 comma-separated numbers).
  * @returns {Query} The updated query.
  */
-exports.bbox = function(query, bboxString) {
+exports.filterByBbox = function(query, bboxString) {
 
   const bbox = bboxString.split(',').map(value => parseFloat(value));
 

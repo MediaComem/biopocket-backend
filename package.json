@@ -31,9 +31,9 @@
     "sample-data": "node scripts/sample-data.js",
     "start": "node ./bin/www",
     "start:e2e": "cross-env BCRYPT_COST=1 CORS=true NODE_ENV=test SESSION_SECRET=secret npm run dev:server",
-    "test": "cross-env NODE_ENV=test BCRYPT_COST=1 LOG_LEVEL=WARN nyc --reporter=html mocha --reporter=mocha-api-errors server/**/*.spec.js",
+    "test": "cross-env NODE_ENV=test BCRYPT_COST=1 LOG_LEVEL=WARN nyc --reporter=html mocha --reporter=mocha-api-errors \"server/**/*.spec.js\"",
     "test:coveralls": "nyc report --reporter=text-lcov | coveralls",
-    "test:debug": "cross-env NODE_ENV=test BCRYPT_COST=1 LOG_LEVEL=TRACE nyc --reporter=html --reporter=text mocha --reporter=mocha-api-errors server/**/*.spec.js",
+    "test:debug": "cross-env NODE_ENV=test BCRYPT_COST=1 LOG_LEVEL=TRACE nyc --reporter=html --reporter=text mocha --reporter=mocha-api-errors \"server/**/*.spec.js\"",
     "test:watch": "onchange \"server/**/*.js\" -- npm test"
   },
   "dependencies": {
@@ -49,11 +49,12 @@
     "glob": "^7.1.2",
     "inflection": "^1.12.0",
     "jsonwebtoken": "^8.1.0",
-    "knex": "^0.14.2",
+    "knex": "^0.14.6",
     "knex-postgis": "^0.5.0",
     "lodash": "^4.17.4",
     "log4js": "^2.3.12",
     "moment": "^2.19.3",
+    "orm-query-builder": "^1.0.0",
     "pg": "^7.4.0",
     "valdsl": "^0.4.5",
     "valib": "^2.0.0"
@@ -62,6 +63,7 @@
     "babel-plugin-istanbul": "^4.1.5",
     "babel-register": "^6.26.0",
     "chai": "^4.1.2",
+    "chai-as-promised": "^7.1.1",
     "chai-iso8601": "^1.0.0",
     "chai-moment": "^0.1.0",
     "chai-objects": "^1.0.0",
@@ -87,6 +89,8 @@
     "onchange": "^3.2.1",
     "raml2html": "^6.4.2",
     "rimraf": "^2.6.2",
+    "sinon": "^5.0.7",
+    "sinon-chai": "^3.0.0",
     "superrest": "^1.0.0",
     "supertest": "^3.0.0",
     "test-value-generator": "^1.0.1"
