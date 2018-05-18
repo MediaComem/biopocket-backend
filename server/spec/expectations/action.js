@@ -1,11 +1,28 @@
+const { union } = require('lodash');
+
 const Action = require('../../models/action');
 const { checkRecord, expect, toArray } = require('../utils');
 
-module.exports = function(actual, expected) {
+/**
+ * Executes a series of expectations on a given Action record.
+ * Some of these expectations compare the Action record to an expected record.
+ * Finally, the Action record is compared to the record in the database.
+ * You can pass custom options to customize the expectation.
+ *
+ * @param {Action} actual - An action record to test.
+ * @param {Action} expected - The expected action record.
+ * @param {Object} [options] - Custom options.
+ * @param {array} [options.additionalKeys] - Additional keys that the action record should have.
+ */
+module.exports = async function(actual, expected, options = {}) {
 
   expect(actual, 'res.body').to.be.an('object');
 
-  const expectedKeys = [ 'id', 'title', 'description', 'themeId', 'createdAt', 'updatedAt' ];
+  let expectedKeys = [ 'id', 'title', 'description', 'themeId', 'createdAt', 'updatedAt' ];
+
+  if (options.additionalKeys) {
+    expectedKeys = union(expectedKeys, options.additionalKeys);
+  }
 
   expect(actual, 'res.body').to.have.all.keys(expectedKeys);
 
@@ -30,7 +47,7 @@ module.exports = function(actual, expected) {
   }
 
   // Check that the corresponding action exists in the database.
-  return module.exports.inDb(actual);
+  await module.exports.inDb(actual);
 };
 
 module.exports.inDb = async function(expected) {

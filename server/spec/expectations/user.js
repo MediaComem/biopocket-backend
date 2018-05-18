@@ -4,7 +4,7 @@ const _ = require('lodash');
 const User = require('../../models/user');
 const { checkRecord, expect, toArray } = require('../utils');
 
-module.exports = function(actual, expected) {
+module.exports = async function(actual, expected) {
 
   expect(actual, 'res.body').to.be.an('object');
   expect(actual, 'res.body').to.have.all.keys([
@@ -37,7 +37,7 @@ module.exports = function(actual, expected) {
   }
 
   // Check that the corresponding user exists in the database.
-  return module.exports.inDb(_.merge({}, actual, _.pick(expected, 'password')));
+  await module.exports.inDb(_.merge({}, actual, _.pick(expected, 'password')));
 };
 
 module.exports.inDb = async function(expected) {
