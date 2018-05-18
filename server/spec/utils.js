@@ -26,7 +26,36 @@ class EnrichedSuperRest extends SuperRest {
   }
 }
 
+const httpMethods = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'];
+
 const expect = exports.expect = chai.expect;
+
+/**
+ * Tests that the given path does not allow request with any given HTTP methods.
+ * One test is created for each of the given methods and expects that :
+ * * The response's status is 405
+ * * The response contains the correct error object
+ * * The response's headers contain a `Allow` header with the allowed methods 
+ * 
+ * @param {string} path - The path to test
+ * @param {array} allowedMethods - An array of the methods to test on the path
+ */
+exports.expectMethodsNotAllowed = async function(path, allowedMethods) {
+  const methodToTest = _.difference(httpMethods, allowedMethods);
+
+  _.each(methodToTest, method => {
+    it(`should not allow request with ${method} method`, async function() {
+      const res = this.test.res = await exports.initSuperRest().test(method, path, {}, { expectedStatus: 405 });
+
+      exports.expectErrors(res, {
+        code: 'method.notAllowed',
+        message: 'The method received in the request-line is known by the origin server but not supported by the target resource.'
+      });
+
+      expect(res.headers.allow).to.equal(allowedMethods.join(', '));
+    });  
+  });
+}
 
 /**
  * Ensures that a database record has been deleted by attempting to reload a fresh instance.

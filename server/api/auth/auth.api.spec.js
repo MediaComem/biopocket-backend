@@ -7,7 +7,7 @@ const config = require('../../../config');
 const User = require('../../models/user');
 const expectUser = require('../../spec/expectations/user');
 const userFixtures = require('../../spec/fixtures/user');
-const { cleanDatabase, expect, expectErrors, initSuperRest, setUp } = require('../../spec/utils');
+const { cleanDatabase, expect, expectErrors, expectMethodsNotAllowed, initSuperRest, setUp } = require('../../spec/utils');
 
 setUp();
 
@@ -19,6 +19,10 @@ describe('Authentication API', function() {
     await cleanDatabase();
     now = new Date();
     twoDaysAgo = moment().subtract(2, 'days').toDate();
+  });
+
+  describe('/api/auth', () => {
+    expectMethodsNotAllowed('/auth', require('../auth/auth.routes').allowedMethods['/']);
   });
 
   describe('POST /api/auth', () => {

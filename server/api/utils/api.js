@@ -85,7 +85,7 @@ exports.fetcher = function(options) {
   return function(req, res, next) {
     Promise.resolve().then(async () => {
 
-      const resourceId = req.params[urlParameter];
+      const resourceId = req.params[ urlParameter ];
 
       // Make sure the ID is valid.
       const resourceIdValid = await Promise.resolve(validate(resourceId));
@@ -97,7 +97,7 @@ exports.fetcher = function(options) {
       const coercedResourceId = await Promise.resolve(coerce(resourceId));
 
       // Prepare the query to fetch the record.
-      let query = new Model({ [column]: coercedResourceId });
+      let query = new Model({ [ column ]: coercedResourceId });
 
       // Pass the query through the handler (if any).
       if (_.isFunction(queryHandler)) {
@@ -111,7 +111,7 @@ exports.fetcher = function(options) {
       }
 
       // Attach the record to the request object.
-      req[requestProperty] = record;
+      req[ requestProperty ] = record;
     }).then(next).catch(next);
   };
 }
@@ -136,7 +136,7 @@ exports.fetcher = function(options) {
  *
  * @returns {function} A middleware function.
  */
-exports.route = function makeRoute(routeFunc) {
+exports.route = function(routeFunc) {
   return function(req, res, next) {
     Promise.resolve().then(() => routeFunc(req, res, next)).catch(next);
   };
@@ -163,8 +163,21 @@ exports.route = function makeRoute(routeFunc) {
  *
  * @returns {function} A middleware function.
  */
-exports.transactionalRoute = function makeTransactionalRoute(routeFunc) {
-  return makeRoute(function(req, res, next) {
+exports.transactionalRoute = function(routeFunc) {
+  return exports.route(function(req, res, next) {
     return db.transaction(() => routeFunc(req, res, next));
+  });
+};
+
+/**
+ * Creates a middleware function that handles calls with HTTP methods that are not allowed on the resource.
+ * This middelware function will generate a 405 HTTP methods with an Allow headers listing allowed methods.
+ * 
+ * @param {array} allowedMethods - An array of allowed HTTP methods
+ * @returns {function} The middleware function
+ */
+exports.allowsOnlyMethod = function(allowedMethods) {
+  return exports.route(function(req, res, next) {
+    next(errors.methodNotAllowed(allowedMethods));
   });
 };

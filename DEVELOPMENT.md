@@ -92,7 +92,7 @@ from being split into one file for each route for readability.
 | `{subject}/{subject}.api.js`      | Route implementations and other middlewares related to the subject                                  |
 | `{subject}/{subject}.api.spec.js` | Automated tests for the routes                                                                      |
 | `{subject}/{subject}.policy.js`   | Default authorization policy for the subject's resources (handling access, parsing and serializing) |
-| `{subject}/{subject}.routes.js`   | Express router and route definitions (including authentication and authorization)                   |
+| `{subject}/{subject}.routes.js`   | Express router and route definitions (including authentication, authorization and methods not allowed)                   |
 | `{subject}/{subject}.raml`        | API documentation for the routes                                                                    |
 | `{subject}/{subject}.model.raml`  | API documentation for the main model/resource used in this subject                                  |
 

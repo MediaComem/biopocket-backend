@@ -15,10 +15,10 @@ const modelFiles = _.without(glob.sync('*', { cwd: config.path('server', 'models
 modelFiles.forEach(modelFile => require(`../models/${modelFile}`));
 
 // Plug in API routes.
-router.use('/auth', require('./auth/auth.routes'));
-router.use('/locations', require('./locations/locations.routes'));
-router.use('/me', require('./users/users.me.routes'));
-router.use('/users', require('./users/users.routes'));
+router.use('/auth', require('./auth/auth.routes').router);
+router.use('/locations', require('./locations/locations.routes').router);
+router.use('/me', require('./users/users.me.routes').router);
+router.use('/users', require('./users/users.routes').router);
 
 // Return API metadata on the main API route.
 router.get('/', function(req, res) {
@@ -40,6 +40,11 @@ router.use(function(err, req, res, next) {
   // Log the error if unexpected
   if (status >= 500 && status <= 599) {
     logger.error(err);
+  }
+
+  // Sets the headers if the received error has some
+  if (err.headers) {
+    _.each(err.headers, (value, name) => res.set(name, value));
   }
 
   let errors;
