@@ -12,6 +12,8 @@ const valdsl = require('valdsl');
 const { ensureRequest } = require('../../utils/express');
 const genericValidators = require('../validators/generic');
 const geoJsonValidators = require('../validators/geojson');
+const multiQueryInclusionValidator = require('../validators/multi-query-param-inclusion');
+const paginationValidator = require('../validators/pagination-params');
 
 const dsl = valdsl();
 
@@ -19,7 +21,9 @@ const dsl = valdsl();
 dsl.dsl.extend(genericValidators);
 dsl.dsl.extend({
   bboxString: geoJsonValidators.bboxString,
-  geoJsonPoint: geoJsonValidators.point
+  geoJsonPoint: geoJsonValidators.point,
+  validatePaginationQueryParams: paginationValidator,
+  multiQueryParamInclusion: multiQueryInclusionValidator
 });
 
 exports.dsl = dsl;

@@ -489,7 +489,7 @@ describe('Locations API', function() {
       it('should not accept an invalid bounding box', async function() {
 
         const res = this.test.res = await api
-          .retrieve('/locations', { expectedStatus: 422 })
+          .retrieve('/locations', { expectedStatus: 400 })
           .query({
             bbox: '10,20,asd,30'
           });

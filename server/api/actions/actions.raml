@@ -1,0 +1,51 @@
+displayName: Actions
+description: Management of BioPocket actions.
+
+# GET /api/actions
+get:
+  description: List actions.
+  is:
+    - paginatedResource
+    - resourceWithInclusion:
+        resourceName: action
+        inclusions: theme
+        inclusionExamples:
+          Include only one relation:
+            value: ?include=theme
+  responses:
+    200:
+      description: The actions were successfully listed.
+      body:
+        type: Action[]
+        examples:
+          Without any parameters:
+            value: |
+              [
+                {
+                  "id": "5552d4f4-2216-4046-bade-0624034868ea",
+                  "themeId": "857ee0cb-6ba7-4cb7-a91c-dd4a0e0ae9aa",
+                  "title": "Ace penvot ishempez.",
+                  "description": "Rein ce rin poso abvu it nillu ne rikmetwi jo ko pa tipkagim gorhiviz.",
+                  "createdAt": "2018-05-23T08:22:42.158Z",
+                  "updatedAt": "2018-05-23T08:22:42.158Z"
+                },
+                { },
+                { }
+              ]
+          With an include param (set to "theme"):
+            value: |
+              [
+                {
+                  "id": "5552d4f4-2216-4046-bade-0624034868ea",
+                  "themeId": "857ee0cb-6ba7-4cb7-a91c-dd4a0e0ae9aa",
+                  "title": "Ace penvot ishempez.",
+                  "description": "Rein ce rin poso abvu it nillu ne rikmetwi jo ko pa tipkagim gorhiviz.",
+                  "createdAt": "2018-05-23T08:22:42.158Z",
+                  "updatedAt": "2018-05-23T08:22:42.158Z",
+                  "theme":
+                  {
+                  }
+                },
+                { },
+                { }
+              ]

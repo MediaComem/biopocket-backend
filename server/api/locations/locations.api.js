@@ -109,7 +109,7 @@ exports.fetchLocation = fetcher({
  * @returns {Promise<ValidationErrorBundle>} - A promise that will be resolved if the request is valid, or rejected with a bundle of errors if it is invalid.
  */
 function validateListRequest(req) {
-  return validateValue(req, 422, function() {
+  return validateValue(req, 400, function() {
     return this.parallel(
       this.validate(
         this.query('bbox'),

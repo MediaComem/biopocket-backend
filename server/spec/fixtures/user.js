@@ -31,8 +31,8 @@ const { createRecord } = require('../utils');
  * @param {string} [data.password] - Password-
  * @param {boolean} [data.active=true] - Whether the user is active or not.
  * @param {string[]} [data.roles=[]] - Roles.
- * @param {string} [data.createdAt] - Creation date.
- * @param {string} [data.updatedAt] - Last update date.
+ * @param {Date|Moment|string} [data.createdAt] - Creation date.
+ * @param {Date|Moment|string} [data.updatedAt] - Last update date.
  * @returns {Promise<User>} A promise that will be resolved with the saved user.
  */
 exports.user = function(data = {}) {

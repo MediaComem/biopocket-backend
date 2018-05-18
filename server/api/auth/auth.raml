@@ -71,6 +71,7 @@ post:
     422:
       description: The request body contains invalid data.
       body:
+        type: validationErrors
         example: |
           HTTP/1.1 422 Unprocessable Entity
           Content-Type: application/json

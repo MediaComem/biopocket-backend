@@ -48,6 +48,8 @@ const geoJsonFixtures = require('./geojson');
  * @param {string} [data.address.zipCode] - The ZIP code.
  * @param {string} [data.address.city] - The city name.
  * @param {string} [data.address.state] - The state.
+ * @param {Date|Moment|string} [data.createdAt] - Creation date.
+ * @param {Date|Moment|string} [data.updatedAt] - Last update date.
  * @returns {Promise<Location>} A promise that will be resolved with the saved location.
  */
 exports.location = function(data = {}) {
