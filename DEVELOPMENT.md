@@ -227,6 +227,14 @@ migrations][knex-migrations] for more information.
 Several [database scripts](#database-scripts) are available as shortcuts to
 often-used Knex commands.
 
+#### TODO
+
+Based on the state of the project, the current migrations might not fully implements the tables as described in the `biopocket_structure_data_vX.xlsx` file on the project SwitchDrive.
+
+This can happen when a story or a task needs a new table, but does not need all the columns or relations that this table have.
+
+**To see what needs to be done on which table, please look at the [MIGRATIONS_TODO.md][migrationstodo] file.**
+
 ### ORM
 
 Database models are implemented with the [Bookshelf][bookshelf] ORM. You will
@@ -298,7 +306,7 @@ The main security features of this server are:
 
 ### Password hashing
 
-The [bcryptjs][bcryptjs library] is used to compute the bcrypt hashes.
+The [bcryptjs library][bcryptjs] is used to compute the bcrypt hashes.
 
 The bcrypt cost factor can be adjusted when launching the server by providing
 the `$BCRYPT_COST` environment variable or setting the `bcryptCost`
@@ -324,7 +332,7 @@ have access).
 
 ### Policies
 
-The logic allowing the API to know if a request to a given request is authorized
+The logic allowing the API to know if a request to a given resource is authorized
 is encapsulated into a **policy function**. You may find such a function in a
 `.policy.js` files in an API subject's directory, for example
 `server/api/users/users.policy.js`:
@@ -502,6 +510,7 @@ TODO: test coverage configuration with babel/nyc
 [knex]: http://knexjs.org
 [knex-migrations]: http://knexjs.org/#Migrations
 [log4js]: https://www.npmjs.com/package/log4js
+[migrationstodo]: ./MIGRATIONS_TODO.md
 [mocha]: https://mochajs.org
 [mocha-api-errors]: https://github.com/MediaComem/mocha-api-errors
 [nyc]: https://github.com/istanbuljs/nyc
