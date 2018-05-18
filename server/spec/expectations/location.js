@@ -3,7 +3,7 @@ const _ = require('lodash');
 const Location = require('../../models/location');
 const { checkRecord, expect, toArray } = require('../utils');
 
-module.exports = function(actual, expected) {
+module.exports = async function(actual, expected) {
 
   expect(actual, 'res.body').to.be.an('object');
 
@@ -66,7 +66,7 @@ module.exports = function(actual, expected) {
   }
 
   // Check that the corresponding location exists in the database.
-  return module.exports.inDb(actual);
+  await module.exports.inDb(actual);
 };
 
 module.exports.inDb = async function(expected) {

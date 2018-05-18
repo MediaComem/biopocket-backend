@@ -22,6 +22,9 @@ responses:
         Missing authentication:
           description: You have not sent an Authorization header in the request.
           value: |
+            HTTP/1.1 401 Unauthorized
+            Content-Type: application/json
+
             {
               "errors": [
                 {
@@ -36,6 +39,9 @@ responses:
 
             The required format is `Bearer TOKEN` where `TOKEN` is a valid JWT that you obtained by calling `POST /api/auth`.
           value: |
+            HTTP/1.1 401 Unauthorized
+            Content-Type: application/json
+
             {
               "errors": [
                 {
@@ -47,6 +53,9 @@ responses:
         Invalid authentication:
           description: The JWT bearer token you have sent in the Authorization header is invalid or has expired.
           value: |
+            HTTP/1.1 401 Unauthorized
+            Content-Type: application/json
+
             {
               "errors": [
                 {

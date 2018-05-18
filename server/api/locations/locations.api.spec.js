@@ -2,6 +2,7 @@ const chance = require('chance').Chance();
 const _ = require('lodash');
 const moment = require('moment');
 
+const allowedMethodsFor = require('../locations/locations.routes').allowedMethods;
 const expectLocation = require('../../spec/expectations/location');
 const geoJsonFixtures = require('../../spec/fixtures/geojson');
 const locationFixtures = require('../../spec/fixtures/location');
@@ -20,7 +21,7 @@ describe('Locations API', function() {
   });
 
   describe('/api/locations', function() {
-    testMethodsNotAllowed('/locations', require('../locations/locations.routes').allowedMethods['/']);
+    testMethodsNotAllowed('/locations', allowedMethodsFor['/']);
   });
 
   describe('POST /api/locations', function() {
@@ -509,7 +510,7 @@ describe('Locations API', function() {
   });
 
   describe('/api/locations/:id', function() {
-    testMethodsNotAllowed('/locations/1', require('../locations/locations.routes').allowedMethods['/:id']);
+    testMethodsNotAllowed('/locations/1', allowedMethodsFor['/:id']);
   });
 
   describe('GET /api/locations/:id', function() {

@@ -16,10 +16,13 @@ get:
     200:
       description: The actions were successfully listed.
       body:
-        type: Action[]
+        type: ActionPartial[]
         examples:
           Without any parameters:
             value: |
+              HTTP/1.1 200 OK
+              Content-Type: application/json
+
               [
                 {
                   "id": "0c51ffa1-3997-46f3-ae84-5c3102f9b520",
@@ -40,6 +43,9 @@ get:
               ]
           With an include param (set to "theme"):
             value: |
+              HTTP/1.1 200 OK
+              Content-Type: application/json
+
               [
                 {
                   "id": "0c51ffa1-3997-46f3-ae84-5c3102f9b520",
@@ -77,3 +83,44 @@ get:
                   }
                 }
               ]
+/{id}:
+  uriParameters:
+    id:
+      description: The unique ID of the action.
+      type: string
+
+  # GET /api/actions/:id
+  get:
+    description: Retrieve a single action with all of its relations included.
+    is:
+      - identifiableResource:
+          name: action
+      - serializableResource:
+          onlyExample: "?only=id&only=title&only=theme.title"
+          exceptExample: "?except=theme&except=description"
+    responses:
+      200:
+        description: The action was successfully retrieved.
+        body:
+          type: Action
+          example: |
+            HTTP/1.1 200 OK
+            Content-Type: application/json
+
+            {
+              "id": "5552d4f4-2216-4046-bade-0624034868ea",
+              "themeId": "857ee0cb-6ba7-4cb7-a91c-dd4a0e0ae9aa",
+              "theme": {
+                  "id": "857ee0cb-6ba7-4cb7-a91c-dd4a0e0ae9aa",
+                  "title": "Cizibni pehov vi safop oveum.",
+                  "description": "Gogannaw wupi malje nadfi ifililcuc ci sevviflow aglus kuglotaj sih nevkupad rev hole ole pe. Asniz uwuop fu didimo casub ilnirhim sefilro tapubcu lajecoh tugu kadipli sagejdu ladnih cubul big tehebku. Eko lopo li nudimo muec wemuhug na dewawnez kahas ruvti cipoco pifpo sahe wuvulega okeda amemi. Eceka wo du simibdu towen okvusnec revostus vaoggak umilo ovedume kaib si.",
+                  "photoUrl": "http://example.com/moaba.jpg",
+                  "source": "Kisgabvo cozekda ulicukzal.",
+                  "createdAt": "2018-05-22T11:20:23.337Z",
+                  "updatedAt": "2018-05-22T11:20:23.337Z"
+              },
+              "title": "Ace penvot ishempez.",
+              "description": "Rein ce rin poso abvu it nillu ne rikmetwi jo ko pa tipkagim gorhiviz.",
+              "createdAt": "2018-05-23T08:22:42.158Z",
+              "updatedAt": "2018-05-23T08:22:42.158Z"
+            }

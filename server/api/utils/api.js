@@ -44,6 +44,10 @@ const errors = require('./errors');
  *
  * @param {string[]} [options.eagerLoad] - Relations to eager-load when fetching the resource.
  *
+ * @param {string|function} [options.validate] - A function that will be used to validate the resourceId. If you need to validate that the resourceId is a UUID, you can simply pass the string `'uuid'`.
+ *
+ * @param {function} [options.coerce] - A function that will be used to apply some changes on the resourceId's value **before** querying the database.
+ *
  * @returns {function} A middleware function.
  */
 exports.fetcher = function(options) {
@@ -70,7 +74,7 @@ exports.fetcher = function(options) {
   let validate = () => true;
   if (options.validate === 'uuid') {
     validate = id => Boolean(id.match(/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i));
-  } else if (!_.isFunction(options.validate)) {
+  } else if (_.isFunction(options.validate)) {
     validate = options.validate;
   } else if (options.validate !== undefined) {
     throw new Error('The "validate" option must be a function or the string "uuid"');

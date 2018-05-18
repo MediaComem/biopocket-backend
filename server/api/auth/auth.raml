@@ -49,6 +49,9 @@ post:
           Invalid user:
             description: No user account exists with the specified e-mail address, or it is inactive.
             value: |
+              HTTP/1.1 401 Unauthorized
+              Content-Type: application/json
+
               {
                 "errors": [
                   {
@@ -60,6 +63,9 @@ post:
           Invalid credentials:
             description: The specified password is not the correct one.
             value: |
+              HTTP/1.1 401 Unauthorized
+              Content-Type: application/json
+
               {
                 "errors": [
                   {

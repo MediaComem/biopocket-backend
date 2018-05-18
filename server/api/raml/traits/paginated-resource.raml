@@ -49,6 +49,9 @@ responses:
         Wrong pagination params:
           description: One or both of the offset or limit query parameters did not contain a valid value.
           value: |
+            HTTP/1.1 400 Bad Request
+            Content-Type: application/json
+
             {
               "errors": [
                 {
