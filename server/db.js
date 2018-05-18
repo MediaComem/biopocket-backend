@@ -1,4 +1,3 @@
-const _ = require('lodash');
 const bookshelf = require('bookshelf');
 const bookshelfGeojson = require('bookshelf-geojson');
 const bookshelfTouch = require('bookshelf-touch');
@@ -21,6 +20,10 @@ const logger = config.logger('db');
  * @see http://bookshelfjs.org
  */
 class Database {
+
+  /**
+   * Constructs a new database manager.
+   */
   constructor() {
     this.isOpen = false;
 
@@ -73,6 +76,12 @@ class Database {
   }
 }
 
+/**
+ * Configures Knex's connection to PostgreSQL.
+ *
+ * @private
+ * @returns {Knex} A Knex instance.
+ */
 function setUpKnex() {
 
   const instance = knex({
@@ -81,7 +90,7 @@ function setUpKnex() {
   });
 
   // Log queries in development & test environments.
-  if (config.env == 'development' || config.env == 'test') {
+  if (config.env === 'development' || config.env === 'test') {
     instance.on('query-response', (res, obj, builder) => logger.trace(builder.toString()));
   }
 

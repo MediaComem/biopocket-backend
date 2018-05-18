@@ -1,5 +1,5 @@
 const Location = require('../../models/location');
-const { hasRole, jsonToColumns } = require('../utils/policy');
+const { hasRole } = require('../utils/policy');
 
 /**
  * An administrator can create a location.
@@ -7,6 +7,9 @@ const { hasRole, jsonToColumns } = require('../utils/policy');
  * @function
  * @name canCreate
  * @memberof module:server/api/locations
+ *
+ * @param {Request} req - The Express request object.
+ * @returns {boolean} True if authorized.
  */
 exports.canCreate = function(req) {
   return hasRole(req, 'admin');
@@ -18,8 +21,10 @@ exports.canCreate = function(req) {
  * @function
  * @name canList
  * @memberof module:server/api/locations
+ *
+ * @returns {boolean} True if authorized.
  */
-exports.canList = function(req) {
+exports.canList = function() {
   return true;
 };
 
@@ -29,8 +34,10 @@ exports.canList = function(req) {
  * @function
  * @name canRetrieve
  * @memberof module:server/api/locations
+ *
+ * @returns {boolean} True if authorized.
  */
-exports.canRetrieve = function(req) {
+exports.canRetrieve = function() {
   return true;
 };
 
@@ -40,6 +47,9 @@ exports.canRetrieve = function(req) {
  * @function
  * @name canUpdate
  * @memberof module:server/api/locations
+ *
+ * @param {Request} req - The Express request object.
+ * @returns {boolean} True if authorized.
  */
 exports.canUpdate = function(req) {
   return hasRole(req, 'admin');
@@ -51,6 +61,9 @@ exports.canUpdate = function(req) {
  * @function
  * @name canDestroy
  * @memberof module:server/api/locations
+ *
+ * @param {Request} req - The Express request object.
+ * @returns {boolean} True if authorized.
  */
 exports.canDestroy = function(req) {
   return hasRole(req, 'admin');
@@ -63,7 +76,7 @@ exports.canDestroy = function(req) {
  * @name parse
  * @memberof module:server/api/locations
  *
- * @param {object} data - The data (with camel-case property names), typically an API request body.
+ * @param {Object} data - The data (with camel-case property names), typically an API request body.
  * @param {Location} [location] - The location to update.
  * @returns {Location} The updated location.
  */
@@ -84,7 +97,7 @@ exports.parse = function(data, location = new Location()) {
  *
  * @param {Request} req - The Express request object.
  * @param {Location} location - A location record.
- * @returns {object} A serialized location.
+ * @returns {Object} A serialized location.
  */
 exports.serialize = function(req, location) {
 

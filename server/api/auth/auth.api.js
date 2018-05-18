@@ -39,7 +39,7 @@ exports.authenticate = route(async function(req, res) {
 
   // Check the password.
   const password = req.body.password;
-  if (!_.isString(password) || !user.hasPassword(password)) {
+  if (typeof password !== 'string' || !user.hasPassword(password)) {
     throw errors.unauthorized('auth.invalidCredentials', 'The password is invalid.');
   }
 
@@ -55,6 +55,12 @@ exports.authenticate = route(async function(req, res) {
   });
 });
 
+/**
+ * Validates the authentication request in the request body.
+ *
+ * @param {Request} req - An Express request object.
+ * @returns {Promise<ValidationErrorBundle>} - A promise that will be resolved if the request is valid, or rejected with a bundle of errors if it is invalid.
+ */
 function validateAuthentication(req) {
   return validateRequestBody(req, function() {
     return this.parallel(

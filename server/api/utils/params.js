@@ -31,8 +31,8 @@ exports.multiValue = function(value, coerce = identity, predicate = constant(tru
     return [];
   }
 
-  value = isArray(value) ? value : [ value ];
-  return uniq(value.map(coerce).filter(predicate));
+  const arrayValue = isArray(value) ? value : [ value ];
+  return uniq(arrayValue.map(coerce).filter(predicate));
 };
 
 /**

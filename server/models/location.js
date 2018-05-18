@@ -1,5 +1,5 @@
-const Abstract = require('./abstract');
 const db = require('../db');
+const Abstract = require('./abstract');
 
 /**
  * A location of interest in the BioPocket platform, such as a travel office or biodiversity landmark.

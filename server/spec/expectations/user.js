@@ -1,5 +1,5 @@
-const _ = require('lodash');
 const bcrypt = require('bcryptjs');
+const _ = require('lodash');
 
 const User = require('../../models/user');
 const { checkRecord, expect, toArray } = require('../utils');
@@ -30,7 +30,7 @@ module.exports = function(actual, expected) {
 
   expect(actual.createdAt, 'user.createdAt').to.be.iso8601(...toArray(expected.createdAt));
 
-  if (expected.updatedAt == 'createdAt') {
+  if (expected.updatedAt === 'createdAt') {
     expect(actual.updatedAt, 'user.updatedAt').to.equal(actual.createdAt);
   } else {
     expect(actual.updatedAt, 'user.updatedAt').to.be.iso8601(...toArray(expected.updatedAt));

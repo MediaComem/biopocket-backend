@@ -1,3 +1,4 @@
+/* eslint "require-jsdoc": ["off"] */
 const { logMigration } = require('../utils/migrations');
 
 exports.up = async function(knex) {
@@ -30,7 +31,6 @@ function createLocations(knex) {
     t.string('phone', 20).notNullable();
     t.specificType('geometry', 'point').notNullable();
     t.json('properties').notNullable().defaultTo('{}');
-    // t.timestamps(true);
     t.timestamp('created_at', true).notNullable().defaultTo(knex.raw('now()'));
     t.timestamp('updated_at', true).notNullable().defaultTo(knex.raw('now()'));
 

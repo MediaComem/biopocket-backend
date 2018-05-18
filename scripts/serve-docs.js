@@ -1,6 +1,5 @@
 const getPort = require('get-port');
 const liveServer = require('live-server');
-const _ = require('lodash');
 
 const config = require('../config');
 

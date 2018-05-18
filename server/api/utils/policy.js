@@ -3,7 +3,6 @@
  *
  * @module server/api/utils/policy
  */
-const errors = require('./errors');
 const { ensureRequest } = require('../../utils/express');
 
 /**

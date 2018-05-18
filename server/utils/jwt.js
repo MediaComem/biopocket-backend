@@ -20,7 +20,7 @@ const config = require('../../config');
  * Only some JWT claims are documented in the function's parameters, but other
  * claims can be included.
  *
- * @param {object} properties - Arbitrary JWT properties (see documentation links).
+ * @param {Object} properties - Arbitrary JWT properties (see documentation links).
  *
  * @param {number} [properties.exp] - The Unix timestamp (in seconds) at which the
  *   token will expire (defaults to 1 hour from the time the function is called).
@@ -43,15 +43,15 @@ exports.generateToken = function(properties) {
   }, _.omit(properties, 'exp', 'iat'));
 
   if (jwtOptions.exp === undefined) {
-    throw new Error(`JWT "exp" option is required`);
+    throw new Error('JWT "exp" option is required');
   } else if (!_.isFinite(jwtOptions.exp)) {
-    throw new Error(`JWT "exp" option must be a number, got ${jwtOptions.exp} (${typeof(jwtOptions.exp)})`);
+    throw new Error(`JWT "exp" option must be a number, got ${jwtOptions.exp} (${typeof jwtOptions.exp})`);
   } else if (jwtOptions.exp <= 0) {
     throw new Error(`JWT "exp" option must be greater than zero, got ${jwtOptions.exp}`);
   } else if (!jwtOptions.sub) {
-    throw new Error(`JWT "sub" option is required`);
-  } else if (!_.isString(jwtOptions.sub)) {
-    throw new Error(`JWT "sub" option must be a string`);
+    throw new Error('JWT "sub" option is required');
+  } else if (typeof jwtOptions.sub !== 'string') {
+    throw new Error('JWT "sub" option must be a string');
   }
 
   return jwt.sign(jwtOptions, config.sessionSecret);

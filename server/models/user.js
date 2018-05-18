@@ -1,10 +1,10 @@
-const _ = require('lodash');
 const bcrypt = require('bcryptjs');
+const _ = require('lodash');
 
-const Abstract = require('./abstract');
 const config = require('../../config');
 const db = require('../db');
 const jwt = require('../utils/jwt');
+const Abstract = require('./abstract');
 
 const proto = Abstract.prototype;
 
@@ -37,14 +37,14 @@ const User = Abstract.extend({
 
   virtuals: _.merge({
     password: {
-      get: function() {
+      get() {
         return this._password;
       },
 
-      set: function(password) {
+      set(password) {
         this._password = password;
 
-        if (_.isString(password) && password.length) {
+        if (typeof password === 'string' && password.length) {
           const salt = bcrypt.genSaltSync(config.bcryptCost);
           this.set('password_hash', bcrypt.hashSync(password, salt));
         } else {
@@ -59,10 +59,10 @@ const User = Abstract.extend({
    *
    * @instance
    * @memberof User
-   * @param {object} properties - JWT properties, passed to `generateToken` in the `utils/jwt` module.
+   * @param {Object} properties - JWT properties, passed to `generateToken` in the `utils/jwt` module.
    * @returns {string} A JWT.
    */
-  generateJwt: function(properties) {
+  generateJwt(properties) {
     return jwt.generateToken(_.extend({
       sub: this.get('api_id')
     }, properties));
@@ -79,8 +79,8 @@ const User = Abstract.extend({
    * @param {string} password - The password to check.
    * @returns {boolean} True if the user's password is the same as the specified one.
    */
-  hasPassword: function(password) {
-    return !!password && bcrypt.compareSync(password, this.get('password_hash'));
+  hasPassword(password) {
+    return Boolean(password) && bcrypt.compareSync(password, this.get('password_hash'));
   },
 
   /**
@@ -95,7 +95,7 @@ const User = Abstract.extend({
    * @param {string} role - The role to check.
    * @returns {boolean} True if the specified role is among the user's assigned roles.
    */
-  hasRole: function(role) {
+  hasRole(role) {
     return _.includes(this.get('roles'), role);
   },
 
@@ -106,8 +106,8 @@ const User = Abstract.extend({
    * @memberof User
    * @returns {boolean} True if this user is active.
    */
-  isActive: function() {
-    return !!this.get('active');
+  isActive() {
+    return Boolean(this.get('active'));
   }
 });
 

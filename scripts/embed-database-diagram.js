@@ -1,14 +1,18 @@
 const chalk = require('chalk');
 const fs = require('fs-extra');
 const handlebars = require('handlebars');
+const log4js = require('log4js');
 const path = require('path');
 
+const logger = log4js.getLogger('db-diagram');
 const root = path.resolve(path.join(__dirname, '..'));
+
+logger.level = 'INFO';
 
 Promise
   .resolve()
   .then(embedDatabaseDiagram)
-  .catch(err => console.warn(chalk.red(err.stack)));
+  .catch(err => logger.error(chalk.red(err.stack)));
 
 /**
  * Reads the database diagram in `docs/database/diagram.xml`, embeds it in the
@@ -18,14 +22,18 @@ Promise
  * The diagram can then be accessed from the main documentation page.
  *
  * The XML diagram can be edited with https://www.draw.io/
+ *
+ * @async
+ * @function
+ * @memberof module:scripts
  */
 async function embedDatabaseDiagram() {
 
   const diagramFile = path.join(root, 'docs', 'database', 'diagram.xml');
   const templateFile = path.join(root, 'docs', 'database', 'diagram.hbs');
 
-  console.log(chalk.yellow(`Reading database diagram from ${path.relative(root, diagramFile)}...`));
-  console.log(chalk.yellow(`Reading database diagram template from ${path.relative(root, templateFile)}...`));
+  logger.info(chalk.yellow(`Reading database diagram from ${path.relative(root, diagramFile)}...`));
+  logger.info(chalk.yellow(`Reading database diagram template from ${path.relative(root, templateFile)}...`));
 
   // Read the required files.
   const [ diagram, rawTemplate ] = await Promise.all([
@@ -45,5 +53,5 @@ async function embedDatabaseDiagram() {
   const docFile = path.join(root, 'docs', 'database', 'index.html');
   await fs.writeFile(docFile, result, 'utf8');
 
-  console.log(chalk.green(`Embedded database diagram saved to ${path.relative(root, docFile)}`));
+  logger.info(chalk.green(`Embedded database diagram saved to ${path.relative(root, docFile)}`));
 }

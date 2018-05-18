@@ -26,13 +26,13 @@ const { createRecord } = require('../utils');
  *     console.log(user.get('email'));            // "bob.doe@example.com"
  *
  * @function
- * @param {object} [data={}] - Custom user data.
- * @param {string} [data.email]
- * @param {string} [data.password]
- * @param {boolean} [data.active=true]
- * @param {string[]} [data.roles=[]]
- * @param {string} [data.createdAt]
- * @param {string} [data.updatedAt]
+ * @param {Object} [data={}] - Custom user data.
+ * @param {string} [data.email] - E-mail address.
+ * @param {string} [data.password] - Password-
+ * @param {boolean} [data.active=true] - Whether the user is active or not.
+ * @param {string[]} [data.roles=[]] - Roles.
+ * @param {string} [data.createdAt] - Creation date.
+ * @param {string} [data.updatedAt] - Last update date.
  * @returns {Promise<User>} A promise that will be resolved with the saved user.
  */
 exports.user = function(data = {}) {
@@ -52,7 +52,7 @@ exports.user = function(data = {}) {
  * Takes the same arguments as the `user` function.
  *
  * @function
- * @param {object} [data={}] - Custom user data.
+ * @param {Object} [data={}] - Custom user data.
  * @returns {Promise<User>} A promise that will be resolved with the saved user.
  * @see #.user
  */

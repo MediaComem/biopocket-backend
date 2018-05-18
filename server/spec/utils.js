@@ -3,20 +3,34 @@
  *
  * @module server/spec/utils
  */
-const _ = require('lodash');
 const enrichApiError = require('enrich-api-error');
+const _ = require('lodash');
 const moment = require('moment');
 const SuperRest = require('superrest');
 
-const app = require('../app');
-const chai = require('./chai');
 const config = require('../../config');
+const app = require('../app');
 const db = require('../db');
+const chai = require('./chai');
 
 let databaseConnectionClosed = false;
 const logger = config.logger('spec');
 
+/**
+ * An extension of SuperRest to enrich API error stack traces.
+ *
+ * @see https://www.npmjs.com/package/superrest
+ */
 class EnrichedSuperRest extends SuperRest {
+
+  /**
+   * Override of the `expect` method to enrich API error stack traces.
+   *
+   * @param {Response} res - An Express response object.
+   * @param {...*} args - Additional arguments to the `expect` method.
+   * @returns {SuperTest} A SuperTest chain.
+   * @see https://github.com/visionmedia/supertest
+   */
   expect(res, ...args) {
     try {
       return super.expect(res, ...args);
@@ -26,7 +40,7 @@ class EnrichedSuperRest extends SuperRest {
   }
 }
 
-const httpMethods = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'];
+const httpMethods = [ 'GET', 'POST', 'PUT', 'PATCH', 'DELETE' ];
 
 const expect = exports.expect = chai.expect;
 
@@ -35,12 +49,12 @@ const expect = exports.expect = chai.expect;
  * One test is created for each of the given methods and expects that :
  * * The response's status is 405
  * * The response contains the correct error object
- * * The response's headers contain a `Allow` header with the allowed methods 
- * 
+ * * The response's headers contain a `Allow` header with the allowed methods
+ *
  * @param {string} path - The path to test
  * @param {array} allowedMethods - An array of the methods to test on the path
  */
-exports.testMethodsNotAllowed = async function(path, allowedMethods) {
+exports.testMethodsNotAllowed = function(path, allowedMethods) {
   const methodsToTest = _.difference(httpMethods, allowedMethods);
 
   _.each(methodsToTest, method => {
@@ -53,24 +67,24 @@ exports.testMethodsNotAllowed = async function(path, allowedMethods) {
       });
 
       expect(res.headers.allow).to.equal(allowedMethods.join(', '));
-    });  
+    });
   });
-}
+};
 
 /**
  * Ensures that a database record has been deleted by attempting to reload a fresh instance.
+ * The returned promise is resolved if no record with the same ID is found in the database, or rejected if one is found.
  *
- * @param {object} record - A database record (an instance of a Bookshelf model).
+ * @async
+ * @param {Object} record - A database record (an instance of a Bookshelf model).
  * @param {options} [options] - Options.
  * @param {string} [options.idColumn="api_id"] - The column uniquely identifying the record.
- * @returns {Promise} A promise that is resolved if no record with the same ID is found in the database, or rejected if one is found.
  */
-exports.expectDeleted = async function(record, options) {
+exports.expectDeleted = async function(record, options = {}) {
   if (!record) {
     throw new Error('Record is required');
   }
 
-  options = options || {};
   const idColumn = options.idColumn || 'api_id';
 
   const id = record.get(idColumn);
@@ -113,11 +127,12 @@ exports.expectDeleted = async function(record, options) {
  *
  * @param {Response} res - A response object from a test.
  *
- * @param {object|object[]} - A single error or a list of errors that is expected to
- *   be in the response. The response is expected to contain exactly this or these
- *   errors and no others. If a single error is given, the response's `errors` array
- *   is expected to contain exactly that error and no other. If a list is given, the
- *   order of the errors is not checked.
+ * @param {Object|Object[]} expectedErrorOrErrors - A single error or a list of
+ *   errors that is expected to be in the response. The response is expected to
+ *   contain exactly this or these errors and no others. If a single error is
+ *   given, the response's `errors` array is expected to contain exactly that
+ *   error and no other. If a list is given, the order of the errors is not
+ *   checked.
  */
 exports.expectErrors = function(res, expectedErrorOrErrors) {
 
@@ -136,18 +151,18 @@ exports.expectErrors = function(res, expectedErrorOrErrors) {
 
 /**
  * Ensures that a database record has not changed by reloading a fresh instance and comparing its attributes.
+ * The returned promise is resolved if the record has not changed, or rejected if it has changed.
  *
- * @param {object} record - A database record (an instance of a Bookshelf model).
- * @param {object} [options] - Options.
+ * @async
+ * @param {Object} record - A database record (an instance of a Bookshelf model).
+ * @param {Object} [options] - Options.
  * @param {string} [options.idColumn="api_id"] - The column uniquely identifying the record.
- * @returns {Promise} A promise that is resolved if the record has not changed, or rejected if it has changed.
  */
-exports.expectUnchanged = async function(record, options) {
+exports.expectUnchanged = async function(record, options = {}) {
   if (!record) {
     throw new Error('Record is required');
   }
 
-  options = options || {};
   const idColumn = options.idColumn || 'api_id';
 
   const id = record.get(idColumn);
@@ -158,7 +173,7 @@ exports.expectUnchanged = async function(record, options) {
   const Model = record.constructor;
   const freshRecord = await new Model({ [idColumn]: id }).fetch();
 
-  expect(freshRecord).to.be.ok;
+  expect(freshRecord).to.be.an.instanceof(Model);
   expect(freshRecord.attributes).to.eql(record.attributes);
 };
 
@@ -167,11 +182,11 @@ exports.expectUnchanged = async function(record, options) {
  * that are instances of Date.
  * By default, also expects that both have the same value.
  * You can pass an `hasBeenCreated` option to `false`, in which case the `updated_at` property should be after the `created_at` property.
- * @param {object} record - A database record (an instance of a Bookshelf model).
- * @param {object} [options] - Options.
+ * @param {Object} record - A database record (an instance of a Bookshelf model).
+ * @param {Object} [options] - Options.
  * @param {string} [options.hasBeenCreated="true"] - Indicates wether the given record has just been created or not.
  */
-exports.expectTouchTimestamps = function(record, options) {
+exports.expectTouchTimestamps = function(record, options = {}) {
   const created = record.get('created_at');
   if (!created) {
     throw new Error('Record must have a created_at property!');
@@ -182,16 +197,14 @@ exports.expectTouchTimestamps = function(record, options) {
     throw new Error('Record must have an updated_at property!');
   }
 
-  options = options || { hasBeenCreated: true }
-
   expect(created).to.be.an.instanceOf(Date);
   expect(updated).to.be.an.instanceOf(Date);
-  if (options.hasBeenCreated) {
+  if (_.get(options, 'hasBeenCreated', true)) {
     expect(updated, 'record updated_at').to.be.sameMoment(created);
   } else {
     expect(updated, 'record updated_at').to.be.afterMoment(created);
   }
-}
+};
 
 exports.initSuperRest = function(options) {
   return new EnrichedSuperRest(app, _.defaults({}, options, {
@@ -214,19 +227,19 @@ exports.cleanDatabase = async function() {
 
   // Sequences of tables to delete in order to avoid foreign key conflicts
   const tablesToDelete = [
-    ['locations', 'users', 'actions'],
-    ['themes']
+    [ 'locations', 'users', 'actions' ],
+    [ 'themes' ]
   ];
 
-  for (let tableList of tablesToDelete) {
+  for (const tableList of tablesToDelete) {
     await Promise.all(tableList.map(table => db.knex.raw(`DELETE FROM ${table};`)));
   }
 
   const duration = (new Date().getTime() - start) / 1000;
   logger.debug(`Cleaned database in ${duration}s`);
-}
+};
 
-exports.createRecord = async function(model, data) {
+exports.createRecord = async function(Model, data) {
 
   const resolved = await Promise.resolve(data);
 
@@ -238,18 +251,18 @@ exports.createRecord = async function(model, data) {
     }
   });
 
-  return new model(values).save();
+  return new Model(values).save();
 };
 
-exports.checkRecord = async function(model, id, options) {
-  if (!model) {
+exports.checkRecord = async function(Model, id, options) {
+  if (!Model) {
     throw new Error('Model is required');
   } else if (!id) {
     throw new Error('Record ID is required');
   }
 
   const idColumn = _.get(options, 'idColumn', 'api_id');
-  const record = await new model().where(idColumn, id).fetch();
+  const record = await new Model().where(idColumn, id).fetch();
   if (!record) {
     throw new Error(`No database record found with ID ${id}`);
   }
@@ -258,5 +271,5 @@ exports.checkRecord = async function(model, id, options) {
 };
 
 exports.toArray = function(value) {
-  return _.isArray(value) ? value : [value];
+  return _.isArray(value) ? value : [ value ];
 };

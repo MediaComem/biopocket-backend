@@ -26,7 +26,7 @@ const errors = require('./errors');
  *       res.send(req.user);
  *     });
  *
- * @param {object} options - Fetcher options.
+ * @param {Object} options - Fetcher options.
  *
  * @param {function} options.model - The database model to use to fetch the resource.
  *
@@ -48,13 +48,13 @@ const errors = require('./errors');
 exports.fetcher = function(options) {
   if (!_.isObject(options)) {
     throw new Error('An options object is required');
-  } else if (!_.isFunction(options.model)) {
+  } else if (typeof options.model !== 'function') {
     throw new Error('The "model" option must be a database model');
-  } else if (_.has(options, 'queryHandler') && !_.isFunction(options.queryHandler)) {
+  } else if (_.has(options, 'queryHandler') && typeof options.queryHandler !== 'function') {
     throw new Error('The "queryHandler" option must be a function');
-  } else if (!_.isString(options.resourceName)) {
+  } else if (typeof options.resourceName !== 'string') {
     throw new Error('The "resourceName" option must be a string (e.g. the name of the model)');
-  } else if (_.has(options, 'requestProperty') && !_.isString(options.requestProperty)) {
+  } else if (_.has(options, 'requestProperty') && typeof options.requestProperty !== 'string') {
     throw new Error('The "requestProperty" option must be a string');
   }
 
@@ -67,25 +67,25 @@ exports.fetcher = function(options) {
   const eagerLoad = options.eagerLoad || [];
 
   let validate = () => true;
-  if (options.validate == 'uuid') {
-    validate = id => !!id.match(/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i);
-  } else if (_.isFunction(options.validate)) {
+  if (options.validate === 'uuid') {
+    validate = id => Boolean(id.match(/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i));
+  } else if (typeof options.validate !== 'function') {
     validate = options.validate;
   } else if (options.validate !== undefined) {
     throw new Error('The "validate" option must be a function or the string "uuid"');
   }
 
   let coerce = value => value;
-  if (_.isFunction(options.coerce)) {
+  if (typeof options.coerce === 'function') {
     coerce = options.coerce;
   } else if (options.coerce !== undefined) {
-    throw new Error(`The "coerce" option must be a function`);
+    throw new Error('The "coerce" option must be a function');
   }
 
   return function(req, res, next) {
     Promise.resolve().then(async () => {
 
-      const resourceId = req.params[ urlParameter ];
+      const resourceId = req.params[urlParameter];
 
       // Make sure the ID is valid.
       const resourceIdValid = await Promise.resolve(validate(resourceId));
@@ -97,24 +97,24 @@ exports.fetcher = function(options) {
       const coercedResourceId = await Promise.resolve(coerce(resourceId));
 
       // Prepare the query to fetch the record.
-      let query = new Model({ [ column ]: coercedResourceId });
+      let query = new Model({ [column]: coercedResourceId });
 
       // Pass the query through the handler (if any).
-      if (_.isFunction(queryHandler)) {
+      if (typeof queryHandler === 'function') {
         query = queryHandler(query, req);
       }
 
       // Perform the query.
-      const record = await query.fetch({ withRelated: eagerLoad })
+      const record = await query.fetch({ withRelated: eagerLoad });
       if (!record) {
         throw errors.recordNotFound(resourceName, resourceId);
       }
 
       // Attach the record to the request object.
-      req[ requestProperty ] = record;
+      req[requestProperty] = record;
     }).then(next).catch(next);
   };
-}
+};
 
 /**
  * Converts a promise-based function into an Express middleware function.
@@ -172,7 +172,7 @@ exports.transactionalRoute = function(routeFunc) {
 /**
  * Creates a middleware function that handles calls with HTTP methods that are not allowed on the resource.
  * This middelware function will generate a 405 HTTP methods with an Allow headers listing allowed methods.
- * 
+ *
  * @param {array} allowedMethods - An array of allowed HTTP methods
  * @returns {function} The middleware function
  */

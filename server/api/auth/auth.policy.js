@@ -4,8 +4,9 @@
  * @function
  * @name canAuthenticate
  * @memberof module:server/api/auth
- * @returns {boolean}
+ *
+ * @returns {boolean} True if authorized.
  */
-exports.canAuthenticate = function(req) {
+exports.canAuthenticate = function() {
   return true;
 };

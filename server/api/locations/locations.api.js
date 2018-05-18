@@ -10,7 +10,6 @@ const { fetcher, route } = require('../utils/api');
 const { filterByBbox } = require('../utils/filters');
 const { filter, singleQueryParam, sorting } = require('../utils/query-builder');
 const { validateRequestBody, validateValue } = require('../utils/validation');
-const { point: validateGeoJsonPoint } = require('../validators/geojson');
 const policy = require('./locations.policy');
 
 // API resource name (used in some API errors)

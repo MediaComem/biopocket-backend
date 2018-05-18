@@ -9,21 +9,21 @@ exports.db = 'postgres://localhost/biopocket';
 // Database URL for the test environment
 // You should use a different database for tests as all its data will
 // be deleted when running the tests.
-if (process.env.NODE_ENV == 'test') {
+if (process.env.NODE_ENV === 'test') {
   exports.db = 'postgres://localhost/biopocket-test';
 }
 
 // Documentation development options
 exports.docs = {
   // Uncomment this if you want to use another browser than your system's default
-  //browser: 'Google Chrome',
+  // browser: 'Google Chrome',
   host: '127.0.0.1',
   open: true,
   port: undefined // Will find a free random port by default.
 };
 
 // Application environment
-exports.env = 'development'
+exports.env = 'development';
 
 // Log level (TRACE, DEBUG, INFO, WARN, ERROR or FATAL)
 // Use TRACE for development to log database queries and HTTP requests.

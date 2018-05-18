@@ -1,4 +1,5 @@
-const { logMigration, addTouchColumnsOn } = require('../utils/migrations');
+/* eslint "require-jsdoc": ["off"] */
+const { addTouchColumnsOn, logMigration } = require('../utils/migrations');
 
 exports.up = async function(knex) {
   logMigration(knex);

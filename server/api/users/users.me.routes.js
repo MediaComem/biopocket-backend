@@ -8,8 +8,8 @@ const policy = require('./users.policy');
 const router = express.Router();
 
 const allowedMethods = {
-  '/': ['GET']
-}
+  '/': [ 'GET' ]
+};
 
 // GET /api/me
 router.get('/',

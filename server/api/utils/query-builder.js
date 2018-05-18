@@ -5,11 +5,11 @@
  * @see {@link https://github.com/MediaComem/orm-query-builder}
  */
 const { underscore } = require('inflection');
-const { extend, defaults, has, omit } = require('lodash');
+const { defaults } = require('lodash');
 const { OrmQueryBuilder, pagination, sorting } = require('orm-query-builder');
 
-const { multiValue, singleValue } = require('./params');
 const { isRequest, isResponse } = require('../../utils/express');
+const { multiValue, singleValue } = require('./params');
 
 /**
  * Returns an ORM Query Builder pre-configured for this application:
@@ -17,7 +17,7 @@ const { isRequest, isResponse } = require('../../utils/express');
  * * Ensures that the Express request and response have been passed to the query builder
  *   (e.g. to read query params or set response headers).
  *
- * @param {object} options - Builder options.
+ * @param {Object} options - Builder options.
  * @returns {OrmQueryBuilder} A query builder.
  */
 exports.queryBuilder = function(options) {
@@ -60,7 +60,7 @@ exports.queryBuilder = function(options) {
  *                                It will receive 3 arguments: the query, the filter value, and
  *                                the query builder's execution context. It should return the
  *                                updated query.
- * @returns {object} An ORM Query Builder middleware function and plugin.
+ * @returns {Object} An ORM Query Builder middleware function and plugin.
  */
 exports.filter = function(valueFunc, filterFunc) {
 
@@ -128,7 +128,7 @@ exports.multiQueryParam = function(name, coerce, predicate) {
 exports.singleQueryParam = function(name, coerce) {
   return context => {
     const value = context.options.req.query[name];
-    return value !== undefined ? singleValue(value, coerce) : undefined
+    return value !== undefined ? singleValue(value, coerce) : undefined;
   };
 };
 
@@ -143,8 +143,8 @@ exports.singleQueryParam = function(name, coerce) {
  * @example
  * new OrmQueryBuilder().use(pagination());
  *
- * @param {object} options - Options for the pagination plugin.
- * @returns {object} A pagination plugin that can be used with a query builder.
+ * @param {Object} options - Options for the pagination plugin.
+ * @returns {Object} A pagination plugin that can be used with a query builder.
  *
  * @see {@link https://github.com/MediaComem/orm-query-builder#pagination}
  */
@@ -160,12 +160,12 @@ exports.pagination = function(options) {
   const useCustomPagination = builder => {
     pagination(defaults(baseOptions, options)).use(builder);
     builder.after('end', context => {
-      const pagination = context.get('pagination');
+      const paginationData = context.get('pagination');
       const res = context.options.res;
-      res.set('Pagination-Offset', pagination.offset);
-      res.set('Pagination-Limit', pagination.limit);
-      res.set('Pagination-Total', pagination.total);
-      res.set('Pagination-Filtered-Total', pagination.filteredTotal);
+      res.set('Pagination-Offset', paginationData.offset);
+      res.set('Pagination-Limit', paginationData.limit);
+      res.set('Pagination-Total', paginationData.total);
+      res.set('Pagination-Filtered-Total', paginationData.filteredTotal);
     });
   };
 
@@ -182,8 +182,8 @@ exports.pagination = function(options) {
  * @example
  * new OrmQueryBuilder().use(sorting());
  *
- * @param {object} options - Options for the sorting plugin.
- * @returns {object} A sorting plugin that can be used with a query builder.
+ * @param {Object} options - Options for the sorting plugin.
+ * @returns {Object} A sorting plugin that can be used with a query builder.
  *
  * @see {@link https://github.com/MediaComem/orm-query-builder#sorting}
  */

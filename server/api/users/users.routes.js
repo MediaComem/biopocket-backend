@@ -9,7 +9,7 @@ const router = express.Router();
 
 const allowedMethods = {
   '/:id': [ 'GET' ]
-}
+};
 
 // GET /api/users/:id
 router.get('/:id',

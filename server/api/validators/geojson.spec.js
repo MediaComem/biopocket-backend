@@ -93,8 +93,15 @@ describe('GeoJSON validators', function() {
           }
         ]);
       });
-    })
+    });
 
+    /**
+     * Validates the specified value as a bounding box query parameter.
+     *
+     * @async
+     * @param {string} value - A bounding box string.
+     * @returns {Promise<Error>} A promise that will be resolved with the validation error.
+     */
     async function validate(value) {
 
       let validationError;
@@ -104,7 +111,9 @@ describe('GeoJSON validators', function() {
         });
 
         return ctx.validate(ctx.value(value), ctx.while(ctx.noError(ctx.atCurrentLocation())), validateBboxString());
-      }).catch(err => validationError = err);
+      }).catch(err => {
+        validationError = err;
+      });
 
       return validationError;
     }
@@ -335,18 +344,34 @@ describe('GeoJSON validators', function() {
       ]);
     });
 
+    /**
+     * Validates the specified argument using the GeoJSON point validator and returns the validation error.
+     *
+     * @private
+     * @param {*} point - The point to validate.
+     * @returns {Error} The validation error.
+     */
     async function validate(point) {
 
       let validationError;
       await dsl(function(ctx) {
         return ctx.validate(ctx.value(point), ctx.while(ctx.noError(ctx.atCurrentLocation())), validatePoint());
-      }).catch(err => validationError = err);
+      }).catch(err => {
+        validationError = err;
+      });
 
       return validationError;
     }
   });
 });
 
+/**
+ * Expects the specified validation error to contains specified errors.
+ *
+ * @private
+ * @param {Error} validationError - The validation error.
+ * @param {Object[]} expectedErrors - An array of the expected errors.
+ */
 function expectErrors(validationError, expectedErrors) {
   expect(validationError).not.to.equal(undefined);
   const actualErrors = validationError.errors.map(err => _.omit(err, 'stack'));

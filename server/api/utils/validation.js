@@ -39,10 +39,10 @@ exports.dsl = dsl;
  */
 exports.validateValue = function(value, status, ...callbacks) {
   if (!_.isInteger(status) || status < 100 || status > 599) {
-    throw new Error(`Status must be an HTTP status code between 100 and 599, got ${_.isFinite(status) ? status : typeof(status)}`);
+    throw new Error(`Status must be an HTTP status code between 100 and 599, got ${_.isFinite(status) ? status : typeof status}`);
   } else if (!callbacks.length) {
     throw new Error('At least one callback is required');
-  } else if (_.find(callbacks, (c) => !_.isFunction(c))) {
+  } else if (_.find(callbacks, c => typeof c !== 'function')) {
     throw new Error('Additional arguments must be functions');
   }
 
@@ -85,7 +85,7 @@ exports.validateValue = function(value, status, ...callbacks) {
  *
  * @param {Request} req - The Express request object to validate.
  *
- * @param {object} [options] - Validation options (may be omitted).
+ * @param {Object} [options] - Validation options (may be omitted).
  *
  * @param {number} [options.status=422] - The HTTP status code that the response should have if validation fails.
  *
@@ -103,21 +103,28 @@ exports.validateValue = function(value, status, ...callbacks) {
 exports.validateRequestBody = function(req, options, ...callbacks) {
   ensureRequest(req, 'First argument');
 
-  if (_.isFunction(options)) {
+  let actualOptions;
+  if (typeof options === 'function') {
     callbacks.unshift(options);
-    options = {};
+    actualOptions = {};
   }
 
-  options = options || {};
-  const status = options.status || 422;
-  const types = options.types || [ 'object' ];
+  actualOptions = options || {};
+  const status = actualOptions.status || 422;
+  const types = actualOptions.types || [ 'object' ];
 
   return exports.validateValue(req, status, function() {
     return this.validate(this.property('body'), this.type(...types), ...callbacks);
   });
 };
 
-// FIXME: remove this fix when issue is resolved (https://github.com/petkaantonov/bluebird/issues/1404)
+/**
+ * Converts a custom promise to a native promise.
+ *
+ * @param {Promise} promise - The promise to convert.
+ * @returns {Promise} A native promise.
+ */
 function toNativePromise(promise) {
+  // FIXME: remove this fix when issue is resolved (https://github.com/petkaantonov/bluebird/issues/1404)
   return new Promise((resolve, reject) => promise.then(resolve, reject));
-};
+}

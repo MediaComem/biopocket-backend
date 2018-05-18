@@ -18,7 +18,11 @@ const util = require('util');
  * @property {number} status - The HTTP status code to respond with when this error occurs.
  * @property {string} code - A code identifying the error (e.g. `category.whatWentWrong`).
  * @property {string} message - A description of the problem.
- * @property {object} headers - Headers that should be added to the headers of the response sending back this error.
+ * @property {Object} headers - Headers that should be added to the headers of the response sending back this error.
+ *
+ * @param {number} status - The HTTP status code to respond with when this error occurs.
+ * @param {string} code - A code identifying the error (e.g. `category.whatWentWrong`).
+ * @param {string} message - A description of the problem.
  */
 function ApiError(status, code, message) {
 
@@ -36,21 +40,25 @@ util.inherits(ApiError, Error);
 /**
  * Adds a new property to the `headers` property of the current ApiError object.
  * The `name` and `value` parameters will be used respectivly as this new property's name and value.
- * 
+ *
  * @method
- * @memberof ApiError
  * @instance
  * @param {string} name - The name of the header
  * @param {string} value - The value of the header
  * @throws {Error} If no `name` argument is provided or it is not a string
  * @throws {Error} If no `value` argument is provided
+ * @returns {ApiError} This error.
  */
 ApiError.prototype.header = function(name, value) {
-  if (!name || !util.isString(name)) throw new Error('A name argument is required as the first argument to the header method');
-  if (!value) throw new Error('A value argument is required as the second argument to the header method');
+  if (!name || !util.isString(name)) {
+    throw new Error('A name argument is required as the first argument to the header method');
+  } else if (!value) {
+    throw new Error('A value argument is required as the second argument to the header method');
+  }
+
   this.headers[name] = value;
   return this;
-}
+};
 
 exports.ApiError = ApiError;
 
@@ -123,19 +131,22 @@ exports.notFound = function(code, message) {
 
 /**
  * Returns an HTTP 404 Not Found error due to a missing resource.
+ *
+ * @param {string} name - The type of record (e.g. `user`).
+ * @param {string} id - The API ID of the record.
  * @returns {ApiError} An API error.
  */
 exports.recordNotFound = function(name, id) {
-  return exports.notFound('record.notFound', 'No ' + name + ' was found with ID ' + id + '.');
+  return exports.notFound('record.notFound', `No ${name} was found with ID ${id}.`);
 };
 
 /**
  * Returns an HTTP 405 Method Not Allowed.
- * 
+ *
  * Also adds a new `Allow` header to the returned ApiError (using the `apiError.header()` method) whose value lists the allowed methods given in the `allowedMethods` array.
- * 
+ *
  * The message defaults to "The method received in the request-line is known by the origin server but not supported by the target resource."
- * 
+ *
  * @param {array} allowedMethods - An array of HTTP methods.
  * @param {string} [code=method.notAllowed] - A code identifying the error.
  * @param {string} [message] - A description of the problem.
@@ -146,12 +157,12 @@ exports.recordNotFound = function(name, id) {
  */
 exports.methodNotAllowed = function(allowedMethods, code, message) {
   if (!allowedMethods) {
-    throw new Error("An allowedMethods argument is required for a methodNotAllowed error");
+    throw new Error('An allowedMethods argument is required for a methodNotAllowed error');
   } else if (!util.isArray(allowedMethods)) {
     throw new TypeError('The allowedMethods argument must be an array');
   } else if (allowedMethods.length === 0) {
-    throw new Error("The allowedMethods argument must contain at least one HTTP method name");
+    throw new Error('The allowedMethods argument must contain at least one HTTP method name');
   }
   return new ApiError(405, code || 'method.notAllowed', message || 'The method received in the request-line is known by the origin server but not supported by the target resource.')
     .header('Allow', allowedMethods.join(', '));
-}
+};

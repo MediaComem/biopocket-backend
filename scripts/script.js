@@ -27,6 +27,10 @@ const config = require('../config');
  * @class
  */
 class Script {
+
+  /**
+   * Constructs a new script.
+   */
   constructor() {
     this.logger = config.logger('script');
   }
@@ -46,8 +50,6 @@ class Script {
    * allows this script to be reused by importing it and calling its `run`
    * method manually, with the setup/teardown steps being handled by the parent
    * script.
-   *
-   * @method
    */
   autoRun() {
     if (!process.env.NO_SCRIPT) {
@@ -66,18 +68,15 @@ class Script {
    * Runs the script.
    *
    * This method should be overriden by subclasses to do the actual work.
-   *
-   * @method
    */
   run() {
+    // Do nothing by default.
   }
 
   /**
    * Called if the script succeeds.
    *
    * It logs an INFO message to the console by default.
-   *
-   * @method
    */
   onSuccess() {
     this.logger.info(`${this.constructor.name} successful`);
@@ -89,7 +88,7 @@ class Script {
    * It logs a FATAL message to the console by default and sets the exit code of
    * the script to 1 for when the `exit` method is called.
    *
-   * @method
+   * @param {Error} err - The error that caused the script to fail.
    */
   onFailure(err) {
     this.logger.fatal(err);
@@ -102,8 +101,6 @@ class Script {
    *
    * It exits the process with code 0, or with the value of the `exitCode`
    * property (which is set to 1 by `onFailure`).
-   *
-   * @method
    */
   exit() {
     process.exit(this.exitCode || 0);

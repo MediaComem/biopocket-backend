@@ -1,5 +1,5 @@
 const { expect } = require('../../spec/utils');
-const { singleValue, multiValue } = require('./params');
+const { multiValue, singleValue } = require('./params');
 
 describe('API param utilities', function() {
   describe('singleValue', function() {

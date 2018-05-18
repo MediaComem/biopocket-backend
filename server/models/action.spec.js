@@ -1,5 +1,5 @@
-const { expect, setUp, cleanDatabase, expectTouchTimestamps } = require('../spec/utils');
 const themeFixtures = require('../spec/fixtures/theme');
+const { cleanDatabase, expect, expectTouchTimestamps, setUp } = require('../spec/utils');
 const Action = require('./action');
 
 setUp();
@@ -25,10 +25,10 @@ describe('Action model', () => {
     expect(result).to.be.an.instanceOf(Action);
 
     expect(result.get('id'), 'article.id').to.be.a('string');
-    expect(result.get('origin_id'), 'article.origin_id').to.be.null;
+    expect(result.get('origin_id'), 'article.origin_id').to.equal(null);
     expect(result.get('api_id'), 'article.api_id').to.be.a('string');
     expect(result.get('title'), 'article.title').to.equal(data.title);
-    expect(result.get('code'), 'article.code').to.be.null;
+    expect(result.get('code'), 'article.code').to.equal(null);
     expect(result.get('description'), 'article.description').to.equal(data.description);
     expect(result.get('theme_id'), 'article.theme_id').to.equal(theme.get('id'));
     expectTouchTimestamps(result);

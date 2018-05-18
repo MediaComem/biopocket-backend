@@ -155,7 +155,7 @@ describe('GeoJSON fixtures', () => {
           { bbox: [ 10, 20, 20, 30 ], padding: [], message: 'Padding array must have 1 to 4 elements, got 0' },
           { bbox: [ 10, 20, 20, 30 ], padding: [ 1, 2, 3, 4, 5 ], message: 'Padding array must have 1 to 4 elements, got 5' },
           { bbox: [ 10, 20, 20, 30 ], padding: [ 2, 3, 'bar' ], message: 'Padding array must contain only numbers, got [number,number,string]' },
-          { bbox: [ 10, 20, 20, 30 ], padding: [ 2, -10, 3 ], message: 'Padding array must contain only zeros or positive numbers, got [2,-10,3]' },
+          { bbox: [ 10, 20, 20, 30 ], padding: [ 2, -10, 3 ], message: 'Padding array must contain only zeros or positive numbers, got [2,-10,3]' }
         ].forEach(paddingTestData => {
           it(`should not accept invalid padding ${JSON.stringify(paddingTestData.padding)}`, () => {
 
@@ -204,6 +204,6 @@ describe('GeoJSON fixtures', () => {
           });
         });
       });
-    })
+    });
   });
 });

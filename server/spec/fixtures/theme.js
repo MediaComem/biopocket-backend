@@ -25,11 +25,11 @@ const { createRecord } = require('../utils');
  *     console.log(theme.get('description'));  // "Lorem ipsum [...]"
  *
  * @function
- * @param {object} [data={}] - Custom theme data.
- * @param {string} [data.title]
+ * @param {Object} [data={}] - Custom theme data.
+ * @param {string} [data.title] - The title.
  * @param {string} [data.code] - Set to `null` to create a theme without a code.
- * @param {string} [data.description]
- * @param {string} [data.photoUrl]
+ * @param {string} [data.description] - The description.
+ * @param {string} [data.photoUrl] - A URL to a photo.
  * @param {string} [data.source] - Set to `null` to create a theme without a source.
  * @returns {Promise<Theme>} A promise that will be resolved with the saved theme.
  */
@@ -38,7 +38,7 @@ exports.theme = function(data = {}) {
     title: data.title || chance.sentence({ words: 5 }),
     code: _.has(data, 'code') ? data.code : exports.code(),
     description: data.description || chance.paragraph(),
-    photo_url: data.photoUrl || chance.url({ domain: 'example.com', extensions: ['jpg'] }),
+    photo_url: data.photoUrl || chance.url({ domain: 'example.com', extensions: [ 'jpg' ] }),
     source: _.has(data, 'source') ? data.source : chance.sentence({ words: 3 }),
     created_at: data.createdAt,
     updated_at: data.updatedAt
@@ -50,7 +50,7 @@ exports.theme = function(data = {}) {
  * This code is composed of :
  * * A random letter
  * * A random integer between 0 and 9
- * 
+ *
  *     const themeFixtures = require('../spec/fixtures/theme');
  *
  *     themeFixtures.code();  // "N7"
@@ -59,4 +59,4 @@ exports.theme = function(data = {}) {
  */
 exports.code = function() {
   return chance.letter().toUpperCase() + chance.integer({ min: 0, max: 9 });
-}
+};

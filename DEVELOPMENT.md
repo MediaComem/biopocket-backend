@@ -139,14 +139,18 @@ test or production mode.
 
 Useful scripts for day-to-day development.
 
-| Script               | Purpose                                                                                                                    |
-| :---                 | :---                                                                                                                       |
-| `npm run dev`        | Run the server and open the project's documentation with live reload                                                       |
-| `npm run dev:all`    | Run the server, open the project's documentation with live reload, and automatically run automated tests when code changes |
-| `npm run dev:docs`   | Generate the project's documentation and opens it in your browser with live reload                                         |
-| `npm run dev:server` | Run the server in development mode with live reload                                                                        |
-| `npm run dev:test`   | Run the automated tests and automatically re-runs them when code changes                                                   |
-| `npm start`          | Run the server                                                                                                             |
+| Script                          | Purpose                                                                                                                    |
+| :---                            | :---                                                                                                                       |
+| `npm run dev`                   | Run the server and open the project's documentation with live reload                                                       |
+| `npm run dev:all`               | Run the server, open the project's documentation with live reload, and automatically run automated tests when code changes |
+| `npm run dev:docs`              | Generate the project's documentation and opens it in your browser with live reload                                         |
+| `npm run dev:lintAndTest`       | Run [code linting](#linting) and automated tests                                                                           |
+| `npm run dev:lintAndTest:watch` | Watch for code changes and automatically run [code linting](#linting) and automated tests when it changes                  |
+| `npm run dev:server`            | Run the server in development mode with live reload                                                                        |
+| `npm run dev:test`              | Run [code linting](#linting) and automated tests and automatically re-runs them when code changes                          |
+| `npm run lint`                  | Run [code linting](#linting) with ESLint                                                                                   |
+| `npm run lint:watch`            | Watch for code changes and automatically run [code linting](#linting) when it changes                                      |
+| `npm start`                     | Run the server                                                                                                             |
 
 ### Database scripts
 
@@ -425,7 +429,7 @@ Guidelines:
 
 ### Source code JSDoc documentation
 
-Some of the source code is documented inline with [JSDoc][jsdoc].
+The source code is documented inline with [JSDoc][jsdoc].
 
 You can generate this documentation by running `npm run docs:src` and will find
 the results in the `docs/src` directory. It is also generated and served in your
@@ -486,6 +490,45 @@ TODO: test coverage configuration with babel/nyc
 
 
 
+## Linting
+
+[ESLint][eslint] is used to check the project's JavaScript code. It mainly does two things:
+
+* Check for syntax errors.
+* Enforce our style guide.
+
+Our ESLint configuration is in the [`.eslintrc.json`][.eslintrc.json] file. Refer to ESLint's [rules
+documentation][eslint-rules] for more information on how to configure specific rules.
+
+These two additional plugins have been added:
+
+* [eslint-plugin-sort-destructure-keys][eslint-plugin-sort-destructure-keys] to sort destructured
+  object properties.
+* [eslint-plugin-sort-requires-by-path][eslint-plugin-sort-requires-by-path] to sort Node.js
+  `require` statements.
+
+Note the following special configurations regarding Lodash:
+
+* ESLint's [id-blacklist][eslint-rule-id-blacklist] and
+  [no-restricted-properties][eslint-rule-no-restricted-properties] rules have been configured to
+  avoid using specific [Lodash][lodash] functions in the project, namely `isBoolean`, `isFunction`,
+  `isNumber` and `isString`. Prefer using the `typeof` operator instead:
+
+  ```js
+  // INCORRECT
+  const _ = require('lodash');
+  if (_.isString(x)) {
+    // Do something.
+  }
+
+  // CORRECT
+  if (typeof x === 'string') {
+    // Do something.
+  }
+  ```
+
+
+
 [babel-plugin-istanbul]: https://github.com/istanbuljs/babel-plugin-istanbul
 [babel-require]: https://www.npmjs.com/package/babel-register
 [bcrypt]: https://en.wikipedia.org/wiki/Bcrypt
@@ -503,12 +546,19 @@ TODO: test coverage configuration with babel/nyc
 [docs]: https://mediacomem.github.io/biopocket-backend/
 [draw.io]: https://www.draw.io/
 [enrich-api-error]: https://github.com/MediaComem/enrich-api-error
+[eslint]: https://eslint.org
+[eslint-rule-id-blacklist]: https://eslint.org/docs/rules/id-blacklist
+[eslint-rule-no-restricted-properties]: https://eslint.org/docs/rules/no-restricted-properties
+[eslint-rules]: https://eslint.org/docs/rules/
+[eslint-plugin-sort-destructure-keys]: https://github.com/mthadley/eslint-plugin-sort-destructure-keys
+[eslint-plugin-sort-requires-by-path]: https://github.com/oaltman/eslint-plugin-sort-requires-by-path
 [express-jwt-policies]: https://github.com/MediaComem/express-jwt-policies#readme
 [istanbul]: https://istanbul.js.org
 [jsdoc]: http://usejsdoc.org
 [jwt]: https://jwt.io
 [knex]: http://knexjs.org
 [knex-migrations]: http://knexjs.org/#Migrations
+[lodash]: https://lodash.com
 [log4js]: https://www.npmjs.com/package/log4js
 [migrationstodo]: ./MIGRATIONS_TODO.md
 [mocha]: https://mochajs.org

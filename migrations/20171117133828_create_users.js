@@ -1,3 +1,4 @@
+/* eslint "require-jsdoc": ["off"] */
 const { logMigration } = require('../utils/migrations');
 
 exports.up = async function(knex) {

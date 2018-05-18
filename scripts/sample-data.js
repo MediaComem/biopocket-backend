@@ -24,6 +24,10 @@ const ONEX_BBOX = {
  * @memberof module:scripts
  */
 class SampleDataScript extends Script {
+
+  /**
+   * Runs the script.
+   */
   async run() {
 
     this.start = new Date().getTime();
@@ -46,6 +50,9 @@ class SampleDataScript extends Script {
     }
   }
 
+  /**
+   * Logs the time it took to generate the sample data.
+   */
   onSuccess() {
     const duration = (new Date().getTime() - this.start) / 1000;
     this.logger.info(`Sample data generated in ${duration}s`);

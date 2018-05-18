@@ -5,22 +5,26 @@ module.exports = bookshelf => {
   bookshelf.Model = bookshelf.Model.extend({
     returningProperties: '*',
 
-    constructor: function() {
-      proto.constructor.apply(this, arguments);
+    constructor(...args) {
+      proto.constructor.apply(this, args);
 
       // Workaround (see https://github.com/tgriesser/bookshelf/issues/507#issuecomment-99634467)
       this.on('saving', (model, attrs, options) => {
         if (options.method === 'insert') {
           const returningProperties = this.returningProperties;
           Object.defineProperty(options.query._single, 'returning', {
-            get() { return returningProperties; },
-            set() { return returningProperties; },
+            get() {
+              return returningProperties;
+            },
+            set() {
+              return returningProperties;
+            },
             configurable: true,
             enumerable: true,
-            writeable: true,
+            writeable: true
           });
         } else {
-          options.query.returning.call(options.query, this.returningProperties);
+          options.query.returning(this.returningProperties);
         }
       });
 
@@ -28,13 +32,14 @@ module.exports = bookshelf => {
       this.on('saved', (model, attrs, options) => {
         if (options.method === 'insert') {
           model.set(model.parse(model.id));
-        } else {
-          const id = model.get(model.idAttribute);
-          if (id) {
-            const attr = attrs.find(attr => attr.id === id);
-            if (attr) {
-              model.set(model.parse(attr));
-            }
+          return;
+        }
+
+        const id = model.get(model.idAttribute);
+        if (id) {
+          const attribute = attrs.find(attr => attr.id === id);
+          if (attribute) {
+            model.set(model.parse(attribute));
           }
         }
       });
