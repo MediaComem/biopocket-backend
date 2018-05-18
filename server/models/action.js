@@ -25,7 +25,7 @@ const Action = Abstract.extend({
   tableName: 'actions',
   timestamps: true,
   theme() {
-    return this.belongsTo(Theme);
+    return this.belongsTo('Theme');
   }
 });
 
