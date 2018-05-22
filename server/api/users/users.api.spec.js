@@ -4,7 +4,7 @@ const moment = require('moment');
 const User = require('../../models/user');
 const expectUser = require('../../spec/expectations/user');
 const userFixtures = require('../../spec/fixtures/user');
-const { cleanDatabase, expect, expectErrors, initSuperRest, setUp, expectMethodsNotAllowed } = require('../../spec/utils');
+const { cleanDatabase, expect, expectErrors, initSuperRest, setUp, testMethodsNotAllowed } = require('../../spec/utils');
 
 setUp();
 
@@ -18,7 +18,7 @@ describe('Users API', function() {
   });
 
   describe('/api/users/:id', function() {
-    expectMethodsNotAllowed('/users/:id', require('../users/users.routes').allowedMethods['/:id']);
+    testMethodsNotAllowed('/users/:id', require('../users/users.routes').allowedMethods['/:id']);
   });
 
   describe('GET /api/users/:id', function() {
@@ -120,7 +120,7 @@ describe('Users API', function() {
   });
 
   describe('/api/me', function() {
-    expectMethodsNotAllowed('/me', require('../users/users.me.routes').allowedMethods['/']);
+    testMethodsNotAllowed('/me', require('../users/users.me.routes').allowedMethods['/']);
   });
 
   describe('GET /api/me', function() {

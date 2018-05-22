@@ -40,10 +40,10 @@ const expect = exports.expect = chai.expect;
  * @param {string} path - The path to test
  * @param {array} allowedMethods - An array of the methods to test on the path
  */
-exports.expectMethodsNotAllowed = async function(path, allowedMethods) {
-  const methodToTest = _.difference(httpMethods, allowedMethods);
+exports.testMethodsNotAllowed = async function(path, allowedMethods) {
+  const methodsToTest = _.difference(httpMethods, allowedMethods);
 
-  _.each(methodToTest, method => {
+  _.each(methodsToTest, method => {
     it(`should not allow request with ${method} method`, async function() {
       const res = this.test.res = await exports.initSuperRest().test(method, path, {}, { expectedStatus: 405 });
 

@@ -7,7 +7,7 @@ const expectLocation = require('../../spec/expectations/location');
 const geoJsonFixtures = require('../../spec/fixtures/geojson');
 const locationFixtures = require('../../spec/fixtures/location');
 const userFixtures = require('../../spec/fixtures/user');
-const { cleanDatabase, expect, expectDeleted, expectErrors, expectUnchanged, initSuperRest, setUp, expectMethodsNotAllowed } = require('../../spec/utils');
+const { cleanDatabase, expect, expectDeleted, expectErrors, expectUnchanged, initSuperRest, setUp, testMethodsNotAllowed } = require('../../spec/utils');
 
 setUp();
 
@@ -21,7 +21,7 @@ describe('Locations API', function() {
   });
 
   describe('/api/locations', function() {
-    expectMethodsNotAllowed('/locations', require('../locations/locations.routes').allowedMethods['/']);
+    testMethodsNotAllowed('/locations', require('../locations/locations.routes').allowedMethods['/']);
   });
 
   describe('POST /api/locations', function() {
@@ -505,7 +505,7 @@ describe('Locations API', function() {
   });
 
   describe('/api/locations/:id', function() {
-    expectMethodsNotAllowed('/locations/1', require('../locations/locations.routes').allowedMethods['/:id']);
+    testMethodsNotAllowed('/locations/1', require('../locations/locations.routes').allowedMethods['/:id']);
   });
 
   describe('GET /api/locations/:id', function() {
