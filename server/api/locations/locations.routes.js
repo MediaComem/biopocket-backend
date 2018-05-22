@@ -1,10 +1,16 @@
 const express = require('express');
 
+const api = require('../utils/api');
 const auth = require('../utils/auth');
 const controller = require('./locations.api');
 const policy = require('./locations.policy');
 
 const router = express.Router();
+
+const allowedMethods = {
+  '/': [ 'GET', 'POST' ],
+  '/:id': [ 'GET', 'PATCH', 'DELETE' ]
+};
 
 // POST /api/locations
 router.post('/',
@@ -34,4 +40,10 @@ router.delete('/:id',
   auth.authorize(policy.canDestroy),
   controller.destroy);
 
-module.exports = router;
+// Handle unallowed HTTP methids on /:id
+router.use('/:id', api.allowsOnlyMethod(allowedMethods[ '/:id' ]));
+// Handle unallowed HTTP methods on /
+router.use('/', api.allowsOnlyMethod(allowedMethods[ '/' ]));
+
+exports.router = router;
+exports.allowedMethods = allowedMethods;
