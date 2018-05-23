@@ -119,17 +119,16 @@ module.exports = expressJwtPolicies({
   authorizationErrorHandler(err, req, res, next) {
     if (err.status !== 403) {
       next(err);
-      return;
-    }
-
-    const resourceName = req.authOptions.resourceName;
-    const resourceId = req.authOptions.resourceId ? req.authOptions.resourceId(req) : req.params.id;
-    if (resourceName && resourceId) {
-      next(errors.recordNotFound(resourceName, resourceId));
-      logger.debug(`Not authorized to access resource ${req.path} (${resourceName}/${resourceId})`);
     } else {
-      next(errors.forbidden());
-      logger.debug(`Not authorized to access resource ${req.path}`);
+      const resourceName = req.authOptions.resourceName;
+      const resourceId = req.authOptions.resourceId ? req.authOptions.resourceId(req) : req.params.id;
+      if (resourceName && resourceId) {
+        next(errors.recordNotFound(resourceName, resourceId));
+        logger.debug(`Not authorized to access resource ${req.path} (${resourceName}/${resourceId})`);
+      } else {
+        next(errors.forbidden());
+        logger.debug(`Not authorized to access resource ${req.path}`);
+      }
     }
   },
 

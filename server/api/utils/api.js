@@ -48,13 +48,13 @@ const errors = require('./errors');
 exports.fetcher = function(options) {
   if (!_.isObject(options)) {
     throw new Error('An options object is required');
-  } else if (typeof options.model !== 'function') {
+  } else if (!_.isFunction(options.model)) {
     throw new Error('The "model" option must be a database model');
-  } else if (_.has(options, 'queryHandler') && typeof options.queryHandler !== 'function') {
+  } else if (_.has(options, 'queryHandler') && !_.isFunction(options.queryHandler)) {
     throw new Error('The "queryHandler" option must be a function');
-  } else if (typeof options.resourceName !== 'string') {
+  } else if (!_.isString(options.resourceName)) {
     throw new Error('The "resourceName" option must be a string (e.g. the name of the model)');
-  } else if (_.has(options, 'requestProperty') && typeof options.requestProperty !== 'string') {
+  } else if (_.has(options, 'requestProperty') && !_.isString(options.requestProperty)) {
     throw new Error('The "requestProperty" option must be a string');
   }
 
@@ -69,14 +69,14 @@ exports.fetcher = function(options) {
   let validate = () => true;
   if (options.validate === 'uuid') {
     validate = id => Boolean(id.match(/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i));
-  } else if (typeof options.validate !== 'function') {
+  } else if (!_.isFunction(options.validate)) {
     validate = options.validate;
   } else if (options.validate !== undefined) {
     throw new Error('The "validate" option must be a function or the string "uuid"');
   }
 
   let coerce = value => value;
-  if (typeof options.coerce === 'function') {
+  if (_.isFunction(options.coerce)) {
     coerce = options.coerce;
   } else if (options.coerce !== undefined) {
     throw new Error('The "coerce" option must be a function');
@@ -100,7 +100,7 @@ exports.fetcher = function(options) {
       let query = new Model({ [column]: coercedResourceId });
 
       // Pass the query through the handler (if any).
-      if (typeof queryHandler === 'function') {
+      if (_.isFunction(queryHandler)) {
         query = queryHandler(query, req);
       }
 

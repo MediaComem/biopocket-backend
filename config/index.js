@@ -129,7 +129,7 @@ function joinProjectPath(...segments) {
 function parseConfigBoolean(value, defaultValue) {
   if (value === undefined) {
     return defaultValue;
-  } else if (typeof value !== 'string') {
+  } else if (!_.isString(value)) {
     return Boolean(value);
   } else {
     return Boolean(value.match(/^(1|y|yes|t|true)$/i));
@@ -253,17 +253,17 @@ function get(varName) {
 function validate(conf) {
   if (!_.isInteger(conf.bcryptCost) || conf.bcryptCost < 1) {
     throw new Error(`Unsupported bcrypt cost "${conf.bcryptCost}" (type ${typeof conf.bcryptCost}); must be an integer greater than or equal to 1`);
-  } else if (typeof conf.cors !== 'boolean') {
+  } else if (!_.isBoolean(conf.cors)) {
     throw new Error(`Unsupported CORS value "${conf.cors}" (type ${typeof conf.cors}); must be a boolean`);
-  } else if (typeof conf.db !== 'string' || !conf.db.match(/^postgres:\/\//)) {
+  } else if (!_.isString(conf.db) || !conf.db.match(/^postgres:\/\//)) {
     throw new Error(`Unsupported database URL "${conf.db}" (type ${typeof conf.db}); must be a string starting with "postgres://"`);
   } else if (!_.includes(SUPPORTED_ENVIRONMENTS, conf.env)) {
     throw new Error(`Unsupported environment "${JSON.stringify(conf.env)}"; must be one of: ${SUPPORTED_ENVIRONMENTS.join(', ')}`);
-  } else if (typeof conf.logLevel !== 'string' || !_.includes(SUPPORTED_LOG_LEVELS, conf.logLevel.toUpperCase())) {
+  } else if (!_.isString(conf.logLevel) || !_.includes(SUPPORTED_LOG_LEVELS, conf.logLevel.toUpperCase())) {
     throw new Error(`Unsupported log level "${conf.logLevel}" (type ${typeof conf.logLevel}); must be one of: ${SUPPORTED_LOG_LEVELS.join(', ')}`);
   } else if (!_.isInteger(conf.port) || conf.port < 1 || conf.port > 65535) {
     throw new Error(`Unsupported port number "${conf.port}" (type ${typeof conf.port}); must be an integer between 1 and 65535`);
-  } else if (typeof conf.sessionSecret !== 'string' || conf.sessionSecret === 'changeme') {
+  } else if (!_.isString(conf.sessionSecret) || conf.sessionSecret === 'changeme') {
     throw new Error(`Unsupported session secret "${conf.sessionSecret}" (type ${typeof conf.sessionSecret}); must be a string different than "changeme"`);
   }
 }

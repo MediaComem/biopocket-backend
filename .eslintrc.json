@@ -53,7 +53,7 @@
     "func-names": [ "error", "never" ],
     "function-paren-newline": [ "error", "consistent" ],
     "handle-callback-err": [ "error" ],
-    "id-blacklist": [ "error", "isBoolean", "isFunction", "isNumber", "isString" ],
+    "id-blacklist": [ "error", "isNull", "isNumber", "isUndefined" ],
     "implicit-arrow-linebreak": [ "error" ],
     "indent": [
       "error",
@@ -137,23 +137,88 @@
       2,
       {
         "object": "_",
-        "property": "isBoolean",
-        "message": "Please use `typeof x === 'boolean'` or `typeof x !== 'boolean'`"
-      },
-      {
-        "object": "_",
-        "property": "isFunction",
-        "message": "Please use `typeof x === 'function'` or `typeof x !== 'function'`"
+        "property": "isNull",
+        "message": "Please use `value === null` or `value !== null`"
       },
       {
         "object": "_",
         "property": "isNumber",
-        "message": "Please use `typeof x === 'number'` or `typeof x !== 'number'`"
+        "message": "Please use `_.isFinite(value)`"
       },
       {
         "object": "_",
-        "property": "isString",
-        "message": "Please use `typeof x === 'string'` or `typeof x !== 'string'`"
+        "property": "isUndefined",
+        "message": "Please use `value === undefined` or `value !== undefined`"
+      },
+      {
+        "object": "Array",
+        "property": "isArray",
+        "message": "Please use Lodash's `_.isArray(value)`"
+      },
+      {
+        "object": "util",
+        "property": "isArray",
+        "message": "Please use Lodash's `_.isArray(value)`"
+      },
+      {
+        "object": "util",
+        "property": "isBoolean",
+        "message": "Please use Lodash's `_.isBoolean(value)`"
+      },
+      {
+        "object": "util",
+        "property": "isBuffer",
+        "message": "Please use Lodash's `_.isBuffer(value)`"
+      },
+      {
+        "object": "util",
+        "property": "isDate",
+        "message": "Please use Lodash's `_.isDate(value)`"
+      },
+      {
+        "object": "util",
+        "property": "isError",
+        "message": "Please use Lodash's `_.isError(value)`"
+      },
+      {
+        "object": "util",
+        "property": "isFunction",
+        "message": "Please use Lodash's `_.isFunction(value)`"
+      },
+      {
+        "object": "util",
+        "property": "isNull",
+        "message": "Please use `value === null` or `value !== null`"
+      },
+      {
+        "object": "util",
+        "property": "isNullOrUndefined",
+        "message": "Please use Lodash's `_.isNil(value)`"
+      },
+      {
+        "object": "util",
+        "property": "isNumber",
+        "message": "Please use Lodash's `_.isNumber(value)`"
+      },
+      {
+        "object": "util",
+        "property": "isObject",
+        "message": "Please use Lodash's `_.isObject(value)`"
+      },
+      {
+        "object": "util",
+        "property": "isRegExp",
+        "message": "Please use Lodash's `_.isRegExp(value)`"
+      },
+      {
+        "object": "util",
+        "property": "isSymbol",
+        "message": "Please use Lodash's `_.isSymbol(value)`"
+      },
+      {
+        "object": "util",
+        "property": "isUndefined",
+        "message": "Please use `value === undefined` or `value !== undefined`"
       }
     ],
     "no-return-assign": [ "error" ],

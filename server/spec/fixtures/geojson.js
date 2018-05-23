@@ -163,15 +163,15 @@ function ensureCoordinates(coordinates) {
  * @returns {number|number[]} The padding.
  */
 function ensurePadding(padding) {
-  if (!_.isArray(padding) && typeof padding !== 'number') {
+  if (!_.isArray(padding) && !_.isFinite(padding)) {
     throw new Error(`Padding must be an array or a number, got ${typeof padding}`);
   } else if (_.isArray(padding) && (padding.length < 1 || padding.length > 4)) {
     throw new Error(`Padding array must have 1 to 4 elements, got ${padding.length}`);
-  } else if (_.isArray(padding) && padding.some(value => typeof value !== 'number')) {
+  } else if (_.isArray(padding) && padding.some(value => !_.isFinite(value))) {
     throw new Error(`Padding array must contain only numbers, got [${padding.map(value => typeof value).join(',')}]`);
   } else if (_.isArray(padding) && padding.some(value => value < 0)) {
     throw new Error(`Padding array must contain only zeros or positive numbers, got ${JSON.stringify(padding)}`);
-  } else if (typeof padding === 'number' && padding < 0) {
+  } else if (_.isFinite(padding) && padding < 0) {
     throw new Error(`Padding must be zero or a positive number, got ${padding}`);
   } else {
     return padding;
@@ -185,7 +185,7 @@ function ensurePadding(padding) {
  * @returns {number[]} An array of 4 numbers (north, east, south and west).
  */
 function normalizePadding(padding) {
-  if (typeof padding === 'number') {
+  if (_.isFinite(padding)) {
     return new Array(4).fill(padding);
   } else if (padding.length === 1) {
     return new Array(4).fill(padding[0]);

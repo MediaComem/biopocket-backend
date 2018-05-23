@@ -507,22 +507,45 @@ These two additional plugins have been added:
 * [eslint-plugin-sort-requires-by-path][eslint-plugin-sort-requires-by-path] to sort Node.js
   `require` statements.
 
-Note the following special configurations regarding Lodash:
+Note the following special configurations regarding Lodash and Node.js's `util` package:
 
 * ESLint's [id-blacklist][eslint-rule-id-blacklist] and
   [no-restricted-properties][eslint-rule-no-restricted-properties] rules have been configured to
-  avoid using specific [Lodash][lodash] functions in the project, namely `isBoolean`, `isFunction`,
-  `isNumber` and `isString`. Prefer using the `typeof` operator instead:
+  avoid using specific [deprecated `util` methods][node-util-deprecated] functions in the project,
+  namely `isBoolean`, `isFunction`, `isNumber` and `isString`. Prefer using [Lodash][lodash]'s
+  corresponding functions:
 
   ```js
   // INCORRECT
+  const util = require('util');
+  if (util.isString(x)) {
+    // Do something.
+  }
+
+  // CORRECT
   const _ = require('lodash');
   if (_.isString(x)) {
     // Do something.
   }
 
   // CORRECT
-  if (typeof x === 'string') {
+  const { isString } = require('lodash');
+  if (isString(x)) {
+    // Do something.
+  }
+  ```
+
+  Lodash's `isNull` and `isUndefined` functions should not be used, however:
+
+  ```js
+  // INCORRECT
+  const _ = require('lodash');
+  if (_.isNull(x) || _.isUndefined(x)) {
+    // Do something.
+  }
+
+  // CORRECT
+  if (x === null || x === undefined) {
     // Do something.
   }
   ```
@@ -563,6 +586,7 @@ Note the following special configurations regarding Lodash:
 [migrationstodo]: ./MIGRATIONS_TODO.md
 [mocha]: https://mochajs.org
 [mocha-api-errors]: https://github.com/MediaComem/mocha-api-errors
+[node-util-deprecated]: https://nodejs.org/api/util.html#util_deprecated_apis
 [nyc]: https://github.com/istanbuljs/nyc
 [orm-query-builder]: https://github.com/MediaComem/orm-query-builder
 [pg]: https://www.npmjs.com/package/pg

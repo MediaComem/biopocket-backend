@@ -39,7 +39,7 @@ exports.authenticate = route(async function(req, res) {
 
   // Check the password.
   const password = req.body.password;
-  if (typeof password !== 'string' || !user.hasPassword(password)) {
+  if (!_.isString(password) || !user.hasPassword(password)) {
     throw errors.unauthorized('auth.invalidCredentials', 'The password is invalid.');
   }
 

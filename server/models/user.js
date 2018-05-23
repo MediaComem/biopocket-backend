@@ -44,7 +44,7 @@ const User = Abstract.extend({
       set(password) {
         this._password = password;
 
-        if (typeof password === 'string' && password.length) {
+        if (_.isString(password) && password.length) {
           const salt = bcrypt.genSaltSync(config.bcryptCost);
           this.set('password_hash', bcrypt.hashSync(password, salt));
         } else {

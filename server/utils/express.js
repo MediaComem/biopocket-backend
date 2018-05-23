@@ -7,6 +7,7 @@ const config = require('../../config');
 const log4js = require('log4js');
 
 const logger = config.logger('express');
+const { isFunction, isString } = require('lodash');
 
 /**
  * Ensures that the specified object is an Express request, or throws an error.
@@ -30,7 +31,7 @@ exports.ensureRequest = function(req, description = 'Argument') {
  * @returns {boolean} True if the object looks like an Express request, false otherwise.
  */
 exports.isRequest = function(req) {
-  return req && req.app && typeof req.method === 'string' && typeof req.path === 'string';
+  return req && req.app && isString(req.method) && isString(req.path);
 };
 
 /**
@@ -40,7 +41,7 @@ exports.isRequest = function(req) {
  * @returns {boolean} True if the object looks like an Express response, false otherwise.
  */
 exports.isResponse = function(res) {
-  return res && res.app && typeof res.send === 'function';
+  return res && res.app && isFunction(res.send);
 };
 
 /**

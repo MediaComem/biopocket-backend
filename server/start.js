@@ -1,4 +1,5 @@
 const http = require('http');
+const { isString } = require('lodash');
 
 const config = require('../config');
 const app = require('./app');
@@ -33,7 +34,7 @@ function onError(error) {
   }
 
   const port = app.get('port');
-  const bind = typeof port === 'string' ? `Pipe ${port}` : `Port ${port}`;
+  const bind = isString(port) ? `Pipe ${port}` : `Port ${port}`;
 
   // Handle specific errors with friendly messages
   switch (error.code) {
@@ -54,7 +55,7 @@ function onError(error) {
 function onListening() {
 
   const addr = server.address();
-  const bind = typeof addr === 'string' ? `Pipe ${addr}` : `port ${addr.port}`;
+  const bind = isString(addr) ? `Pipe ${addr}` : `port ${addr.port}`;
 
   logger.info(`Listening on ${bind}`);
 }

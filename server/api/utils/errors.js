@@ -3,6 +3,7 @@
  *
  * @module server/api/utils/errors
  */
+const { isArray, isString } = require('lodash');
 const util = require('util');
 
 /**
@@ -50,7 +51,7 @@ util.inherits(ApiError, Error);
  * @returns {ApiError} This error.
  */
 ApiError.prototype.header = function(name, value) {
-  if (!name || !util.isString(name)) {
+  if (!name || !isString(name)) {
     throw new Error('A name argument is required as the first argument to the header method');
   } else if (!value) {
     throw new Error('A value argument is required as the second argument to the header method');
@@ -158,7 +159,7 @@ exports.recordNotFound = function(name, id) {
 exports.methodNotAllowed = function(allowedMethods, code, message) {
   if (!allowedMethods) {
     throw new Error('An allowedMethods argument is required for a methodNotAllowed error');
-  } else if (!util.isArray(allowedMethods)) {
+  } else if (!isArray(allowedMethods)) {
     throw new TypeError('The allowedMethods argument must be an array');
   } else if (allowedMethods.length === 0) {
     throw new Error('The allowedMethods argument must contain at least one HTTP method name');

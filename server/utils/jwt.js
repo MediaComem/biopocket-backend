@@ -50,7 +50,7 @@ exports.generateToken = function(properties) {
     throw new Error(`JWT "exp" option must be greater than zero, got ${jwtOptions.exp}`);
   } else if (!jwtOptions.sub) {
     throw new Error('JWT "sub" option is required');
-  } else if (typeof jwtOptions.sub !== 'string') {
+  } else if (!_.isString(jwtOptions.sub)) {
     throw new Error('JWT "sub" option must be a string');
   }
 

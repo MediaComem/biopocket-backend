@@ -18,7 +18,7 @@ exports.bboxString = function() {
 
     // Make sure the value is a string.
     const bbox = ctx.get('value');
-    if (typeof bbox !== 'string') {
+    if (!_.isString(bbox)) {
       return ctx.addError({
         validator: 'bboxString',
         cause: 'wrongType',

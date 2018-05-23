@@ -187,6 +187,8 @@ exports.expectUnchanged = async function(record, options = {}) {
  * @param {string} [options.hasBeenCreated="true"] - Indicates wether the given record has just been created or not.
  */
 exports.expectTouchTimestamps = function(record, options = {}) {
+  _.defaults(options, { hasBeenCreated: true });
+
   const created = record.get('created_at');
   if (!created) {
     throw new Error('Record must have a created_at property!');
@@ -199,7 +201,7 @@ exports.expectTouchTimestamps = function(record, options = {}) {
 
   expect(created).to.be.an.instanceOf(Date);
   expect(updated).to.be.an.instanceOf(Date);
-  if (_.get(options, 'hasBeenCreated', true)) {
+  if (options.hasBeenCreated) {
     expect(updated, 'record updated_at').to.be.sameMoment(created);
   } else {
     expect(updated, 'record updated_at').to.be.afterMoment(created);
