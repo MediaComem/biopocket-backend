@@ -55,6 +55,12 @@ exports.authenticate = route(async function(req, res) {
   });
 });
 
+/**
+ * Validates the authentication request in the request body.
+ *
+ * @param {Request} req - An Express request object.
+ * @returns {Promise<ValidationErrorBundle>} - A promise that will be resolved if the request is valid, or rejected with a bundle of errors if it is invalid.
+ */
 function validateAuthentication(req) {
   return validateRequestBody(req, function() {
     return this.parallel(

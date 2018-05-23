@@ -59,7 +59,7 @@ module.exports = function(actual, expected) {
 
   expect(actual.createdAt, 'location.createdAt').to.be.iso8601(...toArray(expected.createdAt));
 
-  if (expected.updatedAt == 'createdAt') {
+  if (expected.updatedAt === 'createdAt') {
     expect(actual.updatedAt, 'location.updatedAt').to.equal(actual.createdAt);
   } else {
     expect(actual.updatedAt, 'location.updatedAt').to.be.iso8601(...toArray(expected.updatedAt));

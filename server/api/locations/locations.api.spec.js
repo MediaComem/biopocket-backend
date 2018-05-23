@@ -2,7 +2,6 @@ const chance = require('chance').Chance();
 const _ = require('lodash');
 const moment = require('moment');
 
-const Location = require('../../models/location');
 const expectLocation = require('../../spec/expectations/location');
 const geoJsonFixtures = require('../../spec/fixtures/geojson');
 const locationFixtures = require('../../spec/fixtures/location');
@@ -26,8 +25,7 @@ describe('Locations API', function() {
 
   describe('POST /api/locations', function() {
 
-    let reqBody;
-    beforeEach(async function() {
+    beforeEach(function() {
 
       reqBody = {
         name: 'Somewhere over the rainbow',
@@ -37,7 +35,7 @@ describe('Locations API', function() {
         siteUrl: 'http://example.com',
         geometry: {
           type: 'Point',
-          coordinates: [-73.957820, 40.772317]
+          coordinates: [ -73.957820, 40.772317 ]
         },
         address: {
           street: 'Riverside Drive',
@@ -87,7 +85,7 @@ describe('Locations API', function() {
 
         await expectLocation(res.body, getExpectedLocationFromRequestBody({
           properties: {},
-          createdAt: ['gt', now, 500],
+          createdAt: [ 'gt', now, 500 ],
           updatedAt: 'createdAt'
         }));
       });
@@ -98,7 +96,7 @@ describe('Locations API', function() {
         reqBody.address.number = '210';
         reqBody.properties = {
           foo: 'bar',
-          bar: ['baz', 'qux']
+          bar: [ 'baz', 'qux' ]
         };
 
         const res = this.test.res = await api
@@ -106,7 +104,7 @@ describe('Locations API', function() {
           .set('Authorization', `Bearer ${admin.generateJwt()}`);
 
         await expectLocation(res.body, getExpectedLocationFromRequestBody({
-          createdAt: ['gt', now, 500],
+          createdAt: [ 'gt', now, 500 ],
           updatedAt: 'createdAt'
         }));
       });
@@ -223,9 +221,9 @@ describe('Locations API', function() {
         reqBody.address.zipCode = '12345678901234567';
         reqBody.geometry = {
           type: 'MultiLineString',
-          coordinates: ['foo', 666]
+          coordinates: [ 'foo', 666 ]
         };
-        reqBody.properties = ['foo'];
+        reqBody.properties = [ 'foo' ];
 
         const res = this.test.res = await api
           .create('/locations', reqBody, { expectedStatus: 422 })
@@ -244,7 +242,7 @@ describe('Locations API', function() {
             type: 'json',
             location: '/phone',
             validator: 'type',
-            types: ['string'],
+            types: [ 'string' ],
             value: 5550001,
             valueSet: true
           },
@@ -253,7 +251,7 @@ describe('Locations API', function() {
             type: 'json',
             location: '/siteUrl',
             validator: 'type',
-            types: ['string'],
+            types: [ 'string' ],
             value: false,
             valueSet: true
           },
@@ -262,8 +260,8 @@ describe('Locations API', function() {
             type: 'json',
             location: '/properties',
             validator: 'type',
-            types: ['object'],
-            value: ['foo'],
+            types: [ 'object' ],
+            value: [ 'foo' ],
             valueSet: true
           },
           {
@@ -335,7 +333,7 @@ describe('Locations API', function() {
             message: 'must be of type number',
             type: 'json',
             location: '/geometry/coordinates/0',
-            types: ['number'],
+            types: [ 'number' ],
             validator: 'type',
             value: 'foo',
             valueSet: true
@@ -352,6 +350,12 @@ describe('Locations API', function() {
       });
     });
 
+    /**
+     * Returns an object representing the expected properties of a Location, based on the default request body for this test block.
+     *
+     * @param {...Object} changes - Additional expected changes compared to the requets body (merged with Lodash's `extend`).
+     * @returns {Object} An expectations object.
+     */
     function getExpectedLocationFromRequestBody(...changes) {
       return _.merge({}, reqBody, ...changes);
     }
@@ -423,9 +427,9 @@ describe('Locations API', function() {
       let locations;
       beforeEach(async function() {
         locations = await Promise.all([
-          locationFixtures.location({ name: 'Location A - Somewhere', geometry: geoJsonFixtures.point({ bbox: { southWest: [9, 19], northEast: [11, 21] } }) }),
-          locationFixtures.location({ name: 'Location C - Somewhere else', geometry: geoJsonFixtures.point({ bbox: { southWest: [19, 29], northEast: [21, 31] } }) }),
-          locationFixtures.location({ name: 'Location B - Somewhere precise', geometry: geoJsonFixtures.point({ coordinates: [30, 40] }) })
+          locationFixtures.location({ name: 'Location A - Somewhere', geometry: geoJsonFixtures.point({ bbox: { southWest: [ 9, 19 ], northEast: [ 11, 21 ] } }) }),
+          locationFixtures.location({ name: 'Location C - Somewhere else', geometry: geoJsonFixtures.point({ bbox: { southWest: [ 19, 29 ], northEast: [ 21, 31 ] } }) }),
+          locationFixtures.location({ name: 'Location B - Somewhere precise', geometry: geoJsonFixtures.point({ coordinates: [ 30, 40 ] }) })
         ]);
       });
 
@@ -562,7 +566,7 @@ describe('Locations API', function() {
 
   describe('PATCH /api/locations/:id', function() {
 
-    let location, reqBody, twoDaysAgo;
+    let location, twoDaysAgo;
     beforeEach(async function() {
       twoDaysAgo = moment().subtract(2, 'days').toDate();
       location = await locationFixtures.location({
@@ -624,7 +628,7 @@ describe('Locations API', function() {
           .set('Authorization', `Bearer ${admin.generateJwt()}`);
 
         expectLocation(res.body, getExpectedLocation(location, reqBody, {
-          updatedAt: ['gte', now, 500]
+          updatedAt: [ 'gte', now, 500 ]
         }));
       });
 
@@ -635,7 +639,7 @@ describe('Locations API', function() {
           shortName: chance.word(),
           description: chance.paragraph(),
           phone: chance.phone(),
-          photoUrl: chance.url({ extensions: ['png'] }),
+          photoUrl: chance.url({ extensions: [ 'png' ] }),
           siteUrl: chance.url(),
           geometry: geoJsonFixtures.point(),
           properties: {
@@ -655,7 +659,7 @@ describe('Locations API', function() {
           .set('Authorization', `Bearer ${admin.generateJwt()}`);
 
         expectLocation(res.body, getExpectedLocation(location, reqBody, {
-          updatedAt: ['gte', now, 500]
+          updatedAt: [ 'gte', now, 500 ]
         }));
       });
 
@@ -674,7 +678,7 @@ describe('Locations API', function() {
           .set('Authorization', `Bearer ${admin.generateJwt()}`);
 
         expectLocation(res.body, getExpectedLocation(location, reqBody, {
-          updatedAt: ['gte', now, 500]
+          updatedAt: [ 'gte', now, 500 ]
         }));
       });
 
@@ -701,9 +705,9 @@ describe('Locations API', function() {
           },
           geometry: {
             type: 'MultiLineString',
-            coordinates: ['foo', 666]
+            coordinates: [ 'foo', 666 ]
           },
-          properties: ['foo']
+          properties: [ 'foo' ]
         };
 
         const res = this.test.res = await api
@@ -716,7 +720,7 @@ describe('Locations API', function() {
             type: 'json',
             location: '/phone',
             validator: 'type',
-            types: ['string'],
+            types: [ 'string' ],
             value: 5550001,
             valueSet: true
           },
@@ -725,7 +729,7 @@ describe('Locations API', function() {
             type: 'json',
             location: '/siteUrl',
             validator: 'type',
-            types: ['string'],
+            types: [ 'string' ],
             value: false,
             valueSet: true
           },
@@ -734,8 +738,8 @@ describe('Locations API', function() {
             type: 'json',
             location: '/properties',
             validator: 'type',
-            types: ['object'],
-            value: ['foo'],
+            types: [ 'object' ],
+            value: [ 'foo' ],
             valueSet: true
           },
           {
@@ -800,7 +804,7 @@ describe('Locations API', function() {
             message: 'must be of type number',
             type: 'json',
             location: '/geometry/coordinates/0',
-            types: ['number'],
+            types: [ 'number' ],
             validator: 'type',
             value: 'foo',
             valueSet: true
@@ -820,7 +824,7 @@ describe('Locations API', function() {
 
         reqBody = {
           geometry: {
-            coordinates: [99, 66]
+            coordinates: [ 99, 66 ]
           }
         };
 
@@ -834,9 +838,9 @@ describe('Locations API', function() {
           location: '/geometry',
           validator: 'properties',
           cause: 'missingProperties',
-          expectedProperties: ['type', 'coordinates'],
-          missingProperties: ['type'],
-          value: { coordinates: [99, 66] },
+          expectedProperties: [ 'type', 'coordinates' ],
+          missingProperties: [ 'type' ],
+          value: { coordinates: [ 99, 66 ] },
           valueSet: true
         });
       });
@@ -878,7 +882,7 @@ describe('Locations API', function() {
       await expectUnchanged(location);
     });
 
-    describe('as an admin', async function() {
+    describe('as an admin', function() {
 
       let admin;
       beforeEach(async function() {
@@ -887,7 +891,7 @@ describe('Locations API', function() {
 
       it('should delete a location', async function() {
 
-        const res = this.test.res = await api
+        this.test.res = await api
           .delete(`/locations/${location.get('api_id')}`, reqBody, { expectedStatus: 204 })
           .set('Authorization', `Bearer ${admin.generateJwt()}`);
 
@@ -910,6 +914,14 @@ describe('Locations API', function() {
     });
   });
 
+  /**
+   * Returns an object representing the expected properties of a Location, based on the specified Location.
+   * (Can be used, for example, to check if a returned API response matches a Location in the database.)
+   *
+   * @param {Location} location - The location to build the expectations from.
+   * @param {...Object} changes - Additional expected changes compared to the specified Location (merged with Lodash's `extend`).
+   * @returns {Object} An expectations object.
+   */
   function getExpectedLocation(location, ...changes) {
     return _.merge({
       id: location.get('api_id'),

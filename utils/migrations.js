@@ -3,7 +3,6 @@
  *
  * @module utils
  */
-const _ = require('lodash');
 const config = require('../config');
 
 const logger = config.logger('db');
@@ -26,6 +25,8 @@ const logEnabled = Symbol('logEnabled');
  *       logMigration(knex);
  *       // Migrate stuff...
  *     };
+ *
+ * @param {Knex} knex - The Knex instance used to perform the migration.
  */
 exports.logMigration = function(knex) {
   if (!knex[logEnabled]) {
@@ -39,10 +40,10 @@ exports.logMigration = function(knex) {
  * Adds the two touch columns to the given table :
  * * `created_at` - timestamp, not null, unique
  * * `updated_at` - timestamp, not null, unique
- * 
+ *
  * @param {Object} table - A Knex object representing the table
  */
 exports.addTouchColumnsOn = function(table) {
   table.timestamp('created_at', true).notNullable().index();
   table.timestamp('updated_at', true).notNullable().index();
-}
+};

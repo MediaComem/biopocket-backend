@@ -1,3 +1,5 @@
+/* eslint "require-jsdoc": ["off"] */
+
 /**
  * This migration removes the default constraints on both the
  * `created_at` and `updated_at` columns of the `locations` table.

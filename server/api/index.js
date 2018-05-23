@@ -1,6 +1,6 @@
-const _ = require('lodash');
 const express = require('express');
 const glob = require('glob');
+const _ = require('lodash');
 
 const config = require('../../config');
 const pkg = require('../../package');
@@ -47,18 +47,18 @@ router.use(function(err, req, res, next) {
     _.each(err.headers, (value, name) => res.set(name, value));
   }
 
-  let errors;
+  let responseErrors;
   if (err instanceof validation.dsl.ValidationErrorBundle) {
     // If the error contains a list of errors, send it in the response.
-    errors = err.errors;
+    responseErrors = err.errors;
   } else if (err.code) {
     // If it's a known error, build a one-element array with the error's properties.
-    errors = [
+    responseErrors = [
       _.pick(err, 'code', 'message')
     ];
   } else {
     // Otherwise, respond with an unexpected error.
-    errors = [
+    responseErrors = [
       {
         message: 'An unexpected error occurred'
       }
@@ -66,7 +66,7 @@ router.use(function(err, req, res, next) {
   }
 
   res.status(status).json({
-    errors: errors
+    errors: responseErrors
   });
 });
 

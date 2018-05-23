@@ -27,27 +27,27 @@ const geoJsonFixtures = require('./geojson');
  *     console.log(location.get('short_name'));  // "Lorem ipsum"
  *
  * @function
- * @param {object} [data={}] - Custom location data.
- * @param {object} [data.bbox] - A bounding box within which the generated location should be.
+ * @param {Object} [data={}] - Custom location data.
+ * @param {Object} [data.bbox] - A bounding box within which the generated location should be.
  * @param {number[]} data.bbox.southWest - A longitude/latitude pair indicating the south-west corner of the bounding box.
  * @param {number[]} data.bbox.northEast - A longitude/latitude pair indicating the north-east corner of the bounding box.
  * @param {number[]} [data.bbox.padding] - 1 to 4 numbers indicating the padding of the bounding box
  *                                         (much like CSS padding, 1 number is all 4 directions, 2 numbers is northing/easting,
  *                                         3 numbers is north/easting/south, 4 numbers is north/east/south/west).
- * @param {string} [data.name]
+ * @param {string} [data.name] - The name.
  * @param {string} [data.shortName] - Set to `null` to create a location without a short name.
- * @param {string} [data.description]
- * @param {string} [data.phone]
- * @param {string} [data.photoUrl]
- * @param {string} [data.siteUrl]
- * @param {object} [data.geometry]
- * @param {object} [data.properties={}]
- * @param {object} [data.address]
- * @param {string} [data.address.street]
+ * @param {string} [data.description] - The description.
+ * @param {string} [data.phone] - A phone number.
+ * @param {string} [data.photoUrl] - A URL to a photo.
+ * @param {string} [data.siteUrl] - A URL to a website.
+ * @param {Object} [data.geometry] - A GeoJSON point.
+ * @param {Object} [data.properties={}] - User-defined properties.
+ * @param {Object} [data.address] - The address.
+ * @param {string} [data.address.street] - The street name.
  * @param {string} [data.address.number] - Set to `null` to create an address without a number.
- * @param {string} [data.address.zipCode]
- * @param {string} [data.address.city]
- * @param {string} [data.address.state]
+ * @param {string} [data.address.zipCode] - The ZIP code.
+ * @param {string} [data.address.city] - The city name.
+ * @param {string} [data.address.state] - The state.
  * @returns {Promise<Location>} A promise that will be resolved with the saved location.
  */
 exports.location = function(data = {}) {
@@ -97,4 +97,4 @@ exports.name = uniqueGenerator(function() {
 exports.shortName = uniqueGenerator(function() {
   const word = chance.word();
   return word[0].toUpperCase() + word.slice(1);
-})
+});

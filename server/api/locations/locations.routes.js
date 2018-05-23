@@ -41,9 +41,9 @@ router.delete('/:id',
   controller.destroy);
 
 // Handle unallowed HTTP methids on /:id
-router.use('/:id', api.allowsOnlyMethod(allowedMethods[ '/:id' ]));
+router.use('/:id', api.allowsOnlyMethod(allowedMethods['/:id']));
 // Handle unallowed HTTP methods on /
-router.use('/', api.allowsOnlyMethod(allowedMethods[ '/' ]));
+router.use('/', api.allowsOnlyMethod(allowedMethods['/']));
 
 exports.router = router;
 exports.allowedMethods = allowedMethods;

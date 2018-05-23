@@ -1,5 +1,4 @@
 const { OrmQueryBuilder } = require('orm-query-builder');
-const { spy } = require('sinon');
 
 const expressFixtures = require('../spec/fixtures/express');
 const locationFixtures = require('../spec/fixtures/location');
@@ -39,8 +38,8 @@ describe('Abstract model', function() {
      * using the specified request options (if any).
      *
      * @param {OrmQueryBuilder} queryBuilder - The query builder to execute.
-     * @param {object} [options] - Mock request options.
-     * @returns {object} An object with "mockRequest", "mockResponse" and "result" properties,
+     * @param {Object} [requestOptions] - Mock request options.
+     * @returns {Object} An object with "mockRequest", "mockResponse" and "result" properties,
      *                   "result" being the query execution result.
      */
     async function execute(queryBuilder, requestOptions = {}) {

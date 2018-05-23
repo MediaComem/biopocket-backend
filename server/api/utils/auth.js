@@ -35,8 +35,8 @@ module.exports = expressJwtPolicies({
    * @param {function} next - Function that calls the next middleware in the stack.
    * @see https://www.npmjs.com/package/express-jwt-policies
    */
-  authenticatedResourceLoader: function(req, res, next) {
-    return User.where({
+  authenticatedResourceLoader(req, res, next) {
+    User.where({
       api_id: req.jwtToken.sub || ''
     }).fetch().then(user => {
       if (!user || !user.isActive()) {
@@ -64,14 +64,14 @@ module.exports = expressJwtPolicies({
    * @param {function} next - Function that calls the next middleware in the stack.
    * @see https://www.npmjs.com/package/express-jwt-policies
    */
-  authenticationErrorHandler: function(err, req, res, next) {
-    if (err.code == 'credentials_required') {
+  authenticationErrorHandler(err, req, res, next) {
+    if (err.code === 'credentials_required') {
       logger.debug(`JWT authentication missing error: ${err.message}`);
       next(errors.missingAuthorization());
-    } else if (err.code == 'credentials_bad_format' || err.code == 'credentials_bad_scheme') {
+    } else if (err.code === 'credentials_bad_format' || err.code === 'credentials_bad_scheme') {
       logger.debug(`JWT authentication credentials error: ${err.message}`);
       next(errors.malformedAuthorization());
-    } else if (err.status == 401) {
+    } else if (err.status === 401) {
       logger.debug(`JWT authentication invalid error: ${err.message}`);
       next(errors.invalidAuthorization());
     } else {
@@ -116,19 +116,19 @@ module.exports = expressJwtPolicies({
    * @param {function} next - Function that calls the next middleware in the stack.
    * @see https://www.npmjs.com/package/express-jwt-policies
    */
-  authorizationErrorHandler: function(err, req, res, next) {
-    if (err.status != 403) {
-      return next(err);
-    }
-
-    const resourceName = req.authOptions.resourceName;
-    const resourceId = req.authOptions.resourceId ? req.authOptions.resourceId(req) : req.params.id;
-    if (resourceName && resourceId) {
-      next(errors.recordNotFound(resourceName, resourceId));
-      logger.debug(`Not authorized to access resource ${req.path} (${resourceName}/${resourceId})`);
+  authorizationErrorHandler(err, req, res, next) {
+    if (err.status !== 403) {
+      next(err);
     } else {
-      next(errors.forbidden());
-      logger.debug(`Not authorized to access resource ${req.path}`);
+      const resourceName = req.authOptions.resourceName;
+      const resourceId = req.authOptions.resourceId ? req.authOptions.resourceId(req) : req.params.id;
+      if (resourceName && resourceId) {
+        next(errors.recordNotFound(resourceName, resourceId));
+        logger.debug(`Not authorized to access resource ${req.path} (${resourceName}/${resourceId})`);
+      } else {
+        next(errors.forbidden());
+        logger.debug(`Not authorized to access resource ${req.path}`);
+      }
     }
   },
 

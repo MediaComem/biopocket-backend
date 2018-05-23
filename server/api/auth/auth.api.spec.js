@@ -1,10 +1,6 @@
-const crypto = require('crypto');
 const _ = require('lodash');
 const moment = require('moment');
 
-const app = require('../../app');
-const config = require('../../../config');
-const User = require('../../models/user');
 const expectUser = require('../../spec/expectations/user');
 const userFixtures = require('../../spec/fixtures/user');
 const { cleanDatabase, expect, expectErrors, initSuperRest, setUp, testMethodsNotAllowed } = require('../../spec/utils');
@@ -46,7 +42,7 @@ describe('Authentication API', function() {
       const res = this.test.res = await api.create('/auth', reqBody);
 
       expect(res.body.token).to.be.a('string');
-      expectUser(res.body.user, getExpectedUser({
+      await expectUser(res.body.user, getExpectedUser({
         createdAt: twoDaysAgo,
         updatedAt: twoDaysAgo
       }));
@@ -58,7 +54,7 @@ describe('Authentication API', function() {
       const res = this.test.res = await api.create('/auth', reqBody);
 
       expect(res.body.token).to.be.a('string');
-      expectUser(res.body.user, getExpectedUser({
+      await expectUser(res.body.user, getExpectedUser({
         createdAt: twoDaysAgo,
         roles: [ 'admin' ],
         updatedAt: [ 'gte', now, 1000 ]
@@ -146,6 +142,12 @@ describe('Authentication API', function() {
       ]);
     });
 
+    /**
+     * Returns an object representing the expected properties of a User, based on the default request body for this test block.
+     *
+     * @param {...Object} changes - Additional expected changes compared to the requets body (merged with Lodash's `extend`).
+     * @returns {Object} An expectations object.
+     */
     function getExpectedUser(...properties) {
       return _.extend({}, reqBody, ...properties);
     }

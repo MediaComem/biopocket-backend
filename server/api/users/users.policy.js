@@ -1,6 +1,5 @@
 const _ = require('lodash');
 
-const User = require('../../models/user');
 const { ensureRequest } = require('../../utils/express');
 const { hasRole, sameRecord } = require('../utils/policy');
 
@@ -10,6 +9,8 @@ const { hasRole, sameRecord } = require('../utils/policy');
  * @function
  * @name canRetrieve
  * @memberof module:server/api/users
+ * @param {Request} req - The Express request object.
+ * @returns {boolean} True if authorization is granted.
  */
 exports.canRetrieve = function(req) {
   return hasRole(req, 'admin') || sameRecord(req.currentUser, req.user);
@@ -26,7 +27,7 @@ exports.canRetrieve = function(req) {
  *
  * @param {Request} req - The Express request object.
  * @param {User} user - A user record.
- * @returns {object} A serialized user.
+ * @returns {Object} A serialized user.
  */
 exports.serialize = function(req, user) {
   ensureRequest(req, 'First argument');
@@ -36,7 +37,7 @@ exports.serialize = function(req, user) {
   };
 
   const admin = req.currentUser && req.currentUser.hasRole('admin');
-  const sameUser = req.currentUser && req.currentUser.get('api_id') == user.get('api_id');
+  const sameUser = req.currentUser && req.currentUser.get('api_id') === user.get('api_id');
 
   if (admin || sameUser) {
     _.extend(serialized, {

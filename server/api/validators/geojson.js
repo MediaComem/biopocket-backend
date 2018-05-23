@@ -23,12 +23,12 @@ exports.bboxString = function() {
         validator: 'bboxString',
         cause: 'wrongType',
         message: 'must be a string'
-      })
+      });
     }
 
     // Make sure it has 4 values.
     const coordinates = bbox.split(',').map(value => parseFloat(value));
-    if (coordinates.length != 4) {
+    if (coordinates.length !== 4) {
       return ctx.addError({
         validator: 'bboxString',
         cause: 'wrongLength',
@@ -92,8 +92,17 @@ exports.point = function() {
       )
     );
   };
-}
+};
 
+/**
+ * Sets a ValDSL context's location to a JSON pointer corresponding to a coordinate within a bounding box string.
+ *
+ * @param {ValidationContext} ctx - The ValDSL validation context.
+ * @param {number[]} coordinates - The parsed bounding box string.
+ * @param {number} i - The index of the coordinate to validate.
+ * @param {Function} callback - A function that will be called with the updated context.
+ * @returns {Function} A validation function.
+ */
 function validateBboxStringCoordinate(ctx, coordinates, i, callback) {
   return ctx.validate(coordinateCtx => {
 
@@ -108,9 +117,14 @@ function validateBboxStringCoordinate(ctx, coordinates, i, callback) {
   });
 }
 
+/**
+ * Adds an error to the specified context if the current value is not a valid coordinates array (2 numbers).
+ *
+ * @param {ValidationContext} ctx - A ValDSL validation context.
+ */
 function validateCoordinates(ctx) {
   const coordinates = ctx.get('value');
-  if (!_.isArray(coordinates) || coordinates.length != 2) {
+  if (!_.isArray(coordinates) || coordinates.length !== 2) {
     ctx.addError({
       validator: 'coordinates',
       message: 'must be an array of 2 numbers (longitude & latitude)'
@@ -118,6 +132,11 @@ function validateCoordinates(ctx) {
   }
 }
 
+/**
+ * Adds an error to the specified context if the current value is not a valid longitude.
+ *
+ * @param {ValidationContext} ctx - A ValDSL validation context.
+ */
 function validateLongitude(ctx) {
   const longitude = ctx.get('value');
   if (!_.isFinite(longitude) || longitude < -180 || longitude > 180) {
@@ -128,6 +147,11 @@ function validateLongitude(ctx) {
   }
 }
 
+/**
+ * Adds an error to the specified context if the current value is not a valid latitude.
+ *
+ * @param {ValidationContext} ctx - A ValDSL validation context.
+ */
 function validateLatitude(ctx) {
   const latitude = ctx.get('value');
   if (!_.isFinite(latitude) || latitude < -90 || latitude > 90) {

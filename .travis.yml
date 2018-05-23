@@ -16,6 +16,9 @@ before_script:
   - psql -U postgres -c 'create extension postgis;' biopocket
   - psql -U postgres -c 'create extension "uuid-ossp";' biopocket
   - npm run migrate:test
+script:
+  - npm test
+  - npm run lint
 after_success:
   - npm run test:coveralls
 notifications:

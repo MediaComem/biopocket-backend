@@ -1,6 +1,7 @@
-const Script = require('./script');
-const User = require('../server/models/user');
 const valib = require('valib');
+
+const User = require('../server/models/user');
+const Script = require('./script');
 
 /**
  * Script to create an admin user.
@@ -16,6 +17,10 @@ const valib = require('valib');
  * @memberof module:scripts
  */
 class CreateAdminScript extends Script {
+
+  /**
+   * Runs the script.
+   */
   async run() {
 
     // Take input from the environment variables.
@@ -44,6 +49,9 @@ class CreateAdminScript extends Script {
     }
   }
 
+  /**
+   * Logs a message indicating whether the admin user was created or already exists.
+   */
   onSuccess() {
     if (this.createdAdmin) {
       this.logger.info(`Admin user ${this.createdAdmin.get('email')} successfully created`);

@@ -87,7 +87,7 @@ exports.properties = function(...properties) {
  * @param {string} param - The name of the query parameter to validate.
  * @returns {function} A validator function.
  */
-exports.query = function navigateToQueryParameter(param) {
+exports.query = function(param) {
   return function(ctx) {
 
     const request = ctx.get('value');

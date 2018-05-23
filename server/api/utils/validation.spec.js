@@ -1,3 +1,5 @@
+const { noop } = require('lodash');
+
 const { expect } = require('../../spec/utils');
 const utils = require('./validation');
 
@@ -10,10 +12,12 @@ describe('Validation Utils', () => {
 
       let validationError;
       await validateValue('foo', 422, () => {
-        let error = new Error('validation error');
+        const error = new Error('validation error');
         error.errors = [ { message: 'bug' } ];
         throw error;
-      }).catch(err => validationError = err);
+      }).catch(err => {
+        validationError = err;
+      });
 
       expect(validationError).to.be.an.instanceof(Error);
       expect(validationError.message).to.equal('validation error');
@@ -25,10 +29,12 @@ describe('Validation Utils', () => {
 
       let nonValidationError;
       await validateValue('foo', 422, () => {
-        let error = new Error('authorization error');
+        const error = new Error('authorization error');
         error.status = 403;
         throw error;
-      }).catch(err => nonValidationError = err);
+      }).catch(err => {
+        nonValidationError = err;
+      });
 
       expect(nonValidationError).to.be.an.instanceof(Error);
       expect(nonValidationError.message).to.equal('authorization error');
@@ -36,18 +42,18 @@ describe('Validation Utils', () => {
     });
 
     it('should not accept an invalid status code', () => {
-      expect(() => validateValue('foo', undefined, () => {})).to.throw('Status must be an HTTP status code between 100 and 599, got undefined');
-      expect(() => validateValue('foo', () => {})).to.throw('Status must be an HTTP status code between 100 and 599, got function');
-      expect(() => validateValue('foo', -200, () => {})).to.throw('Status must be an HTTP status code between 100 and 599, got -200');
-      expect(() => validateValue('foo', 1000, () => {})).to.throw('Status must be an HTTP status code between 100 and 599, got 1000');
+      expect(() => validateValue('foo', undefined, noop)).to.throw('Status must be an HTTP status code between 100 and 599, got undefined');
+      expect(() => validateValue('foo', noop)).to.throw('Status must be an HTTP status code between 100 and 599, got function');
+      expect(() => validateValue('foo', -200, noop)).to.throw('Status must be an HTTP status code between 100 and 599, got -200');
+      expect(() => validateValue('foo', 1000, noop)).to.throw('Status must be an HTTP status code between 100 and 599, got 1000');
     });
 
     it('should require at least one callback', () => {
       expect(() => validateValue('foo', 422)).to.throw('At least one callback is required');
-    })
+    });
 
     it('should require all callbacks to be functions', () => {
-      expect(() => validateValue('foo', 422, () => {}, 'bar')).to.throw('Additional arguments must be functions');
+      expect(() => validateValue('foo', 422, noop, 'bar')).to.throw('Additional arguments must be functions');
     });
   });
 });

@@ -1,8 +1,8 @@
 const http = require('http');
+const { isString } = require('lodash');
 
-const app = require('./app');
 const config = require('../config');
-const start = require('../server/start');
+const app = require('./app');
 
 const logger = config.logger('www');
 
@@ -23,13 +23,18 @@ module.exports = function() {
   }).catch(err => fail(err));
 };
 
-// Event listener for HTTP server "error" event
+/**
+ * Event listener for HTTP server "error" event.
+ *
+ * @param {Error} error - The error event.
+ */
 function onError(error) {
   if (error.syscall !== 'listen') {
     throw error;
   }
 
-  const bind = typeof(port) === 'string' ? `Pipe ${port}` : `Port ${port}`;
+  const port = app.get('port');
+  const bind = isString(port) ? `Pipe ${port}` : `Port ${port}`;
 
   // Handle specific errors with friendly messages
   switch (error.code) {
@@ -44,15 +49,22 @@ function onError(error) {
   }
 }
 
-// Event listener for the HTTP server's "listening" event
+/**
+ * Event listener for the HTTP server's "listening" event.
+ */
 function onListening() {
 
   const addr = server.address();
-  const bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port;
+  const bind = isString(addr) ? `Pipe ${addr}` : `port ${addr.port}`;
 
   logger.info(`Listening on ${bind}`);
 }
 
+/**
+ * Logs an error message at the FATAL level and exits the process with status 1.
+ *
+ * @param {string} message - A description of the error.
+ */
 function fail(message) {
   logger.fatal(message);
   process.exit(1);

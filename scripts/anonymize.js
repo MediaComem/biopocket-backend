@@ -1,8 +1,8 @@
 const config = require('../config');
-const Script = require('./script');
 const User = require('../server/models/user');
+const Script = require('./script');
 
-if (config.env != 'development') {
+if (config.env !== 'development') {
   throw new Error('This script should only be run during development');
 }
 
@@ -17,6 +17,10 @@ if (config.env != 'development') {
  * @memberof module:scripts
  */
 class AnonymizeScript extends Script {
+
+  /**
+   * Runs the script.
+   */
   async run() {
     const users = await new User().fetchAll();
 

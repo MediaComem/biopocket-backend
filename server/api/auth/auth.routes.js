@@ -8,7 +8,7 @@ const policy = require('./auth.policy');
 const router = express.Router();
 
 const allowedMethods = {
-  '/': ['POST']
+  '/': [ 'POST' ]
 };
 
 // POST /api/auth

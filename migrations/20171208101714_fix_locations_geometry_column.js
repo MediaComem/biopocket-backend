@@ -1,3 +1,5 @@
+/* eslint "require-jsdoc": ["off"] */
+
 /**
  * This migration transforms the `geometry` column of the `locations` table
  * into a PostGIS geometry column rather than a PostgreSQL point column.

@@ -1,16 +1,15 @@
 const _ = require('lodash');
 const moment = require('moment');
 
-const User = require('../../models/user');
 const expectUser = require('../../spec/expectations/user');
 const userFixtures = require('../../spec/fixtures/user');
-const { cleanDatabase, expect, expectErrors, initSuperRest, setUp, testMethodsNotAllowed } = require('../../spec/utils');
+const { cleanDatabase, expectErrors, initSuperRest, setUp, testMethodsNotAllowed } = require('../../spec/utils');
 
 setUp();
 
 describe('Users API', function() {
 
-  let api, reqBody, twoDaysAgo;
+  let api, twoDaysAgo;
   beforeEach(async function() {
     api = initSuperRest();
     await cleanDatabase();
@@ -67,7 +66,7 @@ describe('Users API', function() {
       it('should not retrieve a non-existent user', async function() {
 
         const res = this.test.res = await api
-          .retrieve(`/users/foo`, { expectedStatus: 404 })
+          .retrieve('/users/foo', { expectedStatus: 404 })
           .set('Authorization', `Bearer ${user.generateJwt()}`);
 
         expectErrors(res, {
@@ -77,7 +76,7 @@ describe('Users API', function() {
       });
     });
 
-    describe('as an admin', async function() {
+    describe('as an admin', function() {
 
       let admin;
       beforeEach(async () => {
@@ -108,7 +107,7 @@ describe('Users API', function() {
       it('should not retrieve a non-existent user', async function() {
 
         const res = this.test.res = await api
-          .retrieve(`/users/foo`, { expectedStatus: 404 })
+          .retrieve('/users/foo', { expectedStatus: 404 })
           .set('Authorization', `Bearer ${admin.generateJwt()}`);
 
         expectErrors(res, {
@@ -154,7 +153,7 @@ describe('Users API', function() {
       });
     });
 
-    describe('as an admin', async function() {
+    describe('as an admin', function() {
       beforeEach(async function() {
         await user.save({ roles: [ 'admin' ] });
       });
@@ -170,6 +169,14 @@ describe('Users API', function() {
     });
   });
 
+  /**
+   * Returns an object representing the expected properties of a user, based on the specified user.
+   * (Can be used, for example, to check if a returned API response matches a user in the database.)
+   *
+   * @param {User} user - The user to build the expectations from.
+   * @param {...Object} changes - Additional expected changes compared to the specified user (merged with Lodash's `extend`).
+   * @returns {Object} An expectations object.
+   */
   function getExpectedUser(user, ...changes) {
     return _.extend({
       active: user.get('active'),

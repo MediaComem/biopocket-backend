@@ -2,8 +2,8 @@
 // application to customize behavior. That object is built from environment
 // variables, an optional configuration file, and from default values.
 
-const _ = require('lodash');
 const fs = require('fs');
+const _ = require('lodash');
 const log4js = require('log4js');
 const path = require('path');
 
@@ -41,7 +41,7 @@ const configFromEnvironment = {
 // Configuration from a local file (`config/local.js` by default, or `$CONFIG`)
 let configFromLocalFile = {};
 const localConfigFile = path.resolve(root, get('CONFIG') || path.join('config', 'local.js'));
-if (localConfigFile != joinProjectPath('config', 'local.js') && !fs.existsSync(localConfigFile)) {
+if (localConfigFile !== joinProjectPath('config', 'local.js') && !fs.existsSync(localConfigFile)) {
   throw new Error(`No configuration file found at ${localConfigFile}`);
 } else if (fs.existsSync(localConfigFile)) {
   const localConfig = require(localConfigFile);
@@ -72,16 +72,21 @@ const config = _.merge({}, defaultConfig, configFromLocalFile, configFromEnviron
 
 validate(config);
 
-const logger = config.logger('config')
-logger.debug(`Environment is ${config.env} (change with $NODE_ENV or config.env)`);
-logger.debug(`bcrypt cost is ${config.bcryptCost} (change with $BCRYPT_COST or config.bcryptCost)`);
-logger.debug(`Log level is ${logger.level} (change with $LOG_LEVEL or config.logLevel)`);
+const configLogger = config.logger('config');
+configLogger.debug(`Environment is ${config.env} (change with $NODE_ENV or config.env)`);
+configLogger.debug(`bcrypt cost is ${config.bcryptCost} (change with $BCRYPT_COST or config.bcryptCost)`);
+configLogger.debug(`Log level is ${configLogger.level} (change with $LOG_LEVEL or config.logLevel)`);
 
 // Export the configuration
 module.exports = config;
 
-// Creates a named log4js logger with trace/debug/info/warn/error/fatal methods
-// you can use to log messages concerning a specific component.
+/**
+ * Creates a named log4js logger with trace/debug/info/warn/error/fatal methods
+ * you can use to log messages concerning a specific component.
+ *
+ * @param {string} name - The name of the logger.
+ * @returns {Logger} A log4js logger.
+ */
 function createLogger(name) {
 
   const logger = log4js.getLogger(name);
@@ -96,29 +101,50 @@ function createLogger(name) {
 // root directory.
 //
 //     config.path('foo', 'bar'); // => "/path/to/project/foo/bar"
+/**
+ * Returns a path formed by appending the specified segments to the project's root directory.
+ *
+ * @example
+ * config.path('foo', 'bar'); // => "/path/to/project/foo/bar"
+ *
+ * @param {...string} segments - The segment paths.
+ * @returns {string} The full path.
+ */
 function joinProjectPath(...segments) {
-  return path.join(...([ root ].concat(segments)));
+  return path.join(...[ root ].concat(segments));
 }
 
-// Parses a string value as a boolean.
-//
-// * Returns the specified default value if the value is undefined.
-// * To be considered `true`, a boolean string must be "1", "y", "yes", "t" or
-//   "true" (case insensitive).
-// * If the value is not a boolean, it will be considered `true` if "truthy".
+/**
+ * Parses a string value as a boolean.
+ *
+ * * Returns the specified default value if the value is undefined.
+ * * To be considered `true`, a boolean string must be "1", "y", "yes", "t" or
+ *   "true" (case insensitive).
+ * * If the value is not a boolean, it will be considered `true` if "truthy".
+ *
+ * @param {*} value - The value to parse.
+ * @param {boolean} defaultValue - The default value to return if the specified value is undefined.
+ * @returns {boolean} A boolean value.
+ */
 function parseConfigBoolean(value, defaultValue) {
   if (value === undefined) {
     return defaultValue;
   } else if (!_.isString(value)) {
-    return !!value;
+    return Boolean(value);
   } else {
-    return !!value.match(/^(1|y|yes|t|true)$/i);
+    return Boolean(value.match(/^(1|y|yes|t|true)$/i));
   }
 }
 
-// Parse a string value as an integer.
-//
-// * Returns the specified default value if the value is undefined.
+/**
+ * Parses a string value as an integer.
+ *
+ * * Returns the specified default value if the value is undefined.
+ *
+ * @param {*} value - The value to parse.
+ * @param {number} defaultValue - The default value to return if the specified value is undefined.
+ * @returns {number} An integer value.
+ */
 function parseConfigInt(value, defaultValue) {
   if (value === undefined) {
     return defaultValue;
@@ -126,33 +152,38 @@ function parseConfigInt(value, defaultValue) {
 
   const parsed = parseInt(value, 10);
   if (_.isNaN(parsed)) {
-    throw new Error(value + ' is not a valid integer');
+    throw new Error(`${value} is not a valid integer`);
   }
 
   return parsed;
 }
 
-// Constructs a PostgreSQL database URL from several environment variables:
-//
-// * `$DATABASE_HOST` - The host to connect to (defaults to `localhost`)
-// * `$DATABASE_PORT` - The port to connect to on the host (none by default, will use PostgreSQL's default 5432 port)
-// * `$DATABASE_NAME` - The name of the database to connect to (defaults to `biopocket`)
-// * `$DATABASE_USERNAME` - The name of the PostgreSQL user to connect as (none by default)
-// * `$DATABASE_PASSWORD` - The password to authenticate with (none by default)
-//
-// Returns undefined if none of the variables are set.
-//
-//     buildDatabaseUrl(); // => undefined
-//
-//     process.env.DATABASE_NAME = 'biopocket'
-//     buildDatabaseUrl(); // => "postgres://localhost/biopocket"
-//
-//     process.env.DATABASE_HOST = 'db.example.com'
-//     process.env.DATABASE_PORT = '1337'
-//     process.env.DATABASE_NAME = 'thebiopocketdb'
-//     process.env.DATABASE_USERNAME = 'jdoe'
-//     process.env.DATABASE_PASSWORD = 'changeme'
-//     buildDatabaseUrl(); // => "postgres://jdoe:changeme@db.example.com:1337/thebiopocketdb"
+/**
+ * Constructs a PostgreSQL database URL from several environment variables:
+ *
+ * * `$DATABASE_HOST` - The host to connect to (defaults to `localhost`)
+ * * `$DATABASE_PORT` - The port to connect to on the host (none by default, will use PostgreSQL's default 5432 port)
+ * * `$DATABASE_NAME` - The name of the database to connect to (defaults to `biopocket`)
+ * * `$DATABASE_USERNAME` - The name of the PostgreSQL user to connect as (none by default)
+ * * `$DATABASE_PASSWORD` - The password to authenticate with (none by default)
+ *
+ * Returns undefined if none of the variables are set.
+ *
+ * @example
+ * buildDatabaseUrl(); // => undefined
+ *
+ * process.env.DATABASE_NAME = 'biopocket'
+ * buildDatabaseUrl(); // => "postgres://localhost/biopocket"
+ *
+ * process.env.DATABASE_HOST = 'db.example.com'
+ * process.env.DATABASE_PORT = '1337'
+ * process.env.DATABASE_NAME = 'thebiopocketdb'
+ * process.env.DATABASE_USERNAME = 'jdoe'
+ * process.env.DATABASE_PASSWORD = 'changeme'
+ * buildDatabaseUrl(); // => "postgres://jdoe:changeme@db.example.com:1337/thebiopocketdb"
+ *
+ * @returns {string} A PostgreSQL database URL.
+ */
 function buildDatabaseUrl() {
 
   const host = get('DATABASE_HOST');
@@ -189,13 +220,18 @@ function buildDatabaseUrl() {
   return url;
 }
 
-// Returns a variable from the environment.
-//
-// Given `"FOO"`, this function will look first in the `$FOO` environment
-// variable and returns its value if found. Otherwise, it will look for the
-// `$FOO_FILE` environment variable and, if found, will attempt to read the
-// contents of the file pointed to by its value. Otherwise it will return
-// undefined.
+/**
+ * Returns a variable from the environment.
+ *
+ * Given `"FOO"`, this function will look first in the `$FOO` environment
+ * variable and returns its value if found. Otherwise, it will look for the
+ * `$FOO_FILE` environment variable and, if found, will attempt to read the
+ * contents of the file pointed to by its value. Otherwise it will return
+ * undefined.
+ *
+ * @param {string} varName - The name of the environment variable to retrieve.
+ * @returns {string|undefined} The value of the environment value (if set).
+ */
 function get(varName) {
   if (_.has(process.env, varName)) {
     return process.env[varName];
@@ -209,21 +245,25 @@ function get(varName) {
   return fs.readFileSync(process.env[fileVarName], 'utf8').trim();
 }
 
-// Ensures all properties of the configuration are valid.
-function validate(config) {
-  if (!_.isInteger(config.bcryptCost) || config.bcryptCost < 1) {
-    throw new Error(`Unsupported bcrypt cost "${config.bcryptCost}" (type ${typeof(config.bcryptCost)}); must be an integer greater than or equal to 1`);
-  } else if (!_.isBoolean(config.cors)) {
-    throw new Error(`Unsupported CORS value "${config.cors}" (type ${typeof(config.cors)}); must be a boolean`);
-  } else if (!_.isString(config.db) || !config.db.match(/^postgres:\/\//)) {
-    throw new Error(`Unsupported database URL "${config.db}" (type ${typeof(config.db)}); must be a string starting with "postgres://"`);
-  } else if (!_.includes(SUPPORTED_ENVIRONMENTS, config.env)) {
-    throw new Error(`Unsupported environment "${JSON.stringify(config.env)}"; must be one of: ${SUPPORTED_ENVIRONMENTS.join(', ')}`);
-  } else if (!_.isString(config.logLevel) || !_.includes(SUPPORTED_LOG_LEVELS, config.logLevel.toUpperCase())) {
-    throw new Error(`Unsupported log level "${config.logLevel}" (type ${typeof(config.logLevel)}); must be one of: ${SUPPORTED_LOG_LEVELS.join(', ')}`);
-  } else if (!_.isInteger(config.port) || config.port < 1 || config.port > 65535) {
-    throw new Error(`Unsupported port number "${config.port}" (type ${typeof(config.port)}); must be an integer between 1 and 65535`);
-  } else if (!_.isString(config.sessionSecret) || config.sessionSecret == 'changeme') {
-    throw new Error(`Unsupported session secret "${config.sessionSecret}" (type ${typeof(config.sessionSecret)}); must be a string different than "changeme"`);
+/**
+ * Ensures all properties of the configuration are valid.
+ *
+ * @param {Object} conf - The configuration object to validate.
+ */
+function validate(conf) {
+  if (!_.isInteger(conf.bcryptCost) || conf.bcryptCost < 1) {
+    throw new Error(`Unsupported bcrypt cost "${conf.bcryptCost}" (type ${typeof conf.bcryptCost}); must be an integer greater than or equal to 1`);
+  } else if (!_.isBoolean(conf.cors)) {
+    throw new Error(`Unsupported CORS value "${conf.cors}" (type ${typeof conf.cors}); must be a boolean`);
+  } else if (!_.isString(conf.db) || !conf.db.match(/^postgres:\/\//)) {
+    throw new Error(`Unsupported database URL "${conf.db}" (type ${typeof conf.db}); must be a string starting with "postgres://"`);
+  } else if (!_.includes(SUPPORTED_ENVIRONMENTS, conf.env)) {
+    throw new Error(`Unsupported environment "${JSON.stringify(conf.env)}"; must be one of: ${SUPPORTED_ENVIRONMENTS.join(', ')}`);
+  } else if (!_.isString(conf.logLevel) || !_.includes(SUPPORTED_LOG_LEVELS, conf.logLevel.toUpperCase())) {
+    throw new Error(`Unsupported log level "${conf.logLevel}" (type ${typeof conf.logLevel}); must be one of: ${SUPPORTED_LOG_LEVELS.join(', ')}`);
+  } else if (!_.isInteger(conf.port) || conf.port < 1 || conf.port > 65535) {
+    throw new Error(`Unsupported port number "${conf.port}" (type ${typeof conf.port}); must be an integer between 1 and 65535`);
+  } else if (!_.isString(conf.sessionSecret) || conf.sessionSecret === 'changeme') {
+    throw new Error(`Unsupported session secret "${conf.sessionSecret}" (type ${typeof conf.sessionSecret}); must be a string different than "changeme"`);
   }
 }
