@@ -3,10 +3,8 @@
  *
  * @module server/api/locations
  */
-const serialize = require('express-serializer');
-
 const Location = require('../../models/location');
-const { fetcher, route } = require('../utils/api');
+const { fetcher, route, serialize } = require('../utils/api');
 const { filterByBbox } = require('../utils/filters');
 const { filter, singleQueryParam, sorting } = require('../utils/query-builder');
 const { validateRequestBody, validateValue } = require('../utils/validation');
@@ -51,7 +49,7 @@ exports.list = route(async (req, res) => {
     );
 
   const locations = await builder.execute({ req, res });
-  res.send(await serialize(req, locations.models, policy));
+  res.send(await serialize(req, locations, policy));
 });
 
 /**
