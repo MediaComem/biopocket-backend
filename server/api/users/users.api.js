@@ -3,10 +3,8 @@
  *
  * @module server/api/users
  */
-const serialize = require('express-serializer');
-
 const User = require('../../models/user');
-const { fetcher, route } = require('../utils/api');
+const { fetcher, route, serialize } = require('../utils/api');
 const policy = require('./users.policy');
 
 // API resource name (used in some API errors)

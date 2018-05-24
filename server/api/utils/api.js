@@ -3,6 +3,7 @@
  *
  * @module server/api/utils/api
  */
+const serialize = require('express-serializer');
 const _ = require('lodash');
 
 const db = require('../../db');
@@ -180,4 +181,22 @@ exports.allowsOnlyMethod = function(allowedMethods) {
   return exports.route(function(req, res, next) {
     next(errors.methodNotAllowed(allowedMethods));
   });
+};
+
+/**
+ * Serializes data using {@link https://github.com/MediaComem/express-serializer|express-serializer}.
+ *
+ * If the `data` argument is a Bookshelf collection, its `models` property (a native array of the
+ * models it contains) is extracted as the data to serialize, since express-serializer isn't aware
+ * of Bookshelf.
+ *
+ * @param {Request} req - An Express request object.
+ * @param {Array|Object} data - The data to serialize.
+ * @param {Function|Object} serializer - A serializer function or an object that has a `serialize` function.
+ * @param {Object} options - Serialization options.
+ * @returns {Array|Object} The serialized data.
+ * @see https://github.com/MediaComem/express-serializer
+ */
+exports.serialize = function(req, data, serializer, options) {
+  return serialize(req, data instanceof db.bookshelf.Collection ? data.models : data, serializer, options);
 };

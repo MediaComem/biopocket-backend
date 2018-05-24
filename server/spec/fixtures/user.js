@@ -67,7 +67,7 @@ exports.admin = function(data) {
  * @returns {string} An e-mail address.
  */
 exports.email = uniqueGenerator(function() {
-  return `${chance.first().toLowerCase()}.${chance.last().replace(/\s+/, '-').toLowerCase()}@example.com`;
+  return `${chance.first().toLowerCase()}.${chance.last().toLowerCase()}@example.com`.replace(/\s+/, '-');
 });
 
 /**
