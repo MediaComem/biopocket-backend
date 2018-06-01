@@ -8,6 +8,7 @@ const { underscore } = require('inflection');
 const { defaults } = require('lodash');
 const { OrmQueryBuilder, pagination, sorting } = require('orm-query-builder');
 
+const { defaultPaginationLimit } = require('../../../config');
 const { isRequest, isResponse } = require('../../utils/express');
 const { multiValue, singleValue } = require('./params');
 
@@ -153,7 +154,7 @@ exports.pagination = function(options) {
   const baseOptions = {
     getOffset: 'options.req.query.offset',
     getLimit: 'options.req.query.limit',
-    getDefaultLimit: () => 100,
+    getDefaultLimit: () => defaultPaginationLimit,
     getMaxLimit: () => 250
   };
 

@@ -1,7 +1,7 @@
 /**
  * Returns a ValDSL function that will validate that both `offset` and `limit` query params have valid values (if present).
  *
- * This validation function should be use on routes that can have pagination features.
+ * This validation function should be used on routes that can have pagination features.
  *
  * @module server/api/validators/pagination-params
  *

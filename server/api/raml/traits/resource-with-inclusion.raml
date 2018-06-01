@@ -11,7 +11,7 @@ queryParameters:
 
       _Available <<resourceName>>-related resources to include : **<<inclusions>>**_
 
-      This `include` query parameter can be pass multiple times to include more than one resource in returned <<resourceName>> objects. If multiple `include` query parameters have the same value, only the first one will be processed, all subsequent identical value will be discarded.
+      This `include` query parameter can be passed multiple times to include more than one resource in returned <<resourceName>> objects. If multiple `include` query parameters have the same value, duplicate values will be ignored.
     required: false
     type: string
     examples:

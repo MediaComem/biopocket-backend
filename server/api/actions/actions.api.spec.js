@@ -8,7 +8,7 @@ setUp();
 
 describe('Actions API', function() {
 
-  let actions, api;
+  let api;
 
   beforeEach(async function() {
     api = initSuperRest();
@@ -26,11 +26,15 @@ describe('Actions API', function() {
     });
 
     describe('with actions', function() {
+
+      let actions;
+
       beforeEach(async function() {
         actions = await Promise.all([
           actionFixtures.action({ title: 'Action A - Do that' }),
           actionFixtures.action({ title: 'Action C - Do this' }),
-          actionFixtures.action({ title: 'Action B - Do something !' })
+          actionFixtures.action({ title: 'Action B - Do something !' }),
+          actionFixtures.action({ title: 'Action D - The forgotten' })
         ]);
       });
 
@@ -60,51 +64,41 @@ describe('Actions API', function() {
         ]);
       });
 
-      it('should not include any resources if none is required by the include query parameter', async function() {
-        const res = await api.retrieve('/actions');
-        expect(res.body).to.be.an('array');
-        res.body.forEach(action => {
-          expect(action.theme).to.equal(undefined);
-        });
-      });
-
       it('should include the requested resources based on the include query parameter value', async function() {
         const res = await api.retrieve('/actions').query({ include: 'theme' });
         expect(res.body).to.be.an('array');
         res.body.forEach(action => {
           expect(action.theme).to.be.an('object');
+          // TODO : test the entire theme object with the `expectTheme` expectation function.
           expect(action.theme.id).to.equal(action.themeId);
         });
       });
-    });
 
-    describe('with pagination and a lot of actions', function() {
+      // TODO : Remember to extract this test suite in its own function, much like testAllowedMethods.
+      describe('and pagination', function() {
 
-      beforeEach(async function() {
-        actions = await Promise.all(new Array(101).fill(0).map(() => actionFixtures.action()));
-      });
+        it('should use the default pagination configuration', async function() {
+          const res = await api.retrieve('/actions');
 
-      it('should use the default pagination configuration', async function() {
-        const res = await api.retrieve('/actions');
-
-        expect(res.body).to.be.an('array');
-        expect(res.body).to.have.length(100);
-        expect(res.headers['pagination-total']).to.equal('101');
-        expect(res.headers['pagination-limit']).to.equal('100');
-        expect(res.headers['pagination-offset']).to.equal('0');
-      });
-
-      it('should paginate according to query parameters', async function() {
-        const res = await api.retrieve('/actions').query({
-          limit: 17,
-          offset: 36
+          expect(res.body).to.be.an('array');
+          expect(res.body).to.have.length(3);
+          expect(res.headers['pagination-total']).to.equal('4');
+          expect(res.headers['pagination-limit']).to.equal('3');
+          expect(res.headers['pagination-offset']).to.equal('0');
         });
 
-        expect(res.body).to.be.an('array');
-        expect(res.body).to.have.length(17);
-        expect(res.headers['pagination-total']).to.equal('101');
-        expect(res.headers['pagination-limit']).to.equal('17');
-        expect(res.headers['pagination-offset']).to.equal('36');
+        it('should paginate according to query parameters', async function() {
+          const res = await api.retrieve('/actions').query({
+            limit: 2,
+            offset: 1
+          });
+
+          expect(res.body).to.be.an('array');
+          expect(res.body).to.have.length(2);
+          expect(res.headers['pagination-total']).to.equal('4');
+          expect(res.headers['pagination-limit']).to.equal('2');
+          expect(res.headers['pagination-offset']).to.equal('1');
+        });
       });
     });
   });

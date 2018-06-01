@@ -14,10 +14,6 @@ properties:
           type: number
           required: false
           description: How many values where passed in a specific query param. This is present when the parameter must have a defined number of values.
-        actualValue:
-          type: string
-          required: false
-          description: <<< What's the difference between this one and the value one ? >>>
         allowedValues:
           type: string[]
           required: false
@@ -33,7 +29,7 @@ properties:
         location:
           type: string
           required: false
-          description: The parameter location identifier. If `type` is `json`, represents the path to the parameter. If `type` is `query`, represents the name of the query paramater.
+          description: The parameter location identifier. If `type` is `json`, represents the path to the parameter [as a JSON Pointer](https://tools.ietf.org/html/rfc6901). If `type` is `query`, represents the name of the query parameter.
         message:
           type: string
           required: false
@@ -53,4 +49,4 @@ properties:
         valueSet:
           type: boolean
           required: false
-          description: <<< No Idea ¯\\_(ツ)_/¯ >>>
+          description: Whether the location was present in the request or not (e.g. a JSON property may be explicitly set to `null` in the request body, in which case `valueSet` would be `true`; or it may be not sent at all, in which case `valueSet` would be `false`).

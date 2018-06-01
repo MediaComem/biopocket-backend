@@ -24,13 +24,13 @@ module.exports = function(queryParam, ...inclusionValues) {
       ctx.ifElse(
         context => isString(context.get('value')),
         ctx.inclusion(...inclusionValues),
-        ctx.each((contxt, relation, i) => {
-          return contxt.validate(
+        ctx.each((eachContext, relation, i) => {
+          return eachContext.validate(
             context => context.set({
               location: `${context.get('location')}[${i}]`,
-              value: contxt.get('value')[i]
+              value: eachContext.get('value')[i]
             }),
-            contxt.inclusion(...inclusionValues)
+            eachContext.inclusion(...inclusionValues)
           );
         })
       )

@@ -125,7 +125,7 @@ exports.isPositiveInteger = function() {
       ctx.addError({
         validator: 'positiveInteger',
         cause: 'wrongValue',
-        actualValue: ctx.get('value'),
+        value: ctx.get('value'),
         message: 'must be equal or superior to 0'
       });
     }

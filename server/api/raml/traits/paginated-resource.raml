@@ -1,5 +1,5 @@
 usage: |
-  Apply this to resources which implements pagination in their response.
+  Apply this to resources which implement pagination in their response.
 queryParameters:
   offset:
     description: |
@@ -34,10 +34,13 @@ responses:
           _Depends on the value of the `limit` query parameter._
       Pagination-Total:
         type: integer
-        description: Indicates how many records in total were retrieved by the request, without any filter or pagination limit applied.
+        description: Indicates how many records are available to retrieve in total, without any filter or pagination limit.
       Pagination-Filtered-Total:
         type: integer
-        description: Indicates how many records in total were retrieved by the request, **after** applying the filter but **before** the pagination limit.
+        description: |
+          Indicates how many records matching the specified filters (if any) are available to retrieve (without a pagination limit).
+
+          _This may be equal to `Pagination-Total` if no filter is applied or all records match the filters._
   400:
     description: The request contained invalid query parameters data.
     body:

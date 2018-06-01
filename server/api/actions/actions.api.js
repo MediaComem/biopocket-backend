@@ -4,7 +4,6 @@
  * @module server/api/actions
  */
 const serialize = require('express-serializer');
-const { isArray, uniq } = require('lodash');
 const { eagerLoading } = require('orm-query-builder');
 
 const Action = require('../../models/action');
@@ -22,8 +21,6 @@ exports.resourceName = 'action';
  * @function
  */
 exports.list = route(async (req, res) => {
-
-  uniqueInclude(req);
 
   await validateListRequest(req);
 
@@ -56,21 +53,4 @@ function validateListRequest(req) {
       this.multiQueryParamInclusion('include', ...EXISTING_RELATIONS),
     );
   });
-}
-
-/**
- * Mutates the given Express request so that its include query parameter only contains unique values.
- * This is of course only done if the request actually contains an include query parameter, and that it is an array.
- *
- * @private
- * @param {Request} req - An Express request object
- */
-function uniqueInclude(req) {
-
-  const include = req.query.include;
-
-  if (include && isArray(include)) {
-    req.query.include = uniq(include);
-  }
-
 }

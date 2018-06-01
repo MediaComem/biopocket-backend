@@ -50,8 +50,10 @@ const { createRecord } = require('../utils');
  * @returns {Promise<Action>} A promise that will be resolved with the saved action.
  */
 exports.action = async function(data = {}) {
-  if (!data.theme || !(data.theme instanceof Theme)) {
+  if (!data.theme) {
     data.theme = await themeFixture.theme();
+  } else if (!(data.theme instanceof Theme)) {
+    throw new TypeError('The given data.theme value is not an instance of Theme.');
   }
 
   return createRecord(Action, {
@@ -82,5 +84,5 @@ exports.action = async function(data = {}) {
  * @returns {string} A code for an action.
  */
 exports.code = function() {
-  return `${themeFixture.code()} - ${chance.integer({ min: 0, max: 9 })}`;
+  return `${themeFixture.code()}-${chance.integer({ min: 0, max: 9 })}`;
 };

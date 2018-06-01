@@ -43,16 +43,15 @@ class ApiError extends Error {
   }
 
   /**
-   * Adds a new property to the `headers` property of the current ApiError object.
-   * The `name` and `value` parameters will be used respectivly as this new property's name and value.
+   * Adds a new header and its value to this ApiError instance.
    *
    * @method
    * @instance
-   * @param {string} name - The name of the header
-   * @param {string} value - The value of the header
-   * @throws {TypeError} If no `name` argument is provided or it is not a string
-   * @throws {TypeError} If no `value` argument is provided
-   * @returns {ApiError} This error.
+   * @param {string} name - The name of the new header.
+   * @param {string} value - The value of the new header.
+   * @throws {TypeError} If no `name` parameter is provided or it is not a string.
+   * @throws {TypeError} If no `value` parameter is provided.
+   * @returns {ApiError} This ApiError instance.
    */
   header(name, value) {
     if (!name || !isString(name)) {

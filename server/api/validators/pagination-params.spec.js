@@ -12,7 +12,7 @@ describe('Pagination params validator', function() {
   });
 
   it('should add no error for valid offset and limit query parameters', async function() {
-    const err = await validate({ query: { offset: 12, limit: 13 } });
+    const err = await validate({ query: { offset: '12', limit: '13' } });
     expect(err).to.equal(undefined);
   });
 
@@ -24,6 +24,11 @@ describe('Pagination params validator', function() {
   it('should add an error if offset or limit are set but invalid', async function() {
     const err = await validate({ query: { offset: 'foo', limit: 'bar' } });
     expectValidatorErrors(err, [ typeError('offset', 'foo'), typeError('limit', 'bar') ]);
+  });
+
+  it('should add an error if offset or limit are set but not positive integers', async function() {
+    const err = await validate({ query: { offset: '-15', limit: '-7' } });
+    expectValidatorErrors(err, [ notPositiveIntegerError('offset', '-15'), notPositiveIntegerError('limit', '-7') ]);
   });
 
   /**
@@ -55,10 +60,8 @@ describe('Pagination params validator', function() {
   /**
    * Returns a blank error object whose `location` property is set with the given location name.
    *
-   * You can optionnaly pass the value for this location, which will be set to the object's `value` property. Defaults to ''.
-   *
    * @private
-   * @param {Object} location - The name of the error's location.
+   * @param {string} location - The name of the error's location.
    * @returns {Object} The blank error object
    */
   function blankError(location) {
@@ -76,9 +79,9 @@ describe('Pagination params validator', function() {
    * Returns a type error object whose `location` property is set with the given location name, and `value` property is set with the given value.
    *
    * @private
-   * @param {Object} location - The name of the error's location.
+   * @param {string} location - The name of the error's location.
    * @param {string} value - The location's value.
-   * @returns {Object} The type error object
+   * @returns {Object} The type error object.
    */
   function typeError(location, value) {
     return {
@@ -88,6 +91,26 @@ describe('Pagination params validator', function() {
       value: value,
       validator: 'positiveInteger',
       cause: 'wrongType',
+      valueSet: true
+    };
+  }
+
+  /**
+   * Returns a not positive integer error whose `location` property is set with the given location name, and `value` property is set with the given value.
+   *
+   * @private
+   * @param {string} location - The name of the error's location.
+   * @param {string} value - The location's value.
+   * @returns {Object} The not positive integer error object.
+   */
+  function notPositiveIntegerError(location, value) {
+    return {
+      message: 'must be equal or superior to 0',
+      type: 'query',
+      location: location,
+      validator: 'positiveInteger',
+      cause: 'wrongValue',
+      value: value,
       valueSet: true
     };
   }

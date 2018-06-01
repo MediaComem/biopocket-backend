@@ -19,6 +19,8 @@ module.exports = function(actual, expected) {
 
   expect(actual.description, 'action.description').to.equal(expected.description);
 
+  expect(actual.themeId, 'action.themeId').to.be.a('string');
+
   expect(actual.createdAt, 'action.createdAt').to.be.iso8601(...toArray(expected.createdAt));
 
   if (expected.updatedAt === 'createdAt') {
@@ -34,12 +36,15 @@ module.exports = function(actual, expected) {
 module.exports.inDb = async function(expected) {
 
   const action = await checkRecord(Action, expected.id);
+  await action.load('theme');
+
   expect(action, 'db.action').to.be.an.instanceof(Action);
 
   expect(action.get('api_id'), 'db.action.api_id').to.equal(expected.id);
   expect(action.get('id'), 'db.action.id').to.be.a('string');
   expect(action.get('title', 'db.action.title')).to.equal(expected.title);
   expect(action.get('description', 'db.action.description')).to.equal(expected.description);
+  expect(action.related('theme').get('api_id'), 'db.action.theme_id').to.equal(expected.themeId);
   expect(action.get('created_at'), 'db.action.created_at').to.be.sameMoment(expected.createdAt);
   expect(action.get('updated_at'), 'db.action.updated_at').to.be.sameMoment(expected.updatedAt);
 };

@@ -38,8 +38,14 @@ describe('ApiError class', () => {
     it('should add the new header to the headers property', function() {
       error.header('header-name', 'header-value');
 
-      expect(error.headers).to.have.key('header-name');
-      expect(error.headers['header-name']).to.equal('header-value');
+      expect(error.headers).to.eql({ 'header-name': 'header-value' });
+    });
+
+    it('should correctly override the value of a previously set header', function() {
+      error.header('header-name', 'foo');
+      error.header('header-name', 'bar');
+
+      expect(error.headers).to.eql({ 'header-name': 'bar' });
     });
   });
 });

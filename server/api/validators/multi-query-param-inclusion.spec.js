@@ -22,6 +22,11 @@ describe('Multi query params inclusion validator', function() {
     expect(err).to.equal(undefined);
   });
 
+  it('should add no error when a valid multi-valued param has duplicate values', async function() {
+    const err = await validate([ 'foo', 'foo', 'bar', 'foo', 'bar' ]);
+    expect(err).to.equal(undefined);
+  });
+
   it('should add an error if the param is empty', async function() {
     const err = await validate('');
     expectValidatorErrors(err, [
@@ -49,6 +54,12 @@ describe('Multi query params inclusion validator', function() {
       inclusionError('include[0]', 'baz'),
       inclusionError('include[1]', 'qux')
     ]);
+  });
+
+  it('should correctly identify invalid values in a multi-values param', async function() {
+    const err = await validate([ 'foo', 'baz', 'bar', 'qux' ]);
+    expect(err.errors[0].location).to.equal('include[1]');
+    expect(err.errors[1].location).to.equal('include[3]');
   });
 
   /**

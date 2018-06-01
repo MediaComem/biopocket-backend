@@ -1,4 +1,4 @@
-const chance = require('chance').Chance();
+const { sample } = require('lodash');
 
 const Action = require('../server/models/action');
 const Location = require('../server/models/location');
@@ -73,9 +73,7 @@ class SampleDataScript extends Script {
   async sampleLocations() {
     const locationsCount = await new Location().resetQuery().count();
     if (locationsCount < LOCATIONS_COUNT) {
-      await Promise.all(new Array(LOCATIONS_COUNT - locationsCount).fill(0).map(() => locationFixtures.location({
-        bbox: ONEX_BBOX
-      })));
+      await create(LOCATIONS_COUNT - locationsCount, locationFixtures.location, { bbox: ONEX_BBOX });
     } else {
       this.logger.debug(`There are already ${LOCATIONS_COUNT} locations or more in the database`);
     }
@@ -84,7 +82,7 @@ class SampleDataScript extends Script {
   /**
    * Makes sure there are at least 10 themes in the database.
    * If not, generates new random themes until there are 10 in total.
-   * In any cases, returns all the themes in the database.
+   * In any case, returns all the themes in the database.
    *
    * Automatically called by the `run()` method.
    *
@@ -96,9 +94,7 @@ class SampleDataScript extends Script {
   async sampleThemes() {
     const themesCount = await new Theme().resetQuery().count();
     if (themesCount < THEME_COUNT) {
-      await Promise.all(new Array(THEME_COUNT - themesCount).fill(0).map(() => {
-        return themeFixtures.theme();
-      }));
+      await create(THEME_COUNT - themesCount, themeFixtures.theme);
     } else {
       this.logger.debug(`There are already ${THEME_COUNT} themes or more in the database`);
     }
@@ -118,17 +114,24 @@ class SampleDataScript extends Script {
    * @param {Collection<Theme>} [themes] - A Bookshelf collection of themes
    */
   async sampleActions(themes) {
-    // TODO implements it !
     const actionsCount = await new Action().resetQuery().count();
     if (actionsCount < ACTIONS_COUNT) {
-      await Promise.all(new Array(ACTIONS_COUNT - actionsCount).fill(0).map(() => {
-        const theme = themes.at(chance.integer({ min: 0, max: themes.length - 1 }));
-        return actionFixtures.action({ theme: theme });
-      }));
+      await create(ACTIONS_COUNT - actionsCount, actionFixtures.action, { theme: sample(themes.models) });
     } else {
       this.logger.debug(`There are already ${ACTIONS_COUNT} actions or more in the database`);
     }
   }
+}
+
+/**
+ * Utility function that helps creating sample data.
+ *
+ * @param {number} n - The number of elements to create.
+ * @param {function} factory - A factory function that creates the elements.
+ * @param {Object} options - Custom options to pass to the factory function.
+ */
+async function create(n, factory, options) {
+  await Promise.all(new Array(n).fill(0).map(() => factory(options)));
 }
 
 const script = new SampleDataScript();
