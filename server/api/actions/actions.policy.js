@@ -1,6 +1,6 @@
 const { includes } = require('lodash');
 
-const { serialize: serializeTheme } = require('../themes/theme.policy');
+const { serialize: serializeTheme } = require('../themes/themes.policy');
 
 /**
  * Anyone can list actions.
@@ -8,7 +8,7 @@ const { serialize: serializeTheme } = require('../themes/theme.policy');
  * @function
  * @name canList
  * @memberof module:server/api/actions
- * @returns {boolean} true if user can list, false otherwise
+ * @returns {boolean} `true` if user can list, `false` otherwise
  */
 exports.canList = function() {
   return true;
@@ -21,7 +21,7 @@ exports.canList = function() {
  * @name canRetrieve
  * @memberof module:server/api/actions
  *
- * @returns {boolean} true if user can retrive, false otherwise
+ * @returns {boolean} `true` if user can retrive, `false` otherwise
  */
 exports.canRetrieve = function() {
   return true;

@@ -28,12 +28,13 @@ types:
   AuthPost: !include auth/auth.model.post.raml
   Location: !include locations/locations.model.raml
   LocationWrite: !include locations/locations.model.write.raml
-  Theme: !include themes/theme.model.raml
+  Theme: !include themes/themes.model.raml
   User: !include users/users.model.raml
 
 # Routes
-/actions: !include actions/actions.raml
-/auth: !include auth/auth.raml
-/locations: !include locations/locations.raml
+/actions: !include actions/actions.api.raml
+/auth: !include auth/auth.api.raml
+/locations: !include locations/locations.api.raml
 /me: !include users/users.me.raml
-/users: !include users/users.raml
+/themes: !include themes/themes.api.raml
+/users: !include users/users.api.raml

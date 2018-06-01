@@ -27,8 +27,8 @@ router.use('/actions', require('./actions/actions.routes').router);
 router.use('/auth', require('./auth/auth.routes').router);
 router.use('/locations', require('./locations/locations.routes').router);
 router.use('/me', require('./users/users.me.routes').router);
+router.use('/themes', require('./themes/themes.routes').router);
 router.use('/users', require('./users/users.routes').router);
-router.use('/actions', require('./actions/actions.routes').router);
 
 // Return API metadata on the main API route.
 router.get('/', function(req, res) {
