@@ -111,14 +111,14 @@ describe('Actions API', function() {
   });
 
   describe('GET /api/actions/:id', function() {
-    let action, theme;
+    let action;
     beforeEach(async function() {
       action = await actionFixtures.action();
     });
 
     it('should retrieve an action with all its relations', async function() {
       const res = await api.retrieve(`/actions/${action.get('api_id')}`);
-      await expectActions(res.body, getExpectedAction(action, { theme: theme }), {
+      await expectActions(res.body, getExpectedAction(action), {
         additionalKeys: [ 'theme' ]
       });
       await expectTheme(res.body.theme, getExpectedTheme(action.related('theme')));
@@ -126,7 +126,7 @@ describe('Actions API', function() {
 
     it('should retrieve an action without the specified relations', async function() {
       const res = await api.retrieve(`/actions/${action.get('api_id')}`).query({ except: 'theme' });
-      expectActions(res.body, getExpectedAction(action));
+      await expectActions(res.body, getExpectedAction(action));
       expect(res.body.theme).to.equal(undefined);
     });
 
