@@ -19,7 +19,7 @@ module.exports = function(actual, expected) {
 
   expect(actual.description, 'action.description').to.equal(expected.description);
 
-  expect(actual.themeId, 'action.themeId').to.be.a('string');
+  expect(actual.themeId, 'action.themeId').to.be.equal(expected.themeId);
 
   expect(actual.createdAt, 'action.createdAt').to.be.iso8601(...toArray(expected.createdAt));
 

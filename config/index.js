@@ -259,7 +259,7 @@ function validate(conf) {
     throw new Error(`Unsupported CORS value "${conf.cors}" (type ${typeof conf.cors}); must be a boolean`);
   } else if (!_.isString(conf.db) || !conf.db.match(/^postgres:\/\//)) {
     throw new Error(`Unsupported database URL "${conf.db}" (type ${typeof conf.db}); must be a string starting with "postgres://"`);
-  } else if (!_.isInteger(conf.defaultPaginationLimit)) {
+  } else if (!_.isInteger(conf.defaultPaginationLimit) || conf.defaultPaginationLimit < 1) {
     throw new Error(`Unsupported default pagination limit value "${conf.defaultPaginationLimit}" (type ${typeof conf.defaultPaginationLimit}); must be an integer greater than or equal to 1`);
   } else if (!_.includes(SUPPORTED_ENVIRONMENTS, conf.env)) {
     throw new Error(`Unsupported environment "${JSON.stringify(conf.env)}"; must be one of: ${SUPPORTED_ENVIRONMENTS.join(', ')}`);

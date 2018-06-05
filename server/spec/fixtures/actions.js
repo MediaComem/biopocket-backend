@@ -56,7 +56,7 @@ exports.action = async function(data = {}) {
     throw new TypeError('The given data.theme value is not an instance of Theme.');
   }
 
-  return createRecord(Action, {
+  const action = await createRecord(Action, {
     title: data.title || chance.sentence({ words: 3 }),
     code: _.has(data, 'code') ? data.code : exports.code(),
     description: data.description || chance.sentence(),
@@ -65,6 +65,9 @@ exports.action = async function(data = {}) {
     updated_at: data.updatedAt
   });
 
+  action.relations.theme = data.theme;
+
+  return action;
 };
 
 /**

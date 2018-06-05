@@ -116,6 +116,7 @@ describe('Actions API', function() {
       id: action.get('api_id'),
       title: action.get('title'),
       description: action.get('description'),
+      themeId: action.related('theme').get('api_id'),
       createdAt: action.get('created_at'),
       updatedAt: action.get('updated_at')
     }, ...changes);
