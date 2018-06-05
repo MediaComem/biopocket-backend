@@ -522,7 +522,7 @@ describe('Locations API', function() {
 
     it('should retrieve a location', async function() {
       const res = this.test.res = await api.retrieve(`/locations/${location.get('api_id')}`);
-      expectLocation(res.body, getExpectedLocation(location));
+      await expectLocation(res.body, getExpectedLocation(location));
     });
 
     it('should not retrieve a location that does not exist', async function() {
@@ -560,7 +560,7 @@ describe('Locations API', function() {
           .retrieve(`/locations/${location.get('api_id')}`)
           .set('Authorization', `Bearer ${user.generateJwt()}`);
 
-        expectLocation(res.body, getExpectedLocation(location));
+        await expectLocation(res.body, getExpectedLocation(location));
       });
     });
   });
@@ -628,7 +628,7 @@ describe('Locations API', function() {
           .patch(`/locations/${location.get('api_id')}`, reqBody)
           .set('Authorization', `Bearer ${admin.generateJwt()}`);
 
-        expectLocation(res.body, getExpectedLocation(location, reqBody, {
+        await expectLocation(res.body, getExpectedLocation(location, reqBody, {
           updatedAt: [ 'gte', now, 500 ]
         }));
       });
@@ -659,7 +659,7 @@ describe('Locations API', function() {
           .patch(`/locations/${location.get('api_id')}`, reqBody)
           .set('Authorization', `Bearer ${admin.generateJwt()}`);
 
-        expectLocation(res.body, getExpectedLocation(location, reqBody, {
+        await expectLocation(res.body, getExpectedLocation(location, reqBody, {
           updatedAt: [ 'gte', now, 500 ]
         }));
       });
@@ -678,7 +678,7 @@ describe('Locations API', function() {
           .patch(`/locations/${location.get('api_id')}`, reqBody)
           .set('Authorization', `Bearer ${admin.generateJwt()}`);
 
-        expectLocation(res.body, getExpectedLocation(location, reqBody, {
+        await expectLocation(res.body, getExpectedLocation(location, reqBody, {
           updatedAt: [ 'gte', now, 500 ]
         }));
       });
@@ -689,7 +689,7 @@ describe('Locations API', function() {
           .patch(`/locations/${location.get('api_id')}`, {})
           .set('Authorization', `Bearer ${admin.generateJwt()}`);
 
-        expectLocation(res.body, getExpectedLocation(location));
+        await expectLocation(res.body, getExpectedLocation(location));
       });
 
       it('should not accept invalid properties', async function() {
