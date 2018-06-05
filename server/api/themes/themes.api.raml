@@ -1,0 +1,36 @@
+displayName: Themes
+description: Management of BioPocket action's themes.
+
+/{id}:
+  uriParameters:
+    id:
+      description: The unique ID of the theme.
+      type: string
+
+  # GET /api/themes/:id
+  get:
+    description: Retrieve a single theme.
+    is:
+      - identifiableResource:
+          name: theme
+      - serializableResource:
+          onlyExample: "?only=id&only=title&only=photoUrl"
+          exceptExample: "?except=source&except=updatedAt"
+    responses:
+      200:
+        description: The theme was successfully retrieved.
+        body:
+          type: Theme
+          example: |
+            HTTP/1.1 200 OK
+            Content-Type: application/json
+
+            {
+                "id": "f8af36b4-dc30-4e34-a0d3-9c25cc125f0e",
+                "title": "Ajkivjo zu numcomoj.",
+                "description": "Obaraga burjeti edisujav arkohiw jeuc suveztu ukbe cap efaulepor kuvojpo ku giftazihe. Vubad tulil id eripa lufcogtav irate nukeik oti cebar luden hi fifapi sen. Ko le wujegim doah keskekew akolamha ehjucof ih dafesul hobzuc ah go. Ki refle oreub zovukos ub siric ni cez po calejocu gav pez vavhaen.",
+                "photoUrl": "http://example.com/evuethaz.jpg",
+                "source": "Revbug rutihi uza.",
+                "createdAt": "2018-06-01T11:40:54.126Z",
+                "updatedAt": "2018-06-01T11:40:54.126Z"
+            }

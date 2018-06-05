@@ -8,7 +8,7 @@ module.exports = async function(actual, expected) {
   expect(actual, 'res.body').to.be.an('object');
 
   const expectedKeys = [ 'id', 'name', 'description', 'phone', 'photoUrl', 'siteUrl', 'geometry', 'address', 'properties', 'createdAt', 'updatedAt' ];
-  if (_.has(actual, 'shortName')) {
+  if (_.has(expected, 'shortName')) {
     expectedKeys.push('shortName');
   }
 
@@ -24,8 +24,6 @@ module.exports = async function(actual, expected) {
 
   if (expected.shortName) {
     expect(actual.shortName, 'location.shortName').to.equal(expected.shortName);
-  } else {
-    expect(actual.shortName, 'location.shortName').to.equal(undefined);
   }
 
   expect(actual.description, 'location.description').to.equal(expected.description);

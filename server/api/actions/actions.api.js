@@ -45,7 +45,7 @@ exports.list = route(async (req, res) => {
 });
 
 /**
- * Retrives a single Action
+ * Retrieves a single Action
  * Includes all loaded relations to the serialized object.
  *
  * @function

@@ -1,4 +1,15 @@
 /**
+ * Anyone can retrieve a theme.
+ *
+ * @function
+ * @name canRetrieve
+ * @returns {boolean} `true` if user can retrieve, `false` otherwise
+ */
+exports.canRetrieve = function() {
+  return true;
+};
+
+/**
  * Serializes a theme for API response.
  *
  * @memberof module:server/api/theme

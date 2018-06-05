@@ -1,7 +1,8 @@
 const _ = require('lodash');
 
-const allowedMethodsFor = require('../actions/actions.routes').allowedMethods;
+const allowedMethodsFor = require('./actions.routes').allowedMethods;
 const expectActions = require('../../spec/expectations/action');
+const expectTheme = require('../../spec/expectations/theme');
 const actionFixtures = require('../../spec/fixtures/actions');
 const { cleanDatabase, expect, expectErrors, initSuperRest, setUp, testMethodsNotAllowed } = require('../../spec/utils');
 const { getExpectedTheme } = require('../themes/themes.api.spec');
@@ -110,24 +111,22 @@ describe('Actions API', function() {
   });
 
   describe('GET /api/actions/:id', function() {
-    let action, theme;
+    let action;
     beforeEach(async function() {
       action = await actionFixtures.action();
-      await action.load('theme');
-      theme = getExpectedTheme(action.related('theme'));
     });
 
     it('should retrieve an action with all its relations', async function() {
       const res = await api.retrieve(`/actions/${action.get('api_id')}`);
-      expectActions(res.body, getExpectedAction(action, { theme: theme }), {
+      await expectActions(res.body, getExpectedAction(action), {
         additionalKeys: [ 'theme' ]
       });
-      expect(res.body.theme).to.eql(theme);
+      await expectTheme(res.body.theme, getExpectedTheme(action.related('theme')));
     });
 
     it('should retrieve an action without the specified relations', async function() {
       const res = await api.retrieve(`/actions/${action.get('api_id')}`).query({ except: 'theme' });
-      expectActions(res.body, getExpectedAction(action));
+      await expectActions(res.body, getExpectedAction(action));
       expect(res.body.theme).to.equal(undefined);
     });
 
