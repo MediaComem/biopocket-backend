@@ -67,6 +67,7 @@ post:
     422:
       description: The request body contains invalid data.
       body:
+        type: validationErrors
         example: |
           HTTP/1.1 422 Unprocessable Entity
           Content-Type: application/json
@@ -159,7 +160,47 @@ get:
               "updatedAt": "2000-04-01T14:00:00.123Z"
             }
           ]
+    400:
+      description: The request contained invalid query parameter(s) data.
+      body:
+        type: validationErrors
+        examples:
+          bbox query param has not enough values:
+            value: |
+              HTTP/1.1 400 Bad request
+              Content-Type: application/json
 
+              {
+                "errors": [
+                  {
+                    "message": "must have 4 comma-separated coordinates; got 3",
+                    "type": "query",
+                    "location": "bbox",
+                    "validator": "bboxString",
+                    "cause": "wrongLength",
+                    "actualLength": 3,
+                    "value": "12,asv,55",
+                    "valueSet": true
+                  }
+                ]
+              }
+          bbox query parameter contains a value that is not a number:
+            value: |
+              HTTP/1.1 400 Bad request
+              Content-Type: application/json
+
+              {
+                "errors": [
+                  {
+                    "message": "must be a number between -90 and 90",
+                    "type": "query",
+                    "location": "bbox[1]",
+                    "validator": "latitude",
+                    "value": null,
+                    "valueSet": true
+                  }
+                ]
+              }
 /{id}:
   uriParameters:
     id:
@@ -281,6 +322,7 @@ get:
       422:
         description: The request body contains invalid data.
         body:
+          type: validationErrors
           example: |
             HTTP/1.1 422 Unprocessable Entity
             Content-Type: application/json

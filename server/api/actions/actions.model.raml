@@ -1,0 +1,37 @@
+type: object
+properties:
+  id:
+    type: string
+    description: A unique ID identifying the action.
+    required: false
+  themeId:
+    type: string
+    description: A unique ID identifying the action's theme.
+    required: false
+  title:
+    type: string
+    description: The action's title.
+    minLength: 1
+    maxLength: 40
+    required: false
+  description:
+    type: string
+    description: A small text desribing what the action is about.
+    minLength: 1
+    maxLength: 255
+    required: false
+  createdAt:
+    type: datetime
+    description: The time at which the action was created.
+    required: false
+  updatedAt:
+    type: datetime
+    description: The time at which the action was last updated.
+    required: false
+  theme:
+    type: Theme
+    description: |
+      The complete action's theme object.
+
+      **Note that this property is only present when the `include` query parameter is present with a value of `theme`.**
+    required: false

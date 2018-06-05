@@ -1,6 +1,4 @@
-const _ = require('lodash');
-
-const { expect } = require('../../spec/utils');
+const { expect, expectValidatorErrors } = require('../../spec/utils');
 const { dsl } = require('../utils/validation');
 const geoJsonValidators = require('./geojson');
 
@@ -25,7 +23,7 @@ describe('GeoJSON validators', function() {
 
     it('should add an error if the bounding box is not a string', async function() {
       const err = await validate(10203040);
-      expectErrors(err, [
+      expectValidatorErrors(err, [
         {
           cause: 'wrongType',
           location: 'bbox',
@@ -39,7 +37,7 @@ describe('GeoJSON validators', function() {
 
     it('should add an error if the bounding box has the wrong number of coordinates', async function() {
       const err = await validate('10,20,30');
-      expectErrors(err, [
+      expectValidatorErrors(err, [
         {
           cause: 'wrongLength',
           actualLength: 3,
@@ -54,7 +52,7 @@ describe('GeoJSON validators', function() {
 
     it('should add an error if one of the coordinates is not a number', async function() {
       const err = await validate('10,asd,30,40');
-      expectErrors(err, [
+      expectValidatorErrors(err, [
         {
           location: 'bbox[1]',
           message: 'must be a number between -90 and 90',
@@ -83,7 +81,7 @@ describe('GeoJSON validators', function() {
 
         const err = await validate(coordinates.join(','));
         expect(err).not.to.equal(undefined);
-        expectErrors(err, [
+        expectValidatorErrors(err, [
           {
             location: `bbox[${config.index}]`,
             message: config.message,
@@ -149,7 +147,7 @@ describe('GeoJSON validators', function() {
 
       const err = await validate(point);
 
-      expectErrors(err, [
+      expectValidatorErrors(err, [
         {
           cause: 'missingProperties',
           expectedProperties: [ 'type', 'coordinates' ],
@@ -181,7 +179,7 @@ describe('GeoJSON validators', function() {
 
       const err = await validate(point);
 
-      expectErrors(err, [
+      expectValidatorErrors(err, [
         {
           cause: 'extraProperties',
           expectedProperties: [ 'type', 'coordinates' ],
@@ -203,7 +201,7 @@ describe('GeoJSON validators', function() {
 
       const err = await validate(point);
 
-      expectErrors(err, [
+      expectValidatorErrors(err, [
         {
           message: 'must be of type array',
           type: 'json',
@@ -225,7 +223,7 @@ describe('GeoJSON validators', function() {
 
       const err = await validate(point);
 
-      expectErrors(err, [
+      expectValidatorErrors(err, [
         {
           message: 'must be an array of 2 numbers (longitude & latitude)',
           type: 'json',
@@ -246,7 +244,7 @@ describe('GeoJSON validators', function() {
 
       const err = await validate(point);
 
-      expectErrors(err, [
+      expectValidatorErrors(err, [
         {
           message: 'must be an array of 2 numbers (longitude & latitude)',
           type: 'json',
@@ -267,7 +265,7 @@ describe('GeoJSON validators', function() {
 
       const err = await validate(point);
 
-      expectErrors(err, [
+      expectValidatorErrors(err, [
         {
           message: 'must be of type number',
           type: 'json',
@@ -289,7 +287,7 @@ describe('GeoJSON validators', function() {
 
       const err = await validate(point);
 
-      expectErrors(err, [
+      expectValidatorErrors(err, [
         {
           message: 'must be a number between -180 and 180',
           type: 'json',
@@ -310,7 +308,7 @@ describe('GeoJSON validators', function() {
 
       const err = await validate(point);
 
-      expectErrors(err, [
+      expectValidatorErrors(err, [
         {
           message: 'must be of type number',
           type: 'json',
@@ -332,7 +330,7 @@ describe('GeoJSON validators', function() {
 
       const err = await validate(point);
 
-      expectErrors(err, [
+      expectValidatorErrors(err, [
         {
           message: 'must be a number between -90 and 90',
           type: 'json',
@@ -364,16 +362,3 @@ describe('GeoJSON validators', function() {
     }
   });
 });
-
-/**
- * Expects the specified validation error to contains specified errors.
- *
- * @private
- * @param {Error} validationError - The validation error.
- * @param {Object[]} expectedErrors - An array of the expected errors.
- */
-function expectErrors(validationError, expectedErrors) {
-  expect(validationError).not.to.equal(undefined);
-  const actualErrors = validationError.errors.map(err => _.omit(err, 'stack'));
-  expect(actualErrors).to.have.objects(expectedErrors);
-}

@@ -1,8 +1,16 @@
+const { sample } = require('lodash');
+
+const Action = require('../server/models/action');
 const Location = require('../server/models/location');
+const Theme = require('../server/models/theme');
+const actionFixtures = require('../server/spec/fixtures/actions');
 const locationFixtures = require('../server/spec/fixtures/location');
+const themeFixtures = require('../server/spec/fixtures/theme');
 const Script = require('./script');
 
 const LOCATIONS_COUNT = 50;
+const THEME_COUNT = 10;
+const ACTIONS_COUNT = 100;
 
 const ONEX_BBOX = {
   southWest: [ 6.086417, 46.173987 ],
@@ -12,21 +20,18 @@ const ONEX_BBOX = {
 /**
  * Script to generate sample data for development.
  *
- * For now, this script basically runs `CreateAdminScript` and creates a default
- * admin user with the e-mail `admin@example.com` and password `test`.
- *
- * Later on it might be augmented to generate useful data to test the
- * application.
- *
  *     $> npm run sample-data
  *
  * @class
- * @memberof module:scripts
  */
 class SampleDataScript extends Script {
-
   /**
-   * Runs the script.
+   * Runs `CreateAdminScript` and creates a default admin user with the e-mail `admin@example.com` and password `test`.
+   * Additionally, generates sample data in the database to test the application.
+   *
+   * @method
+   * @memberof SampleDataScript
+   * @instance
    */
   async run() {
 
@@ -38,16 +43,13 @@ class SampleDataScript extends Script {
     process.env.NO_SCRIPT = true;
     await require('./create-admin').run();
 
-    // Make sure there are at least 50 locations in the database.
-    // If not, generate new random locations in Onex until there are 50 in total.
-    const locationsCount = await new Location().resetQuery().count();
-    if (locationsCount < LOCATIONS_COUNT) {
-      await Promise.all(new Array(LOCATIONS_COUNT - locationsCount).fill(0).map(() => locationFixtures.location({
-        bbox: ONEX_BBOX
-      })));
-    } else {
-      this.logger.debug(`There are already ${LOCATIONS_COUNT} locations or more in the database`);
-    }
+    // Generate sample locations if needed
+    await this.sampleLocations();
+    // Generate sample themes if needed and retrieve them all
+    const themes = await this.sampleThemes();
+    // Generate sample actions if needed, grouped randomly by the themes
+    await this.sampleActions(themes);
+
   }
 
   /**
@@ -57,6 +59,79 @@ class SampleDataScript extends Script {
     const duration = (new Date().getTime() - this.start) / 1000;
     this.logger.info(`Sample data generated in ${duration}s`);
   }
+
+  /**
+   * Makes sure there are at least 50 locations in the database.
+   * If not, generates new random locations in Onex until there are 50 in total.
+   *
+   * Automatically called by the `run()` method.
+   *
+   * @method
+   * @memberof SampleDataScript
+   * @instance
+   */
+  async sampleLocations() {
+    const locationsCount = await new Location().resetQuery().count();
+    if (locationsCount < LOCATIONS_COUNT) {
+      await create(LOCATIONS_COUNT - locationsCount, locationFixtures.location, { bbox: ONEX_BBOX });
+    } else {
+      this.logger.debug(`There are already ${LOCATIONS_COUNT} locations or more in the database`);
+    }
+  }
+
+  /**
+   * Makes sure there are at least 10 themes in the database.
+   * If not, generates new random themes until there are 10 in total.
+   * In any case, returns all the themes in the database.
+   *
+   * Automatically called by the `run()` method.
+   *
+   * @method
+   * @memberof SampleDataScript
+   * @instance
+   * @returns {Collection<Theme>} A Bookshelf collection of themes
+   */
+  async sampleThemes() {
+    const themesCount = await new Theme().resetQuery().count();
+    if (themesCount < THEME_COUNT) {
+      await create(THEME_COUNT - themesCount, themeFixtures.theme);
+    } else {
+      this.logger.debug(`There are already ${THEME_COUNT} themes or more in the database`);
+    }
+
+    return new Theme().resetQuery().fetchAll();
+  }
+
+  /**
+   * Make sure there are at least 50 actions in the database.
+   * If not, generate new random actions, using given themes if provided, until there are 50 in total.
+   *
+   * Automatically called by the `run()` method.
+   *
+   * @method
+   * @memberof SampleDataScript
+   * @instance
+   * @param {Collection<Theme>} [themes] - A Bookshelf collection of themes
+   */
+  async sampleActions(themes) {
+    const actionsCount = await new Action().resetQuery().count();
+    if (actionsCount < ACTIONS_COUNT) {
+      await create(ACTIONS_COUNT - actionsCount, actionFixtures.action, { theme: sample(themes.models) });
+    } else {
+      this.logger.debug(`There are already ${ACTIONS_COUNT} actions or more in the database`);
+    }
+  }
+}
+
+/**
+ * Utility function that helps creating sample data.
+ *
+ * @param {number} n - The number of elements to create.
+ * @param {function} factory - A factory function that creates the elements.
+ * @param {Object} options - Custom options to pass to the factory function.
+ */
+async function create(n, factory, options) {
+  await Promise.all(new Array(n).fill(0).map(() => factory(options)));
 }
 
 const script = new SampleDataScript();

@@ -14,7 +14,16 @@ const router = express.Router();
 const modelFiles = _.without(glob.sync('*', { cwd: config.path('server', 'models') }), 'abstract.js').filter(file => !file.match(/\.spec\.js$/));
 modelFiles.forEach(modelFile => require(`../models/${modelFile}`));
 
+// Ensures that if an `include` query parameter is present and is an array, it contains no duplicate value.
+router.use((res, req, next) => {
+  if (req.query && _.isArray(req.query.include)) {
+    req.query.include = _.uniq(req.query.include);
+  }
+  next();
+});
+
 // Plug in API routes.
+router.use('/actions', require('./actions/actions.routes').router);
 router.use('/auth', require('./auth/auth.routes').router);
 router.use('/locations', require('./locations/locations.routes').router);
 router.use('/me', require('./users/users.me.routes').router);

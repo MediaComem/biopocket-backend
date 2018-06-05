@@ -150,6 +150,37 @@ exports.expectErrors = function(res, expectedErrorOrErrors) {
 };
 
 /**
+ * Expects the specified validation error to contains specified errors.
+ *
+ *     // Expect a single error.
+ *     expectValidatorErrors(err, {
+ *       code: 'something.wrong',
+ *       message: 'It went wrong...'
+ *     });
+ *
+ *     // Expect a list of errors.
+ *     expectValidatorErrors(err, [
+ *       {
+ *         code: 'something.wrong',
+ *         message: 'It went wrong...'
+ *       },
+ *       {
+ *         code: 'something.bad',
+ *         message: 'What?'
+ *       }
+ *     ]);
+ *
+ * @param {Error} validationError - The Exception raised by the validator.
+ * @param {Object[]} expectedErrors - An array of the expected errors.
+ */
+exports.expectValidatorErrors = function(validationError, expectedErrors) {
+  expect(validationError).not.to.equal(undefined);
+  const actualErrors = validationError.errors.map(err => _.omit(err, 'stack'));
+  expect(actualErrors).to.have.objects(expectedErrors);
+};
+
+
+/**
  * Ensures that a database record has not changed by reloading a fresh instance and comparing its attributes.
  * The returned promise is resolved if the record has not changed, or rejected if it has changed.
  *

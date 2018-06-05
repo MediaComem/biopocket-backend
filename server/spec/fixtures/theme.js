@@ -35,7 +35,7 @@ const { createRecord } = require('../utils');
  */
 exports.theme = function(data = {}) {
   return createRecord(Theme, {
-    title: data.title || chance.sentence({ words: 5 }),
+    title: data.title || chance.sentence({ words: 3 }),
     code: _.has(data, 'code') ? data.code : exports.code(),
     description: data.description || chance.paragraph(),
     photo_url: data.photoUrl || chance.url({ domain: 'example.com', extensions: [ 'jpg' ] }),
@@ -54,6 +54,7 @@ exports.theme = function(data = {}) {
  *     const themeFixtures = require('../spec/fixtures/theme');
  *
  *     themeFixtures.code();  // "N7"
+ *
  * @function
  * @returns {string} A code for a theme.
  */

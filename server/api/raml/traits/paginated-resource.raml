@@ -1,0 +1,72 @@
+usage: |
+  Apply this to resources which implement pagination in their response.
+queryParameters:
+  offset:
+    description: |
+      A number indicating how many actions should be skipped before the first returned action.
+
+      _If not provided, the default value is 0._
+    required: false
+    type: integer
+    example: '?offset=26'
+  limit:
+    description : |
+      A number indicating how many actions should be returned by the request.
+
+      _If not provided, the default value is 100._
+    required: false
+    type: integer
+    example: '?limit=17'
+responses:
+  200:
+    headers:
+      Pagination-Offset:
+        type: integer
+        description: |
+          Indicates how many records have been skipped before the first one returned.
+
+          _Depends on the value of the `offset` query parameter._
+      Pagination-Limit:
+        type: integer
+        description: |
+          Indicates the maximum number of records contained in the response.
+
+          _Depends on the value of the `limit` query parameter._
+      Pagination-Total:
+        type: integer
+        description: Indicates how many records are available to retrieve in total, without any filter or pagination limit.
+      Pagination-Filtered-Total:
+        type: integer
+        description: |
+          Indicates how many records matching the specified filters (if any) are available to retrieve (without a pagination limit).
+
+          _This may be equal to `Pagination-Total` if no filter is applied or all records match the filters._
+  400:
+    description: The request contained invalid query parameters data.
+    body:
+      type: validationErrors
+      examples:
+        Wrong pagination params:
+          description: One or both of the offset or limit query parameters did not contain a valid value.
+          value: |
+            {
+              "errors": [
+                {
+                  "message": "must not be blank",
+                  "type": "query",
+                  "location": "offset",
+                  "validator": "notBlank",
+                  "value": "",
+                  "valueSet": true
+                },
+                {
+                  "message": "must be an integer",
+                  "type": "query",
+                  "location": "limit",
+                  "validator": "positiveInteger",
+                  "cause": "wrongType",
+                  "value": "some text",
+                  "valueSet": true
+                }
+              ]
+            }

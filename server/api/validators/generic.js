@@ -100,3 +100,34 @@ exports.query = function(param) {
     });
   };
 };
+
+/**
+ * Returns a ValDSL function that checks wether the current value is a positive integer or not.
+ * (a positive integer is an integer that must be equal or superior to (0) zero)
+ *
+ *     this.validate(
+ *       this.query('offset'),
+ *       this.isPositiveInteger()
+ *     )
+ *
+ * @returns {function} A validator function.
+ */
+exports.isPositiveInteger = function() {
+  return function(ctx) {
+    const value = Number(ctx.get('value'));
+    if (!_.isInteger(value)) {
+      ctx.addError({
+        validator: 'positiveInteger',
+        cause: 'wrongType',
+        message: 'must be an integer'
+      });
+    } else if (value < 0) {
+      ctx.addError({
+        validator: 'positiveInteger',
+        cause: 'wrongValue',
+        value: ctx.get('value'),
+        message: 'must be equal or superior to 0'
+      });
+    }
+  };
+};

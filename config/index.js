@@ -26,6 +26,7 @@ const configFromEnvironment = {
   bcryptCost: parseConfigInt(get('BCRYPT_COST')),
   cors: parseConfigBoolean(get('CORS')),
   db: get('DATABASE_URL') || buildDatabaseUrl(),
+  defaultPaginationLimit: parseConfigInt(get('DEFAULT_PAGINATION_LIMIT')),
   docs: {
     browser: get('DOCS_BROWSER'),
     host: get('DOCS_HOST'),
@@ -46,7 +47,7 @@ if (localConfigFile !== joinProjectPath('config', 'local.js') && !fs.existsSync(
 } else if (fs.existsSync(localConfigFile)) {
   const localConfig = require(localConfigFile);
   configFromLocalFile = _.pick(localConfig,
-    'bcryptCost', 'cors', 'db',
+    'bcryptCost', 'cors', 'db', 'defaultPaginationLimit',
     'docs.browser', 'docs.host', 'docs.open', 'docs.port',
     'env', 'logLevel', 'port', 'sessionSecret');
 }
@@ -56,6 +57,7 @@ const defaultConfig = {
   bcryptCost: 10,
   cors: false,
   db: 'postgres://localhost/biopocket',
+  defaultPaginationLimit: 100,
   docs: {
     host: '127.0.0.1',
     open: true,
@@ -257,6 +259,8 @@ function validate(conf) {
     throw new Error(`Unsupported CORS value "${conf.cors}" (type ${typeof conf.cors}); must be a boolean`);
   } else if (!_.isString(conf.db) || !conf.db.match(/^postgres:\/\//)) {
     throw new Error(`Unsupported database URL "${conf.db}" (type ${typeof conf.db}); must be a string starting with "postgres://"`);
+  } else if (!_.isInteger(conf.defaultPaginationLimit) || conf.defaultPaginationLimit < 1) {
+    throw new Error(`Unsupported default pagination limit value "${conf.defaultPaginationLimit}" (type ${typeof conf.defaultPaginationLimit}); must be an integer greater than or equal to 1`);
   } else if (!_.includes(SUPPORTED_ENVIRONMENTS, conf.env)) {
     throw new Error(`Unsupported environment "${JSON.stringify(conf.env)}"; must be one of: ${SUPPORTED_ENVIRONMENTS.join(', ')}`);
   } else if (!_.isString(conf.logLevel) || !_.includes(SUPPORTED_LOG_LEVELS, conf.logLevel.toUpperCase())) {

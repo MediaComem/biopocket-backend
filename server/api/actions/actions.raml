@@ -1,0 +1,79 @@
+displayName: Actions
+description: Management of BioPocket actions.
+
+# GET /api/actions
+get:
+  description: List actions.
+  is:
+    - paginatedResource
+    - resourceWithInclusion:
+        resourceName: action
+        inclusions: theme
+        inclusionExamples:
+          Include only one relation:
+            value: ?include=theme
+  responses:
+    200:
+      description: The actions were successfully listed.
+      body:
+        type: Action[]
+        examples:
+          Without any parameters:
+            value: |
+              [
+                {
+                  "id": "0c51ffa1-3997-46f3-ae84-5c3102f9b520",
+                  "themeId": "f8af36b4-dc30-4e34-a0d3-9c25cc125f0e",
+                  "title": "Afzoklac delbe ova.",
+                  "description": "Co su tobifa uhwir ugjah novufzed oweilati duk vuuwa livarave woh iwsu waere juugo.",
+                  "createdAt": "2018-06-01T11:40:54.231Z",
+                  "updatedAt": "2018-06-01T11:40:54.231Z"
+                },
+                {
+                  "id": "02959f49-da0d-452b-9208-300b5307ab9a",
+                  "themeId": "f8af36b4-dc30-4e34-a0d3-9c25cc125f0e",
+                  "title": "Ajve aniro eveda.",
+                  "description": "Zernaku tungud aw vevu irkerzil livi fansi se sum oj begib buzoceti mavodfot.",
+                  "createdAt": "2018-06-01T11:40:54.230Z",
+                  "updatedAt": "2018-06-01T11:40:54.230Z"
+                }
+              ]
+          With an include param (set to "theme"):
+            value: |
+              [
+                {
+                  "id": "0c51ffa1-3997-46f3-ae84-5c3102f9b520",
+                  "themeId": "f8af36b4-dc30-4e34-a0d3-9c25cc125f0e",
+                  "theme": {
+                    "id": "f8af36b4-dc30-4e34-a0d3-9c25cc125f0e",
+                    "title": "Ajkivjo zu numcomoj.",
+                    "description": "Obaraga burjeti edisujav arkohiw jeuc suveztu ukbe cap efaulepor kuvojpo ku giftazihe. Vubad tulil id eripa lufcogtav irate nukeik oti cebar luden hi fifapi sen. Ko le wujegim doah keskekew akolamha ehjucof ih dafesul hobzuc ah go. Ki refle oreub zovukos ub siric ni cez po calejocu gav pez vavhaen.",
+                    "photoUrl": "http://example.com/evuethaz.jpg",
+                    "source": "Revbug rutihi uza.",
+                    "createdAt": "2018-06-01T11:40:54.126Z",
+                    "updatedAt": "2018-06-01T11:40:54.126Z"
+                  },
+                  "title": "Afzoklac delbe ova.",
+                  "description": "Co su tobifa uhwir ugjah novufzed oweilati duk vuuwa livarave woh iwsu waere juugo.",
+                  "createdAt": "2018-06-01T11:40:54.231Z",
+                  "updatedAt": "2018-06-01T11:40:54.231Z"
+                },
+                {
+                  "id": "02959f49-da0d-452b-9208-300b5307ab9a",
+                  "themeId": "f8af36b4-dc30-4e34-a0d3-9c25cc125f0e",
+                  "theme": {
+                    "id": "f8af36b4-dc30-4e34-a0d3-9c25cc125f0e",
+                    "title": "Ajkivjo zu numcomoj.",
+                    "description": "Obaraga burjeti edisujav arkohiw jeuc suveztu ukbe cap efaulepor kuvojpo ku giftazihe. Vubad tulil id eripa lufcogtav irate nukeik oti cebar luden hi fifapi sen. Ko le wujegim doah keskekew akolamha ehjucof ih dafesul hobzuc ah go. Ki refle oreub zovukos ub siric ni cez po calejocu gav pez vavhaen.",
+                    "photoUrl": "http://example.com/evuethaz.jpg",
+                    "source": "Revbug rutihi uza.",
+                    "createdAt": "2018-06-01T11:40:54.126Z",
+                    "updatedAt": "2018-06-01T11:40:54.126Z"
+                  },
+                  "title": "Ajve aniro eveda.",
+                  "description": "Zernaku tungud aw vevu irkerzil livi fansi se sum oj begib buzoceti mavodfot.",
+                  "createdAt": "2018-06-01T11:40:54.230Z",
+                  "updatedAt": "2018-06-01T11:40:54.230Z"
+                  }
+                }
+              ]

@@ -1,0 +1,47 @@
+usage: |
+  Apply this to resources which can include other resources in their response object.
+
+  Provide the name of the resource through the `resourceName` parameter.
+  Provide the list of available inclusions through the `inclusions` parameter.
+  Provide examples through the `inclusionExamples` parameter.
+queryParameters:
+  include:
+    description: |
+      Indicate which <<resourceName>>-related resource(s) should be fetched within any returned <<resourceName>> object.
+
+      _Available <<resourceName>>-related resources to include : **<<inclusions>>**_
+
+      This `include` query parameter can be passed multiple times to include more than one resource in returned <<resourceName>> objects. If multiple `include` query parameters have the same value, duplicate values will be ignored.
+    required: false
+    type: string
+    examples:
+      <<inclusionExamples>>
+responses:
+  400:
+    description: The request contained invalid query parameters data.
+    body:
+      type: validationErrors
+      examples:
+        Invalid include value:
+          description: The include query parameter did not contain a valid value
+          value: |
+            HTTP/1.1 400 Bad Request
+            Content-Type: application/json
+
+            {
+              "errors": [
+                {
+                  "message": "must be one of foo, bar",
+                  "type": "query",
+                  "location": "include",
+                  "validator": "inclusion",
+                  "allowedValues": [
+                      "foo",
+                      "bar"
+                  ],
+                  "allowedValuesDescription": "foo, bar",
+                  "value": "baz",
+                  "valueSet": true
+                }
+              ]
+            }

@@ -1,0 +1,52 @@
+type: object
+properties:
+  errors:
+    type: array
+    description: |
+      An array of validation errors.
+
+      **Depending on the context, some of the following ValidationError properties might not be present (see examples below).**
+    items:
+      displayName: ValidationError
+      type: object
+      properties:
+        actualLength:
+          type: number
+          required: false
+          description: How many values where passed in a specific query param. This is present when the parameter must have a defined number of values.
+        allowedValues:
+          type: string[]
+          required: false
+          description: An array of allowed values for this param. This should be present alongside `allowedValuesDescription` when the parameter's value is restrained to a specified set.
+        allowedValuesDescription:
+          type: string
+          required: false
+          description: The list of allowed values for this param. This should be present alongside `allowedValues` when a parameter's value is restrained to a specified set.
+        cause:
+          type: string
+          required: false
+          description: Some validators can raise an error based on multiple criteria. This helps understanding which one caused this error.
+        location:
+          type: string
+          required: false
+          description: The parameter location identifier. If `type` is `json`, represents the path to the parameter [as a JSON Pointer](https://tools.ietf.org/html/rfc6901). If `type` is `query`, represents the name of the query parameter.
+        message:
+          type: string
+          required: false
+          description: The message describing the error.
+        type:
+          type: string
+          required: false
+          description: The type of parameter's location. Should be `json` if the parameter is located in a JSON body, or `query` if it is located in the query parameters.
+        validator:
+          type: string
+          required: false
+          description: The name of the validator which raised the error.
+        value:
+          type: string
+          required: false
+          description: The incriminated param value.
+        valueSet:
+          type: boolean
+          required: false
+          description: Whether the location was present in the request or not (e.g. a JSON property may be explicitly set to `null` in the request body, in which case `valueSet` would be `true`; or it may be not sent at all, in which case `valueSet` would be `false`).
