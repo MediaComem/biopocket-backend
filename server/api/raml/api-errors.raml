@@ -1,0 +1,28 @@
+title: API Errors
+content: |
+  When a client or server error occurs, the API always sends a response in the same format:
+  a JSON object with an `errors` array containing one or more elements.
+  Each element of the array is an object describing a problem, for example:
+
+  ```json
+  {
+    "errors": [
+      {
+        "code": "auth.forbidden",
+        "message": "You are not authorized to access this resource."
+      }
+    ]
+  }
+  ```
+
+  Some of these errors are identified by a `code` property which you can use to identify the problem:
+
+  | Code                          | Problem                                                                                                                                                       |
+  | :---                          | :---                                                                                                                                                          |
+  | `auth.invalidAuthorization`   | The authentication failed because the bearer token sent in the `Authorization` header is invalid or has expired.                                              |
+  | `auth.forbidden`              | You have been successfully authenticated, but are not authorized to access the requested resource. Authenticate with a user account that has more privileges. |
+  | `auth.malformedAuthorization` | The authentication failed because the `Authorization` header does not have the correct format (`Bearer TOKEN`).                                               |
+  | `auth.missingAuthorization`   | The authentication failed because no `Authorization` header was sent.                                                                                         |
+  | `method.notAllowed`           | The resource you tried to access does not support the request's HTTP method.                                                                                  |
+  | `record.notFound`             | The record you tried to retrieve does not exist or you don't have authorization to access it.                                                                 |
+  | `resource.notFound`           | There is no resource available for this URL and HTTP method.                                                                                                  |

@@ -8,7 +8,7 @@ module.exports = async function(actual, expected) {
   expect(actual, 'res.body').to.be.an('object');
 
   const expectedKeys = [ 'id', 'name', 'description', 'phone', 'photoUrl', 'siteUrl', 'geometry', 'address', 'properties', 'createdAt', 'updatedAt' ];
-  if (_.has(expected, 'shortName')) {
+  if (!_.isNil(expected.shortName)) {
     expectedKeys.push('shortName');
   }
 
