@@ -1,5 +1,5 @@
 /**
- * Anyone can attempt to authenticate. Always returns true.
+ * Anyone can attempt to authenticate.
  *
  * @function
  * @name canAuthenticate

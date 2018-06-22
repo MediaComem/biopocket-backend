@@ -28,12 +28,12 @@ class CreateAdminScript extends Script {
     this.adminPassword = process.env.ADMIN_PASSWORD;
 
     if (!valib.String.isEmailLike(this.adminEmail)) {
-      throw new Error('$ADMIN_EMAIL is required and must be a valid e-mail');
+      throw new Error('$ADMIN_EMAIL is required and must be a valid email');
     } else if (!this.adminPassword || !this.adminPassword.trim().length) {
       throw new Error('$ADMIN_PASSWORD is required and cannot be blank');
     }
 
-    // Check if an admin with that e-mail already exists.
+    // Check if an admin with that email already exists.
     this.existingAdmin = await new User({
       email: this.adminEmail
     }).fetch();

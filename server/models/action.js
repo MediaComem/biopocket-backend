@@ -23,6 +23,12 @@ const Abstract = require('./abstract');
 const Action = Abstract.extend({
   tableName: 'actions',
   timestamps: true,
+
+  /**
+   * Returns the relation to this action's theme.
+   *
+   * @returns {Model} A Bookshelf relation.
+   */
   theme() {
     return this.belongsTo('Theme');
   }

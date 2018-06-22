@@ -2,7 +2,16 @@ type: object
 properties:
   email:
     type: string
-    description: The e-mail address associated with the user account.
+    description: The email address associated with the user account.
+  lifespan:
+    type: boolean | number
+    description: |
+      The lifespan of the generated [JWT](https://jwt.io/).
+
+      If true or not sent, it defaults to a value configured by the server. If
+      false, the JWT will never expire. If it's a number, it is the number of
+      seconds the JWT will be valid.
+    required: false
   password:
     type: string
     description: The user account's password.

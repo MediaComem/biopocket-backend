@@ -14,7 +14,7 @@ exports.canCreate = function() {
 };
 
 /**
- * Anyone can retrieve a registration by its e-mail.
+ * Anyone can retrieve a registration by its email.
  *
  * @function
  * @name retrieveByEmail

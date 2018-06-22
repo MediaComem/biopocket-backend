@@ -1,4 +1,4 @@
-type: object
+type: UserCommon
 properties:
   active:
     type: boolean
@@ -10,13 +10,49 @@ properties:
     type: datetime
     description: The time at which the user account was created.
     required: false
-  email:
-    type: string
-    description: The e-mail address associated to the user account.
+  emailVerified:
+    type: boolean
+    description: True if the user's email address was verified.
+  emailVerifiedAt:
+    type: datetime
+    description: |
+      The time at which the user's email address was verified
+      (not available if it has not yet been verified).
     required: false
   id:
     type: string
     description: The unique ID identifying the user account.
+    required: false
+  provider:
+    type: string
+    enum: [ local ]
+    description: |
+      The authentication provider.
+      Currently only `local` is supported, indicating a local BioPocket account with authentication through email and password.
+  providerId:
+    type: string
+    description: |
+      The user's identifier for the authentication provider.
+      It is unique for the user's provider (but not guaranteed to be unique across different providers).
+  providerData:
+    type: object
+    description: |
+      Additional data from the authentication provider.
+      This property is only visible to administrators.
+    required: false
+  registrationOtp:
+    type: string
+    description: |
+      The one-time password sent to the user to complete the registration process
+      (not available for non-local users, e.g. Facebook, or once registration is complete).
+      This property is only visible to administrators.
+    required: false
+  registrationOtpCreatedAt:
+    type: datetime
+    description: |
+      The time at which the registration OTP was created
+      (not available for non-local users, e.g. Facebook, or once registration is complete).
+      This property is only visible to administrators.
     required: false
   roles:
     type: array
@@ -29,3 +65,10 @@ properties:
     type: datetime
     required: false
     description: The time at which the user account was last updated.
+  updatedBy:
+    type: string
+    description: |
+      A unique ID identifying the user who last modified this user.
+      This may be the user itself or an administrator.
+      This information is only visible to administrators.
+    required: false

@@ -1,3 +1,8 @@
+// Base URL used to build URLs such as the link in registration emails.
+// This should be the base URL of the website, not of the API
+// (there is currently no website but there might be in the future).
+// exports.baseUrl = 'http://localhost:3000';
+
 // Cross-Origin Resource Sharing (CORS)
 // It is disabled by default.
 exports.cors = {
@@ -35,6 +40,20 @@ exports.imagesBaseUrl = 'https://example.com';
 // Log level (TRACE, DEBUG, INFO, WARN, ERROR or FATAL)
 // Use TRACE for development to log database queries and HTTP requests.
 exports.logLevel = 'TRACE';
+
+// SMTP configuration
+// Tip: use https://ethereal.email to create emails for development.
+exports.mail = {
+  // Setting this to false causes the server to never send any email.
+  enabled: process.env.NODE_ENV !== 'test',
+  host: 'smtp.example.com',
+  port: 587,
+  secure: false,
+  username: 'changeme',
+  password: 'letmein',
+  fromName: 'BioPocket',
+  fromAddress: 'noreply@biopocket.ch'
+};
 
 // Port to run the server on
 exports.port = 3000;

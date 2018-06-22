@@ -1,6 +1,7 @@
 {
   "source": {
     "include": [
+      "config",
       "scripts",
       "server",
       "utils"

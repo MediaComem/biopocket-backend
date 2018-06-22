@@ -9,15 +9,11 @@ const logger = config.logger('www');
 // Create an HTTP server.
 const server = http.createServer(app);
 
-// Function that opens a connection to the database, then starts the server.
+// Function that performs the necessary initialization, then starts the server.
 module.exports = function() {
-  return app.get('db').open().then(() => {
-
-    // Set the port to connect to.
-    app.set('port', config.port);
-
+  return Promise.resolve().then(app.init).then(() => {
     // Listen on the provided port, on all network interfaces.
-    server.listen(app.get('port'));
+    server.listen(config.port);
     server.on('error', onError);
     server.on('listening', onListening);
   }).catch(err => fail(err));
@@ -33,7 +29,7 @@ function onError(error) {
     throw error;
   }
 
-  const port = app.get('port');
+  const port = config.port;
   const bind = isString(port) ? `Pipe ${port}` : `Port ${port}`;
 
   // Handle specific errors with friendly messages

@@ -1,9 +1,9 @@
 const allowedMethodsFor = require('./themes.routes').allowedMethods;
 const config = require('../../../config');
-const expectTheme = require('../../spec/expectations/theme');
+const { expectTheme, getExpectedTheme } = require('../../spec/expectations/theme');
 const themeFixtures = require('../../spec/fixtures/theme');
 const { testMethodsNotAllowed } = require('../../spec/utils');
-const { cleanDatabase, expectErrors, getExpectedTheme, initSuperRest, setUp } = require('../../spec/utils');
+const { cleanDatabase, expectErrors, initSuperRest, setUp } = require('../../spec/utils');
 
 setUp();
 

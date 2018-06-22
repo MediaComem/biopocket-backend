@@ -1,10 +1,18 @@
-const { escapeRegExp, has } = require('lodash');
+const { assign, escapeRegExp, has } = require('lodash');
 
 const config = require('../../../config');
 const Theme = require('../../models/theme');
-const { checkRecord, expect, toArray } = require('../utils');
+const { checkRecord, expect } = require('../utils');
+const { toArray } = require('../utils/conversion');
 
-module.exports = async function(actual, expected) {
+/**
+ * Asserts that a theme response from the API has the expected properties, then
+ * asserts that an equivalent theme exists in the database.
+ *
+ * @param {Object} actual - The theme to check.
+ * @param {Object} expected - Expected theme properties.
+ */
+exports.expectTheme = async function(actual, expected) {
   expect(actual, 'res.body').to.be.an('object');
 
   const expectedKeys = [ 'id', 'title', 'description', 'photoUrl', 'createdAt', 'updatedAt' ];
@@ -41,10 +49,18 @@ module.exports = async function(actual, expected) {
   }
 
   // Check that the corresponding theme exists in the database.
-  await module.exports.inDb(actual);
+  await exports.expectThemeInDb(actual);
 };
 
-module.exports.inDb = async function(expected) {
+/**
+ * Asserts that a theme exists in the database with the specified properties.
+ *
+ * Note that database columns are underscored while expected properties are
+ * camel-cased. This allows calling this method with an API response in JSON.
+ *
+ * @param {Object} expected - The theme that is expected to be in the database.
+ */
+exports.expectThemeInDb = async function(expected) {
 
   const theme = await checkRecord(Theme, expected.id);
   expect(theme, 'db.theme').to.be.an.instanceOf(Theme);
@@ -64,4 +80,24 @@ module.exports.inDb = async function(expected) {
   // Deconstruct the image URL to retrieve the code.
   const expectedCode = expected.photoUrl.slice(config.imagesBaseUrl.length).replace(/^\//, '').replace(/-main\.jpg$/, '');
   expect(theme.get('code'), 'db.theme.code').to.equal(expectedCode);
+};
+
+/**
+ * Returns an object representing the expected properties of an Action, based on the specified Action.
+ * (Can be used, for example, to check if a returned API response matches an action in the database.)
+ *
+ * @param {Theme} theme - A theme record.
+ * @param {...Object} changes - Additional expected changes compared to the specified theme (merged with Lodash's `assign`).
+ * @returns {Object} An expectations object.
+ */
+exports.getExpectedTheme = function(theme, ...changes) {
+  return assign({
+    id: theme.get('api_id'),
+    title: theme.get('title'),
+    description: theme.get('description'),
+    photoUrl: `${config.imagesBaseUrl}/${theme.get('code')}-main.jpg`,
+    source: theme.get('source') ? theme.get('source') : undefined,
+    createdAt: theme.get('created_at'),
+    updatedAt: theme.get('updated_at')
+  }, ...changes);
 };

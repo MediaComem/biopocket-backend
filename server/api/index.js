@@ -1,5 +1,5 @@
 const express = require('express');
-const glob = require('glob');
+const glob = require('fast-glob');
 const _ = require('lodash');
 
 const config = require('../../config');

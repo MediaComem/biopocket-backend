@@ -8,10 +8,12 @@ const _ = require('lodash');
 const moment = require('moment');
 const SuperRest = require('superrest');
 
-const config = require('../../config');
-const app = require('../app');
-const db = require('../db');
-const chai = require('./chai');
+const config = require('../../../config');
+const app = require('../../app');
+const db = require('../../db');
+const { testMails } = require('../../utils/mailer');
+const chai = require('../chai');
+const { toArray } = require('./conversion');
 
 let databaseConnectionClosed = false;
 const logger = config.logger('spec');
@@ -58,7 +60,7 @@ exports.testMethodsNotAllowed = function(path, allowedMethods) {
   const methodsToTest = _.difference(httpMethods, allowedMethods);
 
   _.each(methodsToTest, method => {
-    it(`should not allow request with ${method} method`, async function() {
+    it(`should not allow ${method} requests`, async function() {
       const res = this.test.res = await exports.initSuperRest().test(method, path, {}, { expectedStatus: 405 });
 
       exports.expectErrors(res, {
@@ -142,7 +144,7 @@ exports.expectErrors = function(res, expectedErrorOrErrors) {
   expect(res.body.errors, 'res.body.errors').to.be.an('array');
 
   // Check that at least one expected error was provided.
-  const expectedErrors = exports.toArray(expectedErrorOrErrors);
+  const expectedErrors = toArray(expectedErrorOrErrors);
   expect(expectedErrors).to.have.lengthOf.at.least(1);
 
   // Check that the errors in the response match with chai-objects
@@ -265,6 +267,10 @@ exports.initSuperRest = function(options) {
  * be called at the beginning of every test file.
  */
 exports.setUp = function() {
+  before(async () => {
+    await app.init();
+  });
+
   after(() => {
     if (!databaseConnectionClosed) {
       db.close();
@@ -274,11 +280,21 @@ exports.setUp = function() {
 };
 
 /**
+ * Performs cleanup operations to ensure that a test defines its own starting
+ * state and avoids being influenced by the data left over from previous tests.
+ *
+ * This should be called before every test, typically in a `beforeEach` hook.
+ */
+exports.clean = async function() {
+  exports.cleanEmails();
+  await exports.cleanDatabase();
+};
+
+/**
  * Wipes the database clean.
  *
- * This should be called before every test that uses the database (typically in
- * a `beforeEach` hook) to ensure that each test defines its own starting state
- * and avoids being influenced by the data left over from previous tests.
+ * This should be used before every test by calling `clean` (typically in a
+ * `beforeEach` hook).
  *
  * @example
  * beforeEach(async function() {
@@ -300,6 +316,16 @@ exports.cleanDatabase = async function() {
 
   const duration = (new Date().getTime() - start) / 1000;
   logger.debug(`Cleaned database in ${duration}s`);
+};
+
+/**
+ * Deletes all test emails that were sent so far.
+ *
+ * This should be used before every test by calling `clean` (typically in a
+ * `beforeEach` hook).
+ */
+exports.cleanEmails = function() {
+  testMails.length = 0;
 };
 
 /**
@@ -366,92 +392,4 @@ exports.checkRecord = async function(Model, id, options) {
   }
 
   return record;
-};
-
-/**
- * Transforms the specified value into an array if it isn't one already.
- *
- * @example
- * toArray(true);       // => [ true ]
- * toArray(2);          // => [ 2 ]
- * toArray([ 3, 4 ]);   // => [ 3, 4 ]
- * toArray(undefined);  // => [ undefined ]
- *
- * @param {*} value - The value to transform.
- * @returns {Array} An array.
- */
-exports.toArray = function(value) {
-  return _.isArray(value) ? value : [ value ];
-};
-
-/**
- * Returns an object representing the expected properties of an Action, based on the specified Action.
- * (Can be used, for example, to check if a returned API response matches an action in the database.)
- *
- * @param {action} action - The action to build the expectation from.
- * @param {...Object} changes - Additional expected changes compared to the specified action (merged with Lodash's `assign`).
- * @returns {Object} An expectations object.
- **/
-exports.getExpectedAction = function(action, ...changes) {
-  return _.assign({
-    id: action.get('api_id'),
-    title: action.get('title'),
-    description: action.get('description'),
-    impact: action.get('impact'),
-    photoUrl: `${config.imagesBaseUrl}/${action.get('code')}-main.jpg`,
-    themeId: action.related('theme').get('api_id'),
-    createdAt: action.get('created_at'),
-    updatedAt: action.get('updated_at')
-  }, ...changes);
-};
-
-/**
- * Returns an object representing the expected properties of a Location, based on the specified Location.
- * (Can be used, for example, to check if a returned API response matches a Location in the database.)
- *
- * @param {Location} location - The location to build the expectations from.
- * @param {...Object} changes - Additional expected changes compared to the specified Location (merged with Lodash's `extend`).
- * @returns {Object} An expectations object.
- */
-exports.getExpectedLocation = function(location, ...changes) {
-  return _.merge({
-    id: location.get('api_id'),
-    name: location.get('name'),
-    shortName: location.get('short_name'),
-    description: location.get('description'),
-    phone: location.get('phone'),
-    photoUrl: location.get('photo_url'),
-    siteUrl: location.get('site_url'),
-    geometry: location.get('geometry'),
-    properties: location.get('properties'),
-    address: {
-      street: location.get('address_street'),
-      number: location.get('address_number'),
-      city: location.get('address_city'),
-      state: location.get('address_state'),
-      zipCode: location.get('address_zip_code')
-    },
-    createdAt: location.get('created_at'),
-    updatedAt: location.get('updated_at')
-  }, ...changes);
-};
-
-/**
- * Returns an object representing the expected properties of an Action, based on the specified Action.
- * (Can be used, for example, to check if a returned API response matches an action in the database.)
- *
- * @param {Theme} theme - A theme record.
- * @param {...Object} changes - Additional expected changes compared to the specified theme (merged with Lodash's `assign`).
- * @returns {Object} An expectations object.
- */
-exports.getExpectedTheme = function(theme, ...changes) {
-  return _.assign({
-    id: theme.get('api_id'),
-    title: theme.get('title'),
-    description: theme.get('description'),
-    photoUrl: `${config.imagesBaseUrl}/${theme.get('code')}-main.jpg`,
-    source: theme.get('source') ? theme.get('source') : undefined,
-    createdAt: theme.get('created_at'),
-    updatedAt: theme.get('updated_at')
-  }, ...changes);
 };

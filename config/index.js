@@ -1,20 +1,28 @@
-// This file exports a configuration object that is used throughout the
-// application to customize behavior. That object is built from environment
-// variables, an optional configuration file, and from default values.
-
+/**
+ * This file exports a configuration object that is used throughout the
+ * application to customize behavior. That object is built from environment
+ * variables, an optional configuration file, and from default values.
+ *
+ * @module config/index
+ */
 const fs = require('fs');
 const _ = require('lodash');
 const log4js = require('log4js');
 const path = require('path');
+const { parse: parseQueryString, stringify: stringifyQueryString } = require('query-string');
+const { URL } = require('url');
+const joinUrl = require('url-join');
 
 const SUPPORTED_ENVIRONMENTS = [ 'development', 'production', 'test' ];
 const SUPPORTED_LOG_LEVELS = [ 'TRACE', 'DEBUG', 'INFO', 'WARN', 'ERROR', 'FATAL' ];
 
+const env = process.env.NODE_ENV;
 const pkg = require(path.join('..', 'package'));
 const root = path.normalize(path.join(__dirname, '..'));
 
 // Immutable configuration & utility functions
 const fixedConfig = {
+  buildUrl,
   logger: createLogger,
   root: root,
   version: pkg.version,
@@ -23,24 +31,44 @@ const fixedConfig = {
 
 // Configuration from environment variables
 const configFromEnvironment = {
+  baseUrl: getEnvVar('BASE_URL'),
   bcryptCost: parseConfigInt(getEnvVar('BCRYPT_COST')),
+
   cors: {
     enabled: parseConfigBoolean(getEnvVar('CORS')),
     origin: getEnvVar('CORS_ORIGIN')
   },
+
   db: getDatabaseUrl(),
-  imagesBaseUrl: getEnvVar('IMAGES_BASE_URL'),
-  interfaceDb: getDatabaseUrl('INTERFACE_DATABASE_', 'biopocket_interface'),
   defaultPaginationLimit: parseConfigInt(getEnvVar('DEFAULT_PAGINATION_LIMIT')),
+
   docs: {
     browser: getEnvVar('DOCS_BROWSER'),
     host: getEnvVar('DOCS_HOST'),
     open: getEnvVar('DOCS_OPEN'),
     port: getEnvVar('DOCS_PORT')
   },
-  env: process.env.NODE_ENV,
+
+  env,
+
+  imagesBaseUrl: getEnvVar('IMAGES_BASE_URL'),
+  interfaceDb: getDatabaseUrl('INTERFACE_DATABASE_', 'biopocket_interface'),
+
   logLevel: getEnvVar('LOG_LEVEL'),
+
+  mail: {
+    enabled: parseConfigBoolean(getEnvVar('MAIL_ENABLED')),
+    host: getEnvVar('MAIL_HOST'),
+    port: parseConfigInt(getEnvVar('MAIL_PORT')),
+    secure: parseConfigBoolean(getEnvVar('MAIL_SECURE')),
+    username: getEnvVar('MAIL_USERNAME'),
+    password: getEnvVar('MAIL_PASSWORD'),
+    fromName: getEnvVar('MAIL_FROM_NAME'),
+    fromAddress: getEnvVar('MAIL_FROM_ADDRESS')
+  },
+
   port: parseConfigInt(getEnvVar('PORT')),
+  registrationOtpLifespan: getEnvVar('REGISTRATION_OTP_LIFESPAN'),
   sessionSecret: getEnvVar('SESSION_SECRET')
 };
 
@@ -52,28 +80,45 @@ if (localConfigFile !== joinProjectPath('config', 'local.js') && !fs.existsSync(
 } else if (fs.existsSync(localConfigFile)) {
   const localConfig = require(localConfigFile);
   configFromLocalFile = _.pick(localConfig,
-    'bcryptCost', 'cors.enabled', 'cors.origin', 'db', 'defaultPaginationLimit',
+    'baseUrl', 'bcryptCost', 'cors.enabled', 'cors.origin', 'db', 'defaultPaginationLimit',
     'docs.browser', 'docs.host', 'docs.open', 'docs.port',
-    'env', 'imagesBaseUrl', 'interfaceDb', 'logLevel', 'port', 'sessionSecret');
+    'env', 'imagesBaseUrl', 'interfaceDb', 'logLevel',
+    'mail.enabled', 'mail.fromName', 'mail.fromAddress', 'mail.host', 'mail.password', 'mail.port', 'mail.secure', 'mail.username',
+    'port', 'registrationOtpLifespan', 'sessionSecret');
 }
 
 // Default configuration
 const defaultConfig = {
   bcryptCost: 10,
+
   cors: {
     enabled: _.get(configFromEnvironment, 'cors.origin') !== undefined || _.get(configFromLocalFile, 'cors.origin') !== undefined
   },
+
   db: 'postgres://localhost/biopocket',
   defaultPaginationLimit: 100,
+
   docs: {
     host: '127.0.0.1',
     open: true,
     port: undefined
   },
+
   env: 'development',
   logLevel: 'INFO',
-  port: 3000
+
+  mail: {
+    enabled: env !== 'test',
+    fromName: 'BioPocket',
+    secure: false
+  },
+
+  port: 3000,
+
+  registrationOtpLifespan: 2 * 60 * 60 * 1000 // 2 hours
 };
+
+defaultConfig.baseUrl = `http://localhost:${configFromEnvironment.port || configFromLocalFile.port || defaultConfig.port}`;
 
 // Environment variables take precedence over the configuration file, and both
 // take precedence over the default configuration.
@@ -83,11 +128,32 @@ validate(config);
 
 const configLogger = config.logger('config');
 configLogger.debug(`Environment is ${config.env} (change with $NODE_ENV or config.env)`);
+configLogger.debug(`Base URL is ${config.baseUrl} (change with $BASE_URL or config.baseUrl)`);
 configLogger.debug(`bcrypt cost is ${config.bcryptCost} (change with $BCRYPT_COST or config.bcryptCost)`);
 configLogger.debug(`Log level is ${configLogger.level} (change with $LOG_LEVEL or config.logLevel)`);
 
 // Export the configuration
 module.exports = config;
+
+/**
+ * Creates an URL from options (e.g. path, query string, etc).
+ *
+ * @param {Object} options - URL properties (see {@link https://developer.mozilla.org/en-US/docs/Web/API/URL}).
+ * @param {string} [options.path] - Either an URL path to join with the application's base URL, or an absolute URL.
+ * @param {Object} [options.query] - URL query parameters to add to the URL (they will be merged with any existing params in the `search` string).
+ * @returns {string} A full URL.
+ */
+function buildUrl(options) {
+  const url = new URL(config.baseUrl);
+
+  _.extend(url, {
+    pathname: joinUrl(url.pathname, options.path),
+    search: stringifyQueryString(_.extend(parseQueryString(url.search), options.query)),
+    ...options
+  });
+
+  return url.toString();
+}
 
 /**
  * Creates a named log4js logger with trace/debug/info/warn/error/fatal methods
@@ -276,6 +342,8 @@ function parseConfigInt(value, defaultValue) {
 }
 
 /* eslint-disable complexity */
+// Note: these validation functions naturally have high cyclomatic complexity
+// due to the high number of conditionals (https://eslint.org/docs/rules/complexity).
 
 /**
  * Ensures all properties of the configuration are valid.
@@ -283,7 +351,11 @@ function parseConfigInt(value, defaultValue) {
  * @param {Object} conf - The configuration object to validate.
  */
 function validate(conf) {
-  if (!_.isInteger(conf.bcryptCost) || conf.bcryptCost < 1) {
+  if (!_.isString(conf.baseUrl)) {
+    throw new Error(`Unsupported base URL "${conf.baseUrl}" (type ${typeof conf.baseUrl}); must be a string`);
+  } else if (!conf.baseUrl.match(/^https?:\/\//)) {
+    throw new Error(`Unsupported base URL "${conf.baseUrl}; must start with http:// or https://"`);
+  } else if (!_.isInteger(conf.bcryptCost) || conf.bcryptCost < 1) {
     throw new Error(`Unsupported bcrypt cost "${conf.bcryptCost}" (type ${typeof conf.bcryptCost}); must be an integer greater than or equal to 1`);
   } else if (!_.isPlainObject(conf.cors)) {
     throw new Error(`Unsupported CORS value "${conf.cors}" (type ${typeof conf.cors}); must be an object`);
@@ -305,8 +377,45 @@ function validate(conf) {
     throw new Error(`Unsupported log level "${conf.logLevel}" (type ${typeof conf.logLevel}); must be one of: ${SUPPORTED_LOG_LEVELS.join(', ')}`);
   } else if (!_.isInteger(conf.port) || conf.port < 1 || conf.port > 65535) {
     throw new Error(`Unsupported port number "${conf.port}" (type ${typeof conf.port}); must be an integer between 1 and 65535`);
+  } else if (!_.isInteger(conf.registrationOtpLifespan) || conf.registrationOtpLifespan <= 0) {
+    throw new Error(`Unsupported registration OTP lifespan "${conf.registrationOtpLifespan}"; must be a whole number of milliseconds greater than zero`);
   } else if (!_.isString(conf.sessionSecret) || conf.sessionSecret === 'changeme') {
     throw new Error(`Unsupported session secret "${conf.sessionSecret}" (type ${typeof conf.sessionSecret}); must be a string different than "changeme"`);
+  }
+
+  validateMail(conf.mail);
+}
+
+/**
+ * Ensures all properties of the mail sub-configuration are valid.
+ *
+ * @param {Object} mail - The configuration object to validate.
+ */
+function validateMail(mail) {
+  if (!_.isBoolean(mail.enabled)) {
+    throw new Error(`Unsupported mail.enabled value "${mail.enabled}" (type ${typeof mail.enabled}); must be a boolean`);
+  } else if (mail.host !== undefined && !_.isString(mail.host)) {
+    throw new Error(`Unsupported mail.host value "${mail.host}" (type ${typeof mail.host}); must be a string`);
+  } else if (mail.port !== undefined && (!_.isInteger(mail.port) || mail.port < 1 || mail.port > 65535)) {
+    throw new Error(`Unsupported mail.port value "${mail.port}" (type ${typeof mail.port}); must be an integer between 1 and 65535`);
+  } else if (mail.secure !== undefined && !_.isBoolean(mail.secure)) {
+    throw new Error(`Unsupported mail.secure value "${mail.secure}" (type ${typeof mail.secure}); must be a boolean`);
+  } else if (mail.username !== undefined && !_.isString(mail.username)) {
+    throw new Error(`Unsupported mail.username value "${mail.username}" (type ${typeof mail.username}); must be a string`);
+  } else if (mail.password !== undefined && !_.isString(mail.password)) {
+    throw new Error(`Unsupported mail.password value "${mail.password}" (type ${typeof mail.password}); must be a string`);
+  } else if (mail.fromName !== undefined && !_.isString(mail.fromName)) {
+    throw new Error(`Unsupported mail.fromName value "${mail.fromName}" (type ${typeof mail.fromName}); must be a string`);
+  } else if (mail.fromAddress !== undefined && !_.isString(mail.fromAddress)) {
+    throw new Error(`Unsupported mail.fromAddress value "${mail.fromAddress}" (type ${typeof mail.fromAddress}); must be a string`);
+  }
+
+  if (mail.enabled) {
+    for (const requiredMailProperty of [ 'host', 'port', 'secure', 'username', 'password', 'fromAddress' ]) {
+      if (mail[requiredMailProperty] === undefined) {
+        throw new Error(`Configuration property mail.${requiredMailProperty} is required when mail.enabled is true`);
+      }
+    }
   }
 }
 

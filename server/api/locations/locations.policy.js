@@ -1,5 +1,5 @@
 const Location = require('../../models/location');
-const { hasRole } = require('../utils/policy');
+const { hasRole, hasScope } = require('../utils/policy');
 
 /**
  * An administrator can create a location.
@@ -12,7 +12,7 @@ const { hasRole } = require('../utils/policy');
  * @returns {boolean} True if authorized.
  */
 exports.canCreate = function(req) {
-  return hasRole(req, 'admin');
+  return hasScope(req, 'api:locations:create') && hasRole(req, 'admin');
 };
 
 /**
@@ -52,7 +52,7 @@ exports.canRetrieve = function() {
  * @returns {boolean} True if authorized.
  */
 exports.canUpdate = function(req) {
-  return hasRole(req, 'admin');
+  return hasScope(req, 'api:locations:update') && hasRole(req, 'admin');
 };
 
 /**
@@ -66,7 +66,7 @@ exports.canUpdate = function(req) {
  * @returns {boolean} True if authorized.
  */
 exports.canDestroy = function(req) {
-  return hasRole(req, 'admin');
+  return hasScope(req, 'api:locations:destroy') && hasRole(req, 'admin');
 };
 
 /**

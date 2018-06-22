@@ -17,12 +17,20 @@ content: |
 
   Some of these errors are identified by a `code` property which you can use to identify the problem:
 
-  | Code                          | Problem                                                                                                                                                       |
-  | :---                          | :---                                                                                                                                                          |
-  | `auth.invalidAuthorization`   | The authentication failed because the bearer token sent in the `Authorization` header is invalid or has expired.                                              |
-  | `auth.forbidden`              | You have been successfully authenticated, but are not authorized to access the requested resource. Authenticate with a user account that has more privileges. |
-  | `auth.malformedAuthorization` | The authentication failed because the `Authorization` header does not have the correct format (`Bearer TOKEN`).                                               |
-  | `auth.missingAuthorization`   | The authentication failed because no `Authorization` header was sent.                                                                                         |
-  | `method.notAllowed`           | The resource you tried to access does not support the request's HTTP method.                                                                                  |
-  | `record.notFound`             | The record you tried to retrieve does not exist or you don't have authorization to access it.                                                                 |
-  | `resource.notFound`           | There is no resource available for this URL and HTTP method.                                                                                                  |
+  | Code                              | Problem                                                                                                                                                       |
+  | :---                              | :---                                                                                                                                                          |
+  | `auth.expiredRegistrationOtp`     | Authentication with a registration OTP failed because the registration OTP has expired.                                                                       |
+  | `auth.invalidAuthorization`       | Authentication failed because the bearer token sent in the `Authorization` header is invalid or has expired.                                                  |
+  | `auth.invalidPassword`            | Email/password authentication failed because the password is invalid.                                                                                         |
+  | `auth.invalidRegistrationOtp`     | Authentication with a registration OTP failed because the registration OTP is invalid.                                                                        |
+  | `auth.invalidUser`                | Authentication failed because the user account does not exist.                                                                                                |
+  | `auth.inactiveUser`               | Email/password authentication failed because the user account has been deactivated by an administrator.                                                       |
+  | `auth.forbidden`                  | You have been successfully authenticated, but are not authorized to access the requested resource. Authenticate with a user account that has more privileges. |
+  | `auth.malformedAuthorization`     | Authentication failed because the `Authorization` header does not have the correct format (`Bearer TOKEN`).                                                   |
+  | `auth.missingAuthorization`       | Authentication failed because no `Authorization` header was sent.                                                                                             |
+  | `auth.registrationOtpUnavailable` | Authentication with a registration OTP failed because the user has no registration OTP.                                                                       |
+  | `auth.userAlreadyRegistered`      | Authentication with a registration OTP failed because the user has already completed the registration process.                                                |
+  | `auth.userNotRegistered`          | Email/password authentication failed because the user has not yet completed the registration process.                                                         |
+  | `method.notAllowed`               | The resource you tried to access does not support the request's HTTP method.                                                                                  |
+  | `record.notFound`                 | The record you tried to retrieve does not exist or you don't have authorization to access it.                                                                 |
+  | `resource.notFound`               | There is no resource available for this URL and HTTP method.                                                                                                  |

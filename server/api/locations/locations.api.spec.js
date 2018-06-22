@@ -3,11 +3,11 @@ const _ = require('lodash');
 const moment = require('moment');
 
 const allowedMethodsFor = require('../locations/locations.routes').allowedMethods;
-const expectLocation = require('../../spec/expectations/location');
+const { expectLocation, getExpectedLocation } = require('../../spec/expectations/location');
 const geoJsonFixtures = require('../../spec/fixtures/geojson');
 const locationFixtures = require('../../spec/fixtures/location');
 const userFixtures = require('../../spec/fixtures/user');
-const { cleanDatabase, expect, expectDeleted, expectErrors, expectUnchanged, getExpectedLocation, initSuperRest, setUp, testMethodsNotAllowed } = require('../../spec/utils');
+const { cleanDatabase, expect, expectDeleted, expectErrors, expectUnchanged, initSuperRest, setUp, testMethodsNotAllowed } = require('../../spec/utils');
 
 setUp();
 
@@ -62,7 +62,7 @@ describe('Locations API', function() {
       const user = await userFixtures.user();
       const res = this.test.res = await api
         .create('/locations', reqBody, { expectedStatus: 403 })
-        .set('Authorization', `Bearer ${user.generateJwt()}`);
+        .set('Authorization', `Bearer ${await user.generateJwt()}`);
 
       expectErrors(res, {
         code: 'auth.forbidden',
@@ -82,7 +82,7 @@ describe('Locations API', function() {
 
         const res = this.test.res = await api
           .create('/locations', reqBody)
-          .set('Authorization', `Bearer ${admin.generateJwt()}`);
+          .set('Authorization', `Bearer ${await admin.generateJwt()}`);
 
         await expectLocation(res.body, getExpectedLocationFromRequestBody({
           properties: {},
@@ -102,7 +102,7 @@ describe('Locations API', function() {
 
         const res = this.test.res = await api
           .create('/locations', reqBody)
-          .set('Authorization', `Bearer ${admin.generateJwt()}`);
+          .set('Authorization', `Bearer ${await admin.generateJwt()}`);
 
         await expectLocation(res.body, getExpectedLocationFromRequestBody({
           createdAt: [ 'gt', now, 500 ],
@@ -114,7 +114,7 @@ describe('Locations API', function() {
 
         const res = this.test.res = await api
           .create('/locations', {}, { expectedStatus: 422 })
-          .set('Authorization', `Bearer ${admin.generateJwt()}`);
+          .set('Authorization', `Bearer ${await admin.generateJwt()}`);
 
         expectErrors(res, [
           {
@@ -175,7 +175,7 @@ describe('Locations API', function() {
 
         const res = this.test.res = await api
           .create('/locations', reqBody, { expectedStatus: 422 })
-          .set('Authorization', `Bearer ${admin.generateJwt()}`);
+          .set('Authorization', `Bearer ${await admin.generateJwt()}`);
 
         expectErrors(res, [
           {
@@ -228,7 +228,7 @@ describe('Locations API', function() {
 
         const res = this.test.res = await api
           .create('/locations', reqBody, { expectedStatus: 422 })
-          .set('Authorization', `Bearer ${admin.generateJwt()}`);
+          .set('Authorization', `Bearer ${await admin.generateJwt()}`);
 
         expectErrors(res, [
           {
@@ -400,7 +400,7 @@ describe('Locations API', function() {
 
           const res = this.test.res = await api
             .retrieve('/locations', { expectedStatus: 401 })
-            .set('Authorization', `Bearer ${user.generateJwt({ exp: 1 })}`);
+            .set('Authorization', `Bearer ${await user.generateJwt({ exp: 1 })}`);
 
           expectErrors(res, {
             code: 'auth.invalidAuthorization',
@@ -412,7 +412,7 @@ describe('Locations API', function() {
 
           const res = this.test.res = await api
             .retrieve('/locations')
-            .set('Authorization', `Bearer ${user.generateJwt()}`);
+            .set('Authorization', `Bearer ${await user.generateJwt()}`);
 
           expect(res.body).to.be.an('array');
           await expectLocation(res.body[0], getExpectedLocation(locations[0]));
@@ -546,7 +546,7 @@ describe('Locations API', function() {
 
         const res = this.test.res = await api
           .retrieve(`/locations/${location.get('api_id')}`, { expectedStatus: 401 })
-          .set('Authorization', `Bearer ${user.generateJwt({ exp: 1 })}`);
+          .set('Authorization', `Bearer ${await user.generateJwt({ exp: 1 })}`);
 
         expectErrors(res, {
           code: 'auth.invalidAuthorization',
@@ -558,7 +558,7 @@ describe('Locations API', function() {
 
         const res = this.test.res = await api
           .retrieve(`/locations/${location.get('api_id')}`)
-          .set('Authorization', `Bearer ${user.generateJwt()}`);
+          .set('Authorization', `Bearer ${await user.generateJwt()}`);
 
         await expectLocation(res.body, getExpectedLocation(location));
       });
@@ -593,7 +593,7 @@ describe('Locations API', function() {
 
       const res = this.test.res = await api
         .patch(`/locations/${location.get('api_id')}`, reqBody, { expectedStatus: 403 })
-        .set('Authorization', `Bearer ${user.generateJwt()}`);
+        .set('Authorization', `Bearer ${await user.generateJwt()}`);
 
       expectErrors(res, {
         code: 'auth.forbidden',
@@ -626,7 +626,7 @@ describe('Locations API', function() {
 
         const res = this.test.res = await api
           .patch(`/locations/${location.get('api_id')}`, reqBody)
-          .set('Authorization', `Bearer ${admin.generateJwt()}`);
+          .set('Authorization', `Bearer ${await admin.generateJwt()}`);
 
         await expectLocation(res.body, getExpectedLocation(location, reqBody, {
           updatedAt: [ 'gte', now, 500 ]
@@ -657,7 +657,7 @@ describe('Locations API', function() {
 
         const res = this.test.res = await api
           .patch(`/locations/${location.get('api_id')}`, reqBody)
-          .set('Authorization', `Bearer ${admin.generateJwt()}`);
+          .set('Authorization', `Bearer ${await admin.generateJwt()}`);
 
         await expectLocation(res.body, getExpectedLocation(location, reqBody, {
           updatedAt: [ 'gte', now, 500 ]
@@ -676,7 +676,7 @@ describe('Locations API', function() {
 
         const res = this.test.res = await api
           .patch(`/locations/${location.get('api_id')}`, reqBody)
-          .set('Authorization', `Bearer ${admin.generateJwt()}`);
+          .set('Authorization', `Bearer ${await admin.generateJwt()}`);
 
         await expectLocation(res.body, getExpectedLocation(location, reqBody, {
           updatedAt: [ 'gte', now, 500 ]
@@ -687,7 +687,7 @@ describe('Locations API', function() {
 
         const res = this.test.res = await api
           .patch(`/locations/${location.get('api_id')}`, {})
-          .set('Authorization', `Bearer ${admin.generateJwt()}`);
+          .set('Authorization', `Bearer ${await admin.generateJwt()}`);
 
         await expectLocation(res.body, getExpectedLocation(location));
       });
@@ -713,7 +713,7 @@ describe('Locations API', function() {
 
         const res = this.test.res = await api
           .patch(`/locations/${location.get('api_id')}`, reqBody, { expectedStatus: 422 })
-          .set('Authorization', `Bearer ${admin.generateJwt()}`);
+          .set('Authorization', `Bearer ${await admin.generateJwt()}`);
 
         expectErrors(res, [
           {
@@ -831,7 +831,7 @@ describe('Locations API', function() {
 
         const res = this.test.res = await api
           .patch(`/locations/${location.get('api_id')}`, reqBody, { expectedStatus: 422 })
-          .set('Authorization', `Bearer ${admin.generateJwt()}`);
+          .set('Authorization', `Bearer ${await admin.generateJwt()}`);
 
         expectErrors(res, {
           message: 'must have properties "type", "coordinates"',
@@ -873,7 +873,7 @@ describe('Locations API', function() {
 
       const res = this.test.res = await api
         .delete(`/locations/${location.get('api_id')}`, reqBody, { expectedStatus: 403 })
-        .set('Authorization', `Bearer ${user.generateJwt()}`);
+        .set('Authorization', `Bearer ${await user.generateJwt()}`);
 
       expectErrors(res, {
         code: 'auth.forbidden',
@@ -894,7 +894,7 @@ describe('Locations API', function() {
 
         this.test.res = await api
           .delete(`/locations/${location.get('api_id')}`, reqBody, { expectedStatus: 204 })
-          .set('Authorization', `Bearer ${admin.generateJwt()}`);
+          .set('Authorization', `Bearer ${await admin.generateJwt()}`);
 
         await expectDeleted(location);
       });
@@ -903,7 +903,7 @@ describe('Locations API', function() {
 
         const res = this.test.res = await api
           .delete('/locations/foo', reqBody, { expectedStatus: 404 })
-          .set('Authorization', `Bearer ${admin.generateJwt()}`);
+          .set('Authorization', `Bearer ${await admin.generateJwt()}`);
 
         expectErrors(res, {
           code: 'record.notFound',

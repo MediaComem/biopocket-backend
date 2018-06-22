@@ -18,6 +18,7 @@ post:
 
       {
         "email": "jdoe@example.com",
+        "lifespan": true,
         "password": "letmein"
       }
   responses:
@@ -47,7 +48,7 @@ post:
       body:
         examples:
           Invalid user:
-            description: No user account exists with the specified e-mail address, or it is inactive.
+            description: No user account exists with the specified email address, or it is inactive.
             value: |
               HTTP/1.1 401 Unauthorized
               Content-Type: application/json

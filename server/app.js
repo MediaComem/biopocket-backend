@@ -4,6 +4,7 @@ const express = require('express');
 const config = require('../config');
 const api = require('./api');
 const db = require('./db');
+const emails = require('./emails');
 const cors = require('./utils/cors');
 const { logger: expressLogger } = require('./utils/express');
 
@@ -11,7 +12,22 @@ const logger = config.logger('app');
 
 const app = express();
 
-app.set('db', db);
+/**
+ * Performs the various asynchronous operations required to initialize the
+ * application.
+ *
+ * @returns {Promise} A promise that will be resolved when the app has been
+ *                    fully initialized and is ready to process requests.
+ */
+app.init = function() {
+  return Promise.all([
+    // Open a connection to the database.
+    db.open(),
+    // Load & compile email templates.
+    emails.init()
+  ]);
+};
+
 app.set('env', config.env);
 
 app.use(expressLogger);
