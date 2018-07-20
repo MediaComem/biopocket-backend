@@ -107,16 +107,17 @@ The application can be configured through environment variables or a configurati
 Environment variables always take precedence over properties from the
 configuration file.
 
-| Environment variable | Config property | Default                          | Purpose                                                                       |
-| :---                 | :---            | :---                             | :---                                                                          |
-| `$BCRYPT_COST`       | `bcryptCost`    | 10                               | bcrypt cost parameter (should be at least 10; see [bcrypt][bcrypt])           |
-| `$CONFIG`            |                 | `config/local.js`                | Path to the local configuration file to load                                  |
-| `$CORS`              | `cors`          | `false`                          | Whether to enable Cross-Origin Request Sharing (CORS)                         |
-| `$DATABASE_URL`      | `db`            | `postgres://localhost/biopocket` | PostgreSQL database URL to connect to                                         |
-| `$LOG_LEVEL`         | `logLevel`      | `INFO`                           | Log level (`TRACE`, `DEBUG`, `INFO`, `WARN`, `ERROR`, `FATAL`)                |
-| `$NODE_ENV`          | `env`           | `development`                    | Application environment (`development` or `production`)                       |
-| `$PORT`              | `port`          | `3000`                           | Port to run the Node.js Express server on                                     |
-| `$SESSION_SECRET`    | `sessionSecret` |                                  | Session secret used to sign JWT tokens (a long random string, e.g. 100 chars) |
+| Environment variable      | Config property | Default                          | Purpose                                                                                                                    |
+| :---                      | :---            | :---                             | :---                                                                                                                       |
+| `$BCRYPT_COST`            | `bcryptCost`    | 10                               | bcrypt cost parameter (should be at least 10; see [bcrypt][bcrypt])                                                        |
+| `$CONFIG`                 |                 | `config/local.js`                | Path to the local configuration file to load                                                                               |
+| `$CORS`                   | `cors`          | `false`                          | Whether to enable Cross-Origin Request Sharing (CORS)                                                                      |
+| `$DATABASE_URL`           | `db`            | `postgres://localhost/biopocket` | PostgreSQL database URL to connect to                                                                                      |
+| `$INTERFACE_DATABASE_URL` | `interfaceDb`   |                                  | PostgreSQL database URL for the data collection interface database (see [Synchronization](DEVELOPMENT.md#synchronization)) |
+| `$LOG_LEVEL`              | `logLevel`      | `INFO`                           | Log level (`TRACE`, `DEBUG`, `INFO`, `WARN`, `ERROR`, `FATAL`)                                                             |
+| `$NODE_ENV`               | `env`           | `development`                    | Application environment (`development` or `production`)                                                                    |
+| `$PORT`                   | `port`          | `3000`                           | Port to run the Node.js Express server on                                                                                  |
+| `$SESSION_SECRET`         | `sessionSecret` |                                  | Session secret used to sign JWT tokens (a long random string, e.g. 100 chars)                                              |
 
 If the database URL is not specified with `$DATABASE_URL` or `db`, you can use these environment variables instead:
 
@@ -127,6 +128,16 @@ If the database URL is not specified with `$DATABASE_URL` or `db`, you can use t
 | `$DATABASE_NAME`     | `biopocket` | Name of the database to connect to        |
 | `$DATABASE_USERNAME` | none        | Name of the PostgreSQL user to connect as |
 | `$DATABASE_PASSWORD` | none        | Password to authenticate with             |
+
+If the database URL for the data collection interface is not specified with `$INTERFACE_DATABASE_URL` or `interfaceDb`, you can use these environment variables instead:
+
+| Environment variable           | Default     | Purpose                                   |
+| :---                           | :---        | :---                                      |
+| `$INTERFACE_DATABASE_HOST`     | `localhost` | Host to connect to                        |
+| `$INTERFACE_DATABASE_PORT`     | `5432`      | Port to connect to on the host            |
+| `$INTERFACE_DATABASE_NAME`     | `biopocket` | Name of the database to connect to        |
+| `$INTERFACE_DATABASE_USERNAME` | none        | Name of the PostgreSQL user to connect as |
+| `$INTERFACE_DATABASE_PASSWORD` | none        | Password to authenticate with             |
 
 The following properties can be used in development to customize how the project's documentation is served locally:
 

@@ -55,11 +55,11 @@ class Script {
     if (!process.env.NO_SCRIPT) {
       Promise
         .resolve()
-        .then(() => this.db.open())
+        .then(() => this.setUp())
         .then(() => this.run())
         .then(() => this.onSuccess())
         .catch(err => this.onFailure(err))
-        .then(() => this.db.close(), () => this.db.close())
+        .then(() => this.tearDown(), () => this.tearDown())
         .then(() => this.exit());
     }
   }
@@ -104,6 +104,22 @@ class Script {
    */
   exit() {
     process.exit(this.exitCode || 0);
+  }
+
+  /**
+   * Called before the script starts running to do any preliminary work,
+   * e.g. connect to the database.
+   */
+  async setUp() {
+    await this.db.open();
+  }
+
+  /**
+   * Called after the script has run (successfully or not) to release resources,
+   * e.g. disconnect from the database.
+   */
+  async tearDown() {
+    await this.db.close();
   }
 
   /**
