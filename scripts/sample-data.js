@@ -6,6 +6,7 @@ const Theme = require('../server/models/theme');
 const actionFixtures = require('../server/spec/fixtures/actions');
 const locationFixtures = require('../server/spec/fixtures/location');
 const themeFixtures = require('../server/spec/fixtures/theme');
+const { create } = require('../utils/data');
 const Script = require('./script');
 
 const LOCATIONS_COUNT = 50;
@@ -121,17 +122,6 @@ class SampleDataScript extends Script {
       this.logger.debug(`There are already ${ACTIONS_COUNT} actions or more in the database`);
     }
   }
-}
-
-/**
- * Utility function that helps creating sample data.
- *
- * @param {number} n - The number of elements to create.
- * @param {function} factory - A factory function that creates the elements.
- * @param {Object} options - Custom options to pass to the factory function.
- */
-async function create(n, factory, options) {
-  await Promise.all(new Array(n).fill(0).map(() => factory(options)));
 }
 
 const script = new SampleDataScript();
