@@ -117,7 +117,7 @@ class SampleDataScript extends Script {
   async sampleActions(themes) {
     const actionsCount = await new Action().resetQuery().count();
     if (actionsCount < ACTIONS_COUNT) {
-      await create(ACTIONS_COUNT - actionsCount, actionFixtures.action, { theme: sample(themes.models) });
+      await create(ACTIONS_COUNT - actionsCount, () => actionFixtures.action({ theme: sample(themes.models) }));
     } else {
       this.logger.debug(`There are already ${ACTIONS_COUNT} actions or more in the database`);
     }
