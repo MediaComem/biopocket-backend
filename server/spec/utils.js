@@ -260,7 +260,7 @@ exports.cleanDatabase = async function() {
 
   // Sequences of tables to delete in order to avoid foreign key conflicts
   const tablesToDelete = [
-    [ 'locations', 'users', 'actions' ],
+    [ 'locations', 'users', 'actions', 'registrations' ],
     [ 'themes' ]
   ];
 

@@ -354,8 +354,8 @@ describe('Locations API', function() {
     /**
      * Returns an object representing the expected properties of a Location, based on the default request body for this test block.
      *
-     * @param {...Object} changes - Additional expected changes compared to the requets body (merged with Lodash's `extend`).
-     * @returns {Object} An expectations object.
+     * @param {...Object} changes - Additional expected changes compared to the requets body (merged with Lodash's `merge`).
+     * @returns {Object} An expectation object.
      */
     function getExpectedLocationFromRequestBody(...changes) {
       return _.merge({}, reqBody, ...changes);
