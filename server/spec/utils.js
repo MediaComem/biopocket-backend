@@ -24,13 +24,13 @@ const logger = config.logger('spec');
 class EnrichedSuperRest extends SuperRest {
 
   /**
-   * Override of the `expect` method to enrich API error stack traces.
-   *
-   * @param {Response} res - An Express response object.
-   * @param {...*} args - Additional arguments to the `expect` method.
-   * @returns {SuperTest} A SuperTest chain.
-   * @see https://github.com/visionmedia/supertest
-   */
+     * Override of the `expect` method to enrich API error stack traces.
+     *
+     * @param {Response} res - An Express response object.
+     * @param {...*} args - Additional arguments to the `expect` method.
+     * @returns {SuperTest} A SuperTest chain.
+     * @see https://github.com/visionmedia/supertest
+     */
   expect(res, ...args) {
     try {
       return super.expect(res, ...args);
@@ -239,6 +239,7 @@ exports.expectTouchTimestamps = function(record, options = {}) {
   }
 };
 
+// TODO: Need commenting
 exports.initSuperRest = function(options) {
   return new EnrichedSuperRest(app, _.defaults({}, options, {
     pathPrefix: '/api',
@@ -246,6 +247,7 @@ exports.initSuperRest = function(options) {
   }));
 };
 
+// TODO: Need commenting
 exports.setUp = function() {
   after(() => {
     if (!databaseConnectionClosed) {
@@ -255,6 +257,7 @@ exports.setUp = function() {
   });
 };
 
+// TODO: Need commenting
 exports.cleanDatabase = async function() {
   const start = new Date().getTime();
 
@@ -272,6 +275,7 @@ exports.cleanDatabase = async function() {
   logger.debug(`Cleaned database in ${duration}s`);
 };
 
+// TODO: Need commenting
 exports.createRecord = async function(Model, data) {
 
   const resolved = await Promise.resolve(data);
@@ -287,6 +291,7 @@ exports.createRecord = async function(Model, data) {
   return new Model(values).save();
 };
 
+// TODO: Need commenting
 exports.checkRecord = async function(Model, id, options) {
   if (!Model) {
     throw new Error('Model is required');
@@ -303,6 +308,77 @@ exports.checkRecord = async function(Model, id, options) {
   return record;
 };
 
+// TODO: Need commenting
 exports.toArray = function(value) {
   return _.isArray(value) ? value : [ value ];
+};
+
+/**
+ * Returns an object representing the expected properties of an Action, based on the specified Action.
+ * (Can be used, for example, to check if a returned API response matches an action in the database.)
+ *
+ * @param {action} action - The action to build the expectation from.
+ * @param {...Object} changes - Additional expected changes compared to the specified action (merged with Lodash's `assign`).
+ * @returns {Object} An expectations object.
+ **/
+exports.getExpectedAction = function(action, ...changes) {
+  return _.assign({
+    id: action.get('api_id'),
+    title: action.get('title'),
+    description: action.get('description'),
+    themeId: action.related('theme').get('api_id'),
+    createdAt: action.get('created_at'),
+    updatedAt: action.get('updated_at')
+  }, ...changes);
+};
+
+/**
+ * Returns an object representing the expected properties of a Location, based on the specified Location.
+ * (Can be used, for example, to check if a returned API response matches a Location in the database.)
+ *
+ * @param {Location} location - The location to build the expectations from.
+ * @param {...Object} changes - Additional expected changes compared to the specified Location (merged with Lodash's `extend`).
+ * @returns {Object} An expectations object.
+ */
+exports.getExpectedLocation = function(location, ...changes) {
+  return _.merge({
+    id: location.get('api_id'),
+    name: location.get('name'),
+    shortName: location.get('short_name'),
+    description: location.get('description'),
+    phone: location.get('phone'),
+    photoUrl: location.get('photo_url'),
+    siteUrl: location.get('site_url'),
+    geometry: location.get('geometry'),
+    properties: location.get('properties'),
+    address: {
+      street: location.get('address_street'),
+      number: location.get('address_number'),
+      city: location.get('address_city'),
+      state: location.get('address_state'),
+      zipCode: location.get('address_zip_code')
+    },
+    createdAt: location.get('created_at'),
+    updatedAt: location.get('updated_at')
+  }, ...changes);
+};
+
+/**
+ * Returns an object representing the expected properties of an Action, based on the specified Action.
+ * (Can be used, for example, to check if a returned API response matches an action in the database.)
+ *
+ * @param {Theme} theme - A theme record.
+ * @param {...Object} changes - Additional expected changes compared to the specified theme (merged with Lodash's `assign`).
+ * @returns {Object} An expectations object.
+ */
+exports.getExpectedTheme = function(theme, ...changes) {
+  return _.assign({
+    id: theme.get('api_id'),
+    title: theme.get('title'),
+    description: theme.get('description'),
+    photoUrl: theme.get('photo_url'),
+    source: theme.get('source') ? theme.get('source') : undefined,
+    createdAt: theme.get('created_at'),
+    updatedAt: theme.get('updated_at')
+  }, ...changes);
 };

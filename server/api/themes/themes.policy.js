@@ -3,6 +3,8 @@
  *
  * @function
  * @name canRetrieve
+ * @memberof module:server/api/theme
+ *
  * @returns {boolean} `true` if user can retrieve, `false` otherwise
  */
 exports.canRetrieve = function() {
@@ -12,6 +14,8 @@ exports.canRetrieve = function() {
 /**
  * Serializes a theme for API response.
  *
+ * @function
+ * @name serialize
  * @memberof module:server/api/theme
  *
  * @param {Request} req - The Express request object.

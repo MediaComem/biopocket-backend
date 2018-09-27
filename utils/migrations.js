@@ -1,7 +1,7 @@
 /**
  * General utilities.
  *
- * @module utils
+ * @module utils/migration
  */
 const config = require('../config');
 

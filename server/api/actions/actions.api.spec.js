@@ -1,11 +1,8 @@
-const _ = require('lodash');
-
 const allowedMethodsFor = require('./actions.routes').allowedMethods;
 const expectActions = require('../../spec/expectations/action');
 const expectTheme = require('../../spec/expectations/theme');
 const actionFixtures = require('../../spec/fixtures/actions');
-const { cleanDatabase, expect, expectErrors, initSuperRest, setUp, testMethodsNotAllowed } = require('../../spec/utils');
-const { getExpectedTheme } = require('../themes/themes.api.spec');
+const { cleanDatabase, expect, expectErrors, getExpectedAction, getExpectedTheme, initSuperRest, setUp, testMethodsNotAllowed } = require('../../spec/utils');
 
 setUp();
 
@@ -139,22 +136,3 @@ describe('Actions API', function() {
     });
   });
 });
-
-/**
- * Returns an object representing the expected properties of an Action, based on the specified Action.
- * (Can be used, for example, to check if a returned API response matches an action in the database.)
- *
- * @param {action} action - The action to build the expectation from.
- * @param {...Object} changes - Additional expected changes compared to the specified action (merged with Lodash's `assign`).
- * @returns {Object} An expectations object.
- **/
-function getExpectedAction(action, ...changes) {
-  return _.assign({
-    id: action.get('api_id'),
-    title: action.get('title'),
-    description: action.get('description'),
-    themeId: action.related('theme').get('api_id'),
-    createdAt: action.get('created_at'),
-    updatedAt: action.get('updated_at')
-  }, ...changes);
-}
