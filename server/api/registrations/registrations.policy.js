@@ -6,6 +6,7 @@ const Registration = require('../../models/registration');
  * @function
  * @name canCreate
  * @memberof module:server/api/registrations
+ *
  * @returns {boolean} `true` if user can create, `false` otherwise
  */
 exports.canCreate = function() {
@@ -13,7 +14,24 @@ exports.canCreate = function() {
 };
 
 /**
+ * Anyone can retrieve a registration by its e-mail.
+ *
+ * @function
+ * @name retrieveByEmail
+ * @memberof module:server/api/registrations
+ *
+ * @returns {boolean} `true` if user can check availability, `false` otherwise
+ */
+exports.canRetrieveByEmail = function() {
+  return true;
+};
+
+/**
  * Update a existing or new registratin with the specified data.
+ *
+ * @function
+ * @name parse
+ * @memberof module:server/api/registrations
  *
  * @param {Object} data - The data (with camel-case property names), typically an API request body.
  * @param {Registration} [registration] - The Registration to update. Leave blank for a new Registration.

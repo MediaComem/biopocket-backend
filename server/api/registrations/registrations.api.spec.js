@@ -2,10 +2,12 @@ const _ = require('lodash');
 
 const allowedMethodsFor = require('../registrations/registrations.routes').allowedMethods;
 const expectRegistration = require('../../spec/expectations/registration');
+const registrationFixtures = require('../../spec/fixtures/registration');
 const { cleanDatabase, expectErrors, initSuperRest, setUp, testMethodsNotAllowed } = require('../../spec/utils');
+
 setUp();
 
-describe('Registrations API', () => {
+describe.only('Registrations API', () => {
   let api;
   let reqBody;
   let now;
@@ -74,5 +76,23 @@ describe('Registrations API', () => {
     function getExpectedRegistrationFromRequestBody(...changes) {
       return _.merge({}, reqBody, ...changes);
     }
+  });
+
+  describe('/api/registrations/:email', () => {
+    testMethodsNotAllowed('/registrations/test@site.com', allowedMethodsFor['/:email']);
+  });
+
+  describe('HEAD /api/registrations/:email', () => {
+    beforeEach(async () => {
+      await registrationFixtures.registration({ email: 'test@site.com' });
+    });
+
+    it('should send the correct status code when a registration exists with the given email', async function() {
+      await api.test('HEAD', '/registrations/test@site.com', null, { expectedStatus: 200 });
+    });
+
+    it('should send the correct status code when no registration exists with the given email', async function() {
+      await api.test('HEAD', '/registrations/no@registration.test', null, { expectedStatus: 404 });
+    });
   });
 });

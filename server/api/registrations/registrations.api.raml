@@ -53,3 +53,20 @@ post:
               }
             ]
           }
+/{email}:
+  uriParameters:
+    email:
+      description: An email address that might be associated with a registration.
+      type: string
+
+  # HEAD /api/registrations/:email
+  head:
+    description: Checks the existence of a single registration.
+    is:
+      - identifiableResource:
+        name: registration
+    responses:
+      200:
+        description: A registration exists with this email.
+      404:
+        description: A registration does not exist with this email.

@@ -8,13 +8,20 @@ const policy = require('./registrations.policy');
 const router = express.Router();
 
 const allowedMethods = {
-  '/': [ 'POST' ]
+  '/': [ 'POST' ],
+  '/:email': [ 'HEAD' ]
 };
 
 router.post('/',
   auth.authorize(policy.canCreate, { authenticationRequired: false }),
   controller.create);
 
+router.head('/:email',
+  controller.fetchRegistrationByEmail,
+  auth.authorize(policy.canRetrieveByEmail, { authenticationRequired: false }),
+  controller.checkExistence);
+
+router.use('/:email', api.allowsOnlyMethod(allowedMethods['/:email']));
 router.use('/', api.allowsOnlyMethod(allowedMethods['/']));
 
 exports.router = router;

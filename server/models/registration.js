@@ -13,6 +13,10 @@ const Abstract = require('./abstract');
  *
  * * **created_at** (`datetime`) - Time at which the registration's been registered.
  * * **updated_at** (`datetime`) - Time at which the registration's been modified (equal to the creation date if never modified).
+ *
+ * @class
+ * @extends Abstract
+ * @see http://bookshelfjs.org
  */
 const Registration = Abstract.extend({
   tableName: 'registrations',

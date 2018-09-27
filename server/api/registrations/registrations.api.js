@@ -3,9 +3,13 @@
  *
  * @module server/api/registrations
  */
-const { route, serialize } = require('../utils/api');
+const Registration = require('../../models/registration');
+const { fetcher, route, serialize } = require('../utils/api');
 const { validateRequestBody } = require('../utils/validation');
 const policy = require('./registrations.policy');
+
+// API resource name (used in some API errors)
+exports.resourceName = 'registration';
 
 /**
  * Creates a new Registration.
@@ -20,6 +24,26 @@ exports.create = route(async (req, res) => {
   await registration.save();
 
   res.status(201).send(await serialize(req, registration, policy));
+});
+
+/**
+ * Checks if a registration exists with a specific email.
+ *
+ * @function
+ */
+exports.checkExistence = route((req, res) => res.sendStatus(200));
+
+/**
+ * Middleware that fetches the registration associated with the email in the URL.
+ *
+ * @function
+ */
+exports.fetchRegistrationByEmail = fetcher({
+  column: 'email',
+  urlParameter: 'email',
+  model: Registration,
+  resourceName: exports.resourceName,
+  coerce: email => email.toLowerCase()
 });
 
 /**
