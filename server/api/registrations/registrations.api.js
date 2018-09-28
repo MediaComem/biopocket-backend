@@ -26,6 +26,12 @@ exports.create = route(async (req, res) => {
   res.status(201).send(await serialize(req, registration, policy));
 });
 
+exports.remove = route(async (req, res) => {
+  await req.registration.destroy();
+
+  res.sendStatus(204);
+});
+
 /**
  * Checks if a registration exists with a specific email.
  *

@@ -9,7 +9,7 @@ const router = express.Router();
 
 const allowedMethods = {
   '/': [ 'POST' ],
-  '/:email': [ 'HEAD' ]
+  '/:email': [ 'HEAD', 'DELETE' ]
 };
 
 router.post('/',
@@ -20,6 +20,11 @@ router.head('/:email',
   controller.fetchRegistrationByEmail,
   auth.authorize(policy.canRetrieveByEmail, { authenticationRequired: false }),
   controller.checkExistence);
+
+router.delete('/:email',
+  controller.fetchRegistrationByEmail,
+  auth.authorize(policy.canRemove, { authenticationRequired: false }),
+  controller.remove);
 
 router.use('/:email', api.allowsOnlyMethod(allowedMethods['/:email']));
 router.use('/', api.allowsOnlyMethod(allowedMethods['/']));

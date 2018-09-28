@@ -27,6 +27,19 @@ exports.canRetrieveByEmail = function() {
 };
 
 /**
+ * Anyone can remove a registration
+ *
+ * @function
+ * @name canRemove
+ * @memberof module:server/api/registrations
+ *
+ * @returns {boolean} `true` if a user can remove a registration, `false` otherwise.
+ */
+exports.canRemove = function() {
+  return true;
+};
+
+/**
  * Update a existing or new registratin with the specified data.
  *
  * @function

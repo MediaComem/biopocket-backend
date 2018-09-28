@@ -64,9 +64,43 @@ post:
     description: Checks the existence of a single registration.
     is:
       - identifiableResource:
-        name: registration
+          name: registration
     responses:
       200:
         description: A registration exists with this email.
       404:
-        description: A registration does not exist with this email.
+        body:
+          example: |
+            HTTP/1.1 404 Not Found
+            Content-Type: application/json
+
+            {
+              "errors": [
+                {
+                  "code": "record.notFound",
+                  "message": "No registration was found with ID admin@worldgov.com."
+                }
+              ]
+            }
+  delete:
+    description: Delete the registration related to the given email address.
+    is:
+      - identifiableResource:
+          name: registration
+    responses:
+      204:
+        description: The registration has been deleted.
+      404:
+        body:
+          example: |
+            HTTP/1.1 404 Not Found
+            Content-Type: application/json
+
+            {
+              "errors": [
+                {
+                  "code": "record.notFound",
+                  "message": "No registration was found with ID admin@worldgov.com."
+                }
+              ]
+            }
