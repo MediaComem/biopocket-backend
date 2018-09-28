@@ -7,7 +7,7 @@ const { cleanDatabase, expectErrors, initSuperRest, setUp, testMethodsNotAllowed
 
 setUp();
 
-describe.only('Registrations API', () => {
+describe('Registrations API', () => {
   let api;
   let reqBody;
   let now;
