@@ -26,6 +26,7 @@ const configFromEnvironment = {
   bcryptCost: parseConfigInt(getEnvVar('BCRYPT_COST')),
   cors: parseConfigBoolean(getEnvVar('CORS')),
   db: getDatabaseUrl(),
+  imagesBaseUrl: getEnvVar('IMAGES_BASE_URL'),
   interfaceDb: getDatabaseUrl('INTERFACE_DATABASE_', 'biopocket_interface'),
   defaultPaginationLimit: parseConfigInt(getEnvVar('DEFAULT_PAGINATION_LIMIT')),
   docs: {
@@ -50,7 +51,7 @@ if (localConfigFile !== joinProjectPath('config', 'local.js') && !fs.existsSync(
   configFromLocalFile = _.pick(localConfig,
     'bcryptCost', 'cors', 'db', 'defaultPaginationLimit',
     'docs.browser', 'docs.host', 'docs.open', 'docs.port',
-    'env', 'interfaceDb', 'logLevel', 'port', 'sessionSecret');
+    'env', 'imagesBaseUrl', 'interfaceDb', 'logLevel', 'port', 'sessionSecret');
 }
 
 // Default configuration
@@ -269,6 +270,8 @@ function parseConfigInt(value, defaultValue) {
   return parsed;
 }
 
+/* eslint-disable complexity */
+
 /**
  * Ensures all properties of the configuration are valid.
  *
@@ -287,6 +290,8 @@ function validate(conf) {
     throw new Error(`Unsupported environment "${JSON.stringify(conf.env)}"; must be one of: ${SUPPORTED_ENVIRONMENTS.join(', ')}`);
   } else if (conf.interfaceDb !== undefined && (!_.isString(conf.interfaceDb) || !conf.interfaceDb.match(/^postgres:\/\//))) {
     throw new Error(`Unsupported interface database URL "${conf.interfaceDb}" (type ${typeof conf.interfaceDb}); must be a string starting with "postgres://"`);
+  } else if (!_.isString(conf.imagesBaseUrl) || !conf.imagesBaseUrl.match(/^https?:\/\//)) {
+    throw new Error(`Unsupported images base URL "${conf.imagesBaseUrl}" (type ${typeof conf.imagesBaseUrl}); must be a string starting with "http://" or "https://"`);
   } else if (!_.isString(conf.logLevel) || !_.includes(SUPPORTED_LOG_LEVELS, conf.logLevel.toUpperCase())) {
     throw new Error(`Unsupported log level "${conf.logLevel}" (type ${typeof conf.logLevel}); must be one of: ${SUPPORTED_LOG_LEVELS.join(', ')}`);
   } else if (!_.isInteger(conf.port) || conf.port < 1 || conf.port > 65535) {
@@ -295,3 +300,5 @@ function validate(conf) {
     throw new Error(`Unsupported session secret "${conf.sessionSecret}" (type ${typeof conf.sessionSecret}); must be a string different than "changeme"`);
   }
 }
+
+/* eslint-enable complexity */

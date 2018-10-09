@@ -1,4 +1,5 @@
 const allowedMethodsFor = require('./themes.routes').allowedMethods;
+const config = require('../../../config');
 const expectTheme = require('../../spec/expectations/theme');
 const themeFixtures = require('../../spec/fixtures/theme');
 const { testMethodsNotAllowed } = require('../../spec/utils');
@@ -35,6 +36,14 @@ describe('Themes API', function() {
         code: 'record.notFound',
         message: 'No theme was found with ID foo.'
       });
+    });
+
+    it('should process images in the description\'s markdown', async function() {
+      await theme.save('description', 'Lorem [ipsum](ipsum.jpg) dolor sit amet, [consectetur adipiscing](foo/bar.png) elit. [Eltiam](http://example.com/foo) ultrices auctor porttitor.');
+      const res = await api.retrieve(`/themes/${theme.get('api_id')}`);
+      await expectTheme(res.body, getExpectedTheme(theme, {
+        description: `Lorem [ipsum](${config.imagesBaseUrl}/ipsum.jpg) dolor sit amet, [consectetur adipiscing](${config.imagesBaseUrl}/foo/bar.png) elit. [Eltiam](http://example.com/foo) ultrices auctor porttitor.`
+      }));
     });
   });
 });

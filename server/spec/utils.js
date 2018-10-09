@@ -397,6 +397,8 @@ exports.getExpectedAction = function(action, ...changes) {
     id: action.get('api_id'),
     title: action.get('title'),
     description: action.get('description'),
+    impact: action.get('impact'),
+    photoUrl: `${config.imagesBaseUrl}/${action.get('code')}-main.jpg`,
     themeId: action.related('theme').get('api_id'),
     createdAt: action.get('created_at'),
     updatedAt: action.get('updated_at')
@@ -447,7 +449,7 @@ exports.getExpectedTheme = function(theme, ...changes) {
     id: theme.get('api_id'),
     title: theme.get('title'),
     description: theme.get('description'),
-    photoUrl: theme.get('photo_url'),
+    photoUrl: `${config.imagesBaseUrl}/${theme.get('code')}-main.jpg`,
     source: theme.get('source') ? theme.get('source') : undefined,
     createdAt: theme.get('created_at'),
     updatedAt: theme.get('updated_at')

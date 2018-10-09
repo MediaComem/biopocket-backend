@@ -122,6 +122,31 @@ exports.fetcher = function(options) {
 };
 
 /**
+ * Returns a URL formed by joining the specified URL fragments together.
+ *
+ * Leading and trailing slashes are removed before joining the fragments with a
+ * single slash. If a fragment starts with `http://`, `https://` or `//`, all
+ * preceding fragments are ignored.
+ *
+ * @example
+ * joinUrl('http://example.com/', '/foo/', 'bar/', 'baz'); // "http://example.com/foo/bar/baz"
+ * joinUrl('http://example.com', '/foo', 'http://other.com', 'bar'); // "http://other.com/bar"
+ * joinUrl('http://example.com', '/foo', '//protocol/relative/url'); // "//protocol/relative/url"
+ *
+ * @param {...string} parts - URL fragments to join.
+ * @returns {string} An absolute URL.
+ */
+exports.joinUrl = function(...parts) {
+  return parts.reduce((memo, part) => {
+    if (part.match(/^(https?:)?\/\//)) {
+      return part;
+    } else {
+      return `${memo.replace(/\/$/, '')}/${part.replace(/^\//, '')}`;
+    }
+  });
+};
+
+/**
  * Converts a promise-based function into an Express middleware function.
  *
  *     route(async (req, res) => {

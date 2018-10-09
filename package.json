@@ -72,6 +72,7 @@
     "chai-iso8601": "^1.0.0",
     "chai-moment": "^0.1.0",
     "chai-objects": "^1.0.0",
+    "chai-string": "^1.5.0",
     "chalk": "^2.4.1",
     "chance": "^1.0.16",
     "concurrently": "^3.5.1",

@@ -54,7 +54,7 @@ if (!config.interfaceDb) {
  * | `short_description`      | `description`        |                                                                                                           |
  * | `theme_id`               | `theme_id`           |                                                                                                           |
  * | `type_id`                | -                    |                                                                                                           |
- * | `impact`                 | -                    |                                                                                                           |
+ * | `impact`                 | `impact`             |                                                                                                           |
  * | `investment`             | -                    |                                                                                                           |
  * | `spot`                   | -                    |                                                                                                           |
  * | `cost_min`               | -                    |                                                                                                           |
@@ -347,7 +347,7 @@ async function updateRecord(trx, table, targetDataFactory, sourceData, ...args) 
  */
 function buildActionTargetData(sourceData, themeIdMap) {
   return {
-    ...pick(sourceData, 'code', 'title', 'created_at', 'updated_at'),
+    ...pick(sourceData, 'code', 'title', 'impact', 'created_at', 'updated_at'),
     description: sourceData.short_description,
     theme_id: themeIdMap[sourceData.theme_id]
   };

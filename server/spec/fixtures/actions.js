@@ -60,6 +60,7 @@ exports.action = async function(data = {}) {
     title: data.title || chance.sentence({ words: 3 }),
     code: _.has(data, 'code') ? data.code : exports.code(),
     description: data.description || chance.sentence(),
+    impact: data.impact || chance.sentence(),
     theme_id: data.theme.id,
     created_at: data.createdAt,
     updated_at: data.updatedAt

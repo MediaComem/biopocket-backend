@@ -1,5 +1,6 @@
 const { union } = require('lodash');
 
+const config = require('../../../config');
 const Action = require('../../models/action');
 const { checkRecord, expect, toArray } = require('../utils');
 
@@ -18,7 +19,7 @@ module.exports = async function(actual, expected, options = {}) {
 
   expect(actual, 'res.body').to.be.an('object');
 
-  let expectedKeys = [ 'id', 'title', 'description', 'themeId', 'createdAt', 'updatedAt' ];
+  let expectedKeys = [ 'id', 'title', 'description', 'impact', 'photoUrl', 'themeId', 'createdAt', 'updatedAt' ];
 
   if (options.additionalKeys) {
     expectedKeys = union(expectedKeys, options.additionalKeys);
@@ -35,6 +36,11 @@ module.exports = async function(actual, expected, options = {}) {
   expect(actual.title, 'action.title').to.equal(expected.title);
 
   expect(actual.description, 'action.description').to.equal(expected.description);
+
+  expect(actual.impact, 'action.impact').to.equal(expected.impact);
+
+  expect(actual.photoUrl, 'action.photoUrl').to.equal(expected.photoUrl);
+  expect(actual.photoUrl).to.startWith(config.imagesBaseUrl);
 
   expect(actual.themeId, 'action.themeId').to.be.equal(expected.themeId);
 
@@ -61,7 +67,12 @@ module.exports.inDb = async function(expected) {
   expect(action.get('id'), 'db.action.id').to.be.a('string');
   expect(action.get('title', 'db.action.title')).to.equal(expected.title);
   expect(action.get('description', 'db.action.description')).to.equal(expected.description);
+  expect(action.get('impact', 'db.action.impact')).to.equal(expected.impact);
   expect(action.related('theme').get('api_id'), 'db.action.theme_id').to.equal(expected.themeId);
   expect(action.get('created_at'), 'db.action.created_at').to.be.sameMoment(expected.createdAt);
   expect(action.get('updated_at'), 'db.action.updated_at').to.be.sameMoment(expected.updatedAt);
+
+  // Deconstruct the image URL to retrieve the code.
+  const expectedCode = expected.photoUrl.slice(config.imagesBaseUrl.length).replace(/^\//, '').replace(/-main\.jpg$/, '');
+  expect(action.get('code'), 'db.action.code').to.equal(expectedCode);
 };

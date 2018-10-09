@@ -29,7 +29,6 @@ const { createRecord } = require('../utils');
  * @param {string} [data.title] - The title.
  * @param {string} [data.code] - Set to `null` to create a theme without a code.
  * @param {string} [data.description] - The description.
- * @param {string} [data.photoUrl] - A URL to a photo.
  * @param {string} [data.source] - Set to `null` to create a theme without a source.
  * @returns {Promise<Theme>} A promise that will be resolved with the saved theme.
  */
@@ -38,7 +37,6 @@ exports.theme = function(data = {}) {
     title: data.title || chance.sentence({ words: 3 }),
     code: _.has(data, 'code') ? data.code : exports.code(),
     description: data.description || chance.paragraph(),
-    photo_url: data.photoUrl || chance.url({ domain: 'example.com', extensions: [ 'jpg' ] }),
     source: _.has(data, 'source') ? data.source : chance.sentence({ words: 3 }),
     created_at: data.createdAt,
     updated_at: data.updatedAt

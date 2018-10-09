@@ -1,3 +1,5 @@
+const { getAbsoluteImageUrl, processMarkdownImages } = require('../utils/images');
+
 /**
  * Anyone can retrieve a theme.
  *
@@ -23,11 +25,14 @@ exports.canRetrieve = function() {
  * @returns {Object} A serialized theme.
  */
 exports.serialize = function(req, theme) {
+
   const serialized = {
-    id: theme.get('api_id')
+    id: theme.get('api_id'),
+    description: processMarkdownImages(theme.get('description')),
+    photoUrl: getAbsoluteImageUrl(`${theme.get('code')}-main.jpg`)
   };
 
-  theme.serializeTo(serialized, [ 'title', 'description', 'photo_url', 'source', 'created_at', 'updated_at' ]);
+  theme.serializeTo(serialized, [ 'title', 'photo_url', 'source', 'created_at', 'updated_at' ]);
 
   return serialized;
 };
