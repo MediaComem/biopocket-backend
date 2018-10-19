@@ -24,7 +24,10 @@ const fixedConfig = {
 // Configuration from environment variables
 const configFromEnvironment = {
   bcryptCost: parseConfigInt(getEnvVar('BCRYPT_COST')),
-  cors: parseConfigBoolean(getEnvVar('CORS')),
+  cors: {
+    enabled: parseConfigBoolean(getEnvVar('CORS')),
+    origin: getEnvVar('CORS_ORIGIN')
+  },
   db: getDatabaseUrl(),
   imagesBaseUrl: getEnvVar('IMAGES_BASE_URL'),
   interfaceDb: getDatabaseUrl('INTERFACE_DATABASE_', 'biopocket_interface'),
@@ -49,7 +52,7 @@ if (localConfigFile !== joinProjectPath('config', 'local.js') && !fs.existsSync(
 } else if (fs.existsSync(localConfigFile)) {
   const localConfig = require(localConfigFile);
   configFromLocalFile = _.pick(localConfig,
-    'bcryptCost', 'cors', 'db', 'defaultPaginationLimit',
+    'bcryptCost', 'cors.enabled', 'cors.origin', 'db', 'defaultPaginationLimit',
     'docs.browser', 'docs.host', 'docs.open', 'docs.port',
     'env', 'imagesBaseUrl', 'interfaceDb', 'logLevel', 'port', 'sessionSecret');
 }
@@ -57,7 +60,9 @@ if (localConfigFile !== joinProjectPath('config', 'local.js') && !fs.existsSync(
 // Default configuration
 const defaultConfig = {
   bcryptCost: 10,
-  cors: false,
+  cors: {
+    enabled: _.get(configFromEnvironment, 'cors.origin') !== undefined || _.get(configFromLocalFile, 'cors.origin') !== undefined
+  },
   db: 'postgres://localhost/biopocket',
   defaultPaginationLimit: 100,
   docs: {
@@ -280,8 +285,12 @@ function parseConfigInt(value, defaultValue) {
 function validate(conf) {
   if (!_.isInteger(conf.bcryptCost) || conf.bcryptCost < 1) {
     throw new Error(`Unsupported bcrypt cost "${conf.bcryptCost}" (type ${typeof conf.bcryptCost}); must be an integer greater than or equal to 1`);
-  } else if (!_.isBoolean(conf.cors)) {
-    throw new Error(`Unsupported CORS value "${conf.cors}" (type ${typeof conf.cors}); must be a boolean`);
+  } else if (!_.isPlainObject(conf.cors)) {
+    throw new Error(`Unsupported CORS value "${conf.cors}" (type ${typeof conf.cors}); must be an object`);
+  } else if (!_.isBoolean(conf.cors.enabled)) {
+    throw new Error(`Unsupported CORS enabled value "${conf.cors.enabled}" (type ${typeof conf.cors.enabled}); must be a boolean`);
+  } else if (config.cors.origin !== undefined && !_.isString(conf.cors.origin)) {
+    throw new Error(`Unsupported CORS origin value "${conf.cors.origin}" (type ${typeof conf.cors.origin}); must be a string`);
   } else if (!_.isString(conf.db) || !conf.db.match(/^postgres:\/\//)) {
     throw new Error(`Unsupported database URL "${conf.db}" (type ${typeof conf.db}); must be a string starting with "postgres://"`);
   } else if (!_.isInteger(conf.defaultPaginationLimit) || conf.defaultPaginationLimit < 1) {

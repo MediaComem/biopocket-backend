@@ -111,7 +111,8 @@ configuration file.
 | :---                      | :---            | :---                             | :---                                                                                                                       |
 | `$BCRYPT_COST`            | `bcryptCost`    | 10                               | bcrypt cost parameter (should be at least 10; see [bcrypt][bcrypt])                                                        |
 | `$CONFIG`                 |                 | `config/local.js`                | Path to the local configuration file to load                                                                               |
-| `$CORS`                   | `cors`          | `false`                          | Whether to enable Cross-Origin Request Sharing (CORS)                                                                      |
+| `$CORS`                   | `cors.enabled`  | `false`                          | Whether to enable Cross-Origin Request Sharing (CORS)                                                                      |
+| `$CORS_ORIGIN`            | `cors.origin`   |                                  | Comma-delimited whitelist of origins that are allowed to use CORS (setting this enables CORS by default)                   |
 | `$DATABASE_URL`           | `db`            | `postgres://localhost/biopocket` | PostgreSQL database URL to connect to                                                                                      |
 | `$IMAGES_BASE_URL`        | `imagesBaseUrl` |                                  | Base URL where theme, action and task images are stored.                                                                   |
 | `$INTERFACE_DATABASE_URL` | `interfaceDb`   |                                  | PostgreSQL database URL for the data collection interface database (see [Synchronization](DEVELOPMENT.md#synchronization)) |
