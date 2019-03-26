@@ -24,13 +24,13 @@ const logger = config.logger('spec');
 class EnrichedSuperRest extends SuperRest {
 
   /**
-   * Override of the `expect` method to enrich API error stack traces.
-   *
-   * @param {Response} res - An Express response object.
-   * @param {...*} args - Additional arguments to the `expect` method.
-   * @returns {SuperTest} A SuperTest chain.
-   * @see https://github.com/visionmedia/supertest
-   */
+     * Override of the `expect` method to enrich API error stack traces.
+     *
+     * @param {Response} res - An Express response object.
+     * @param {...*} args - Additional arguments to the `expect` method.
+     * @returns {SuperTest} A SuperTest chain.
+     * @see https://github.com/visionmedia/supertest
+     */
   expect(res, ...args) {
     try {
       return super.expect(res, ...args);
@@ -239,6 +239,20 @@ exports.expectTouchTimestamps = function(record, options = {}) {
   }
 };
 
+/**
+ * Returns a SuperRest instance initialized to run API tests.
+ *
+ * Errors resulting from failed API calls will display the HTTP response
+ * in their stack trace.
+ *
+ * @param {Object} [options] - SuperRest options (see {@link https://mediacomem.github.io/superrest/SuperRest.html}).
+ * @param {string} [options.pathPrefix="/api"] - The base URL path to this API's resources.
+ * @param {string} [options.updateMethod="PATCH"] - The standard HTTP method used to update this API's resources.
+ * @returns {EnrichedSuperRest} A SuperRest instance.
+ *
+ * @see https://www.npmjs.com/package/superrest
+ * @see https://www.npmjs.com/package/enrich-api-error
+ */
 exports.initSuperRest = function(options) {
   return new EnrichedSuperRest(app, _.defaults({}, options, {
     pathPrefix: '/api',
@@ -246,6 +260,10 @@ exports.initSuperRest = function(options) {
   }));
 };
 
+/**
+ * Performs common setup operations for this project's Mocha tests. This should
+ * be called at the beginning of every test file.
+ */
 exports.setUp = function() {
   after(() => {
     if (!databaseConnectionClosed) {
@@ -255,12 +273,24 @@ exports.setUp = function() {
   });
 };
 
+/**
+ * Wipes the database clean.
+ *
+ * This should be called before every test that uses the database (typically in
+ * a `beforeEach` hook) to ensure that each test defines its own starting state
+ * and avoids being influenced by the data left over from previous tests.
+ *
+ * @example
+ * beforeEach(async function() {
+ *   await cleanDatabase();
+ * });
+ */
 exports.cleanDatabase = async function() {
   const start = new Date().getTime();
 
   // Sequences of tables to delete in order to avoid foreign key conflicts
   const tablesToDelete = [
-    [ 'locations', 'users', 'actions' ],
+    [ 'locations', 'users', 'actions', 'registrations' ],
     [ 'themes' ]
   ];
 
@@ -272,6 +302,24 @@ exports.cleanDatabase = async function() {
   logger.debug(`Cleaned database in ${duration}s`);
 };
 
+/**
+ * Creates a Bookshelf record and saves it to the database.
+ *
+ * If the specified data contains Moment instances, they are converted to date
+ * objects before the record is saved. This prevents a bug where PostgreSQL
+ * incorrectly interprets the value of the date with Moment's default
+ * serialization.
+ *
+ * @example
+ * const person = await createRecord(Person, {
+ *   first: 'John',
+ *   last: 'Doe'
+ * });
+ *
+ * @param {ModelClass} Model - The Bookshelf model to use to create the record.
+ * @param {Object} data - The data to initialize the record with.
+ * @returns {Promise<Model>} A record that has been persisted.
+ */
 exports.createRecord = async function(Model, data) {
 
   const resolved = await Promise.resolve(data);
@@ -287,6 +335,23 @@ exports.createRecord = async function(Model, data) {
   return new Model(values).save();
 };
 
+/**
+ * Ensures that a record with the specified ID exists in the database.
+ *
+ * @example
+ * try {
+ *   const person = await checkRecord(Person, '992a');
+ * } catch (err) {
+ *   // Person not found...
+ * }
+ *
+ * @param {ModelClass} Model - The Bookshelf model to use to fetch the record from the database.
+ * @param {string} id - The ID of the database record.
+ * @param {Object} [options] - Options to customize how the check is performed.
+ * @param {string} [optinos.idColumn="api_id"] - Which column of the Bookshelf model's database table contains the ID.
+ * @returns {Model} The record with the specified ID.
+ * @throws Will throw an error if no record is found with that ID.
+ */
 exports.checkRecord = async function(Model, id, options) {
   if (!Model) {
     throw new Error('Model is required');
@@ -303,6 +368,88 @@ exports.checkRecord = async function(Model, id, options) {
   return record;
 };
 
+/**
+ * Transforms the specified value into an array if it isn't one already.
+ *
+ * @example
+ * toArray(true);       // => [ true ]
+ * toArray(2);          // => [ 2 ]
+ * toArray([ 3, 4 ]);   // => [ 3, 4 ]
+ * toArray(undefined);  // => [ undefined ]
+ *
+ * @param {*} value - The value to transform.
+ * @returns {Array} An array.
+ */
 exports.toArray = function(value) {
   return _.isArray(value) ? value : [ value ];
+};
+
+/**
+ * Returns an object representing the expected properties of an Action, based on the specified Action.
+ * (Can be used, for example, to check if a returned API response matches an action in the database.)
+ *
+ * @param {action} action - The action to build the expectation from.
+ * @param {...Object} changes - Additional expected changes compared to the specified action (merged with Lodash's `assign`).
+ * @returns {Object} An expectations object.
+ **/
+exports.getExpectedAction = function(action, ...changes) {
+  return _.assign({
+    id: action.get('api_id'),
+    title: action.get('title'),
+    description: action.get('description'),
+    themeId: action.related('theme').get('api_id'),
+    createdAt: action.get('created_at'),
+    updatedAt: action.get('updated_at')
+  }, ...changes);
+};
+
+/**
+ * Returns an object representing the expected properties of a Location, based on the specified Location.
+ * (Can be used, for example, to check if a returned API response matches a Location in the database.)
+ *
+ * @param {Location} location - The location to build the expectations from.
+ * @param {...Object} changes - Additional expected changes compared to the specified Location (merged with Lodash's `extend`).
+ * @returns {Object} An expectations object.
+ */
+exports.getExpectedLocation = function(location, ...changes) {
+  return _.merge({
+    id: location.get('api_id'),
+    name: location.get('name'),
+    shortName: location.get('short_name'),
+    description: location.get('description'),
+    phone: location.get('phone'),
+    photoUrl: location.get('photo_url'),
+    siteUrl: location.get('site_url'),
+    geometry: location.get('geometry'),
+    properties: location.get('properties'),
+    address: {
+      street: location.get('address_street'),
+      number: location.get('address_number'),
+      city: location.get('address_city'),
+      state: location.get('address_state'),
+      zipCode: location.get('address_zip_code')
+    },
+    createdAt: location.get('created_at'),
+    updatedAt: location.get('updated_at')
+  }, ...changes);
+};
+
+/**
+ * Returns an object representing the expected properties of an Action, based on the specified Action.
+ * (Can be used, for example, to check if a returned API response matches an action in the database.)
+ *
+ * @param {Theme} theme - A theme record.
+ * @param {...Object} changes - Additional expected changes compared to the specified theme (merged with Lodash's `assign`).
+ * @returns {Object} An expectations object.
+ */
+exports.getExpectedTheme = function(theme, ...changes) {
+  return _.assign({
+    id: theme.get('api_id'),
+    title: theme.get('title'),
+    description: theme.get('description'),
+    photoUrl: theme.get('photo_url'),
+    source: theme.get('source') ? theme.get('source') : undefined,
+    createdAt: theme.get('created_at'),
+    updatedAt: theme.get('updated_at')
+  }, ...changes);
 };

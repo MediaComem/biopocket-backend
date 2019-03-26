@@ -72,7 +72,8 @@ describe('Abstract model', function() {
       expect(mockResponse.set).to.have.been.calledWithExactly('Pagination-Limit', 1);
       expect(mockResponse.set).to.have.been.calledWithExactly('Pagination-Total', 3);
       expect(mockResponse.set).to.have.been.calledWithExactly('Pagination-Filtered-Total', 3);
-      expect(mockResponse.set).to.have.callCount(4);
+      expect(mockResponse.set).to.have.been.calledWithExactly('Access-Control-Expose-Headers', 'Pagination-Offset, Pagination-Limit, Pagination-Total, Pagination-Filtered-Total');
+      expect(mockResponse.set).to.have.callCount(5);
     });
 
     it('should create a query builder from a record', async function() {
@@ -105,7 +106,8 @@ describe('Abstract model', function() {
       expect(mockResponse.set).to.have.been.calledWithExactly('Pagination-Limit', 5);
       expect(mockResponse.set).to.have.been.calledWithExactly('Pagination-Total', 2);
       expect(mockResponse.set).to.have.been.calledWithExactly('Pagination-Filtered-Total', 2);
-      expect(mockResponse.set).to.have.callCount(4);
+      expect(mockResponse.set).to.have.been.calledWithExactly('Access-Control-Expose-Headers', 'Pagination-Offset, Pagination-Limit, Pagination-Total, Pagination-Filtered-Total');
+      expect(mockResponse.set).to.have.callCount(5);
     });
   });
 });

@@ -35,3 +35,6 @@ exports.port = 3000;
 // Session secret used to sign JWT tokens
 // This should be a long random string, e.g. 100 characters.
 exports.sessionSecret = 'changeme';
+
+// Default pagination limit when listing resources with pagination feature
+exports.defaultPaginationLimit = 100;

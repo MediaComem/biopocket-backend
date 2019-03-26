@@ -167,6 +167,7 @@ exports.pagination = function(options) {
       res.set('Pagination-Limit', paginationData.limit);
       res.set('Pagination-Total', paginationData.total);
       res.set('Pagination-Filtered-Total', paginationData.filteredTotal);
+      res.set('Access-Control-Expose-Headers', 'Pagination-Offset, Pagination-Limit, Pagination-Total, Pagination-Filtered-Total');
     });
   };
 

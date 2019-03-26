@@ -1,0 +1,94 @@
+displayName: Registrations
+description: Management of BioPocket registrations to news and updates on the project.
+
+# POST /api/registrations
+post:
+  description: Create a new registration.
+  is:
+    - jsonConsumer
+  body:
+    type: RegistrationWrite
+    example: |
+      POST /api/registrations HTTP/1.1
+      Content-Type: application/json
+
+      {
+        "firstname": "Dorothy",
+        "lastname": "Gale",
+        "email": "dorothy.gale@wizard.oz",
+      }
+  responses:
+    201:
+      description: The registration was successfully created.
+      body:
+        type: Registration
+        example: |
+          HTTP/1.1 201 Created
+          Content-Type: application/json
+
+          {
+            "firstname": "Dorothy",
+            "lastname": "Gale",
+            "email": "dorothy.gale@wizard.oz",
+            "id": "c821bc0f-85b4-44d5-9bbe-a30cf197c30a",
+            "createdAt": "2000-01-01T16:30:00.123Z",
+            "updatedAt": "2000-02-03T17:00:00.123Z"
+          }
+    422:
+      description: The request body contains invalid data.
+      body:
+        type: validationErrors
+        example: |
+          HTTP/1.1 422 Unprocessable Entity
+          Content-Type: application/json
+
+          {
+            "errors": [
+              {
+                "message": "is required",
+                "type": "json",
+                "location": "/firstname",
+                "validator": "required",
+                "valueSet": false
+              }
+            ]
+          }
+/{email}:
+  uriParameters:
+    email:
+      description: An email address that might be associated with a registration.
+      type: string
+
+  # HEAD /api/registrations/:email
+  head:
+    description: Checks the existence of a single registration.
+    is:
+      - identifiableResource:
+          name: registration
+    responses:
+      200:
+        description: A registration exists with this email.
+      404:
+        description: No registration was found with this email.
+  delete:
+    description: Delete the registration related to the given email address.
+    is:
+      - identifiableResource:
+          name: registration
+    responses:
+      204:
+        description: The registration has been deleted.
+      404:
+        body:
+          example: |
+            HTTP/1.1 404 Not Found
+            Content-Type: application/json
+
+            {
+              "errors": [
+                {
+                  "code": "record.notFound",
+                  "message": "No registration was found with ID admin@worldgov.com."
+                }
+              ]
+            }

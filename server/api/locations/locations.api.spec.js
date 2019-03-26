@@ -7,7 +7,7 @@ const expectLocation = require('../../spec/expectations/location');
 const geoJsonFixtures = require('../../spec/fixtures/geojson');
 const locationFixtures = require('../../spec/fixtures/location');
 const userFixtures = require('../../spec/fixtures/user');
-const { cleanDatabase, expect, expectDeleted, expectErrors, expectUnchanged, initSuperRest, setUp, testMethodsNotAllowed } = require('../../spec/utils');
+const { cleanDatabase, expect, expectDeleted, expectErrors, expectUnchanged, getExpectedLocation, initSuperRest, setUp, testMethodsNotAllowed } = require('../../spec/utils');
 
 setUp();
 
@@ -354,8 +354,8 @@ describe('Locations API', function() {
     /**
      * Returns an object representing the expected properties of a Location, based on the default request body for this test block.
      *
-     * @param {...Object} changes - Additional expected changes compared to the requets body (merged with Lodash's `extend`).
-     * @returns {Object} An expectations object.
+     * @param {...Object} changes - Additional expected changes compared to the requets body (merged with Lodash's `merge`).
+     * @returns {Object} An expectation object.
      */
     function getExpectedLocationFromRequestBody(...changes) {
       return _.merge({}, reqBody, ...changes);
@@ -914,35 +914,4 @@ describe('Locations API', function() {
       });
     });
   });
-
-  /**
-   * Returns an object representing the expected properties of a Location, based on the specified Location.
-   * (Can be used, for example, to check if a returned API response matches a Location in the database.)
-   *
-   * @param {Location} location - The location to build the expectations from.
-   * @param {...Object} changes - Additional expected changes compared to the specified Location (merged with Lodash's `extend`).
-   * @returns {Object} An expectations object.
-   */
-  function getExpectedLocation(location, ...changes) {
-    return _.merge({
-      id: location.get('api_id'),
-      name: location.get('name'),
-      shortName: location.get('short_name'),
-      description: location.get('description'),
-      phone: location.get('phone'),
-      photoUrl: location.get('photo_url'),
-      siteUrl: location.get('site_url'),
-      geometry: location.get('geometry'),
-      properties: location.get('properties'),
-      address: {
-        street: location.get('address_street'),
-        number: location.get('address_number'),
-        city: location.get('address_city'),
-        state: location.get('address_state'),
-        zipCode: location.get('address_zip_code')
-      },
-      createdAt: location.get('created_at'),
-      updatedAt: location.get('updated_at')
-    }, ...changes);
-  }
 });

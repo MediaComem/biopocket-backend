@@ -1,5 +1,7 @@
 /**
  * Data utilities
+ *
+ * @module utils/data
  */
 
 /**

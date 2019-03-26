@@ -30,6 +30,8 @@ types:
   AuthPost: !include auth/auth.model.post.raml
   Location: !include locations/locations.model.raml
   LocationWrite: !include locations/locations.model.write.raml
+  Registration: !include registrations/registrations.model.raml
+  RegistrationWrite: !include registrations/registrations.model.write.raml
   Theme: !include themes/themes.model.raml
   User: !include users/users.model.raml
 
@@ -38,5 +40,6 @@ types:
 /auth: !include auth/auth.api.raml
 /locations: !include locations/locations.api.raml
 /me: !include users/users.me.raml
+/registrations: !include registrations/registrations.api.raml
 /themes: !include themes/themes.api.raml
 /users: !include users/users.api.raml
