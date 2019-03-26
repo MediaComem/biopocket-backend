@@ -69,19 +69,7 @@ post:
       200:
         description: A registration exists with this email.
       404:
-        body:
-          example: |
-            HTTP/1.1 404 Not Found
-            Content-Type: application/json
-
-            {
-              "errors": [
-                {
-                  "code": "record.notFound",
-                  "message": "No registration was found with ID admin@worldgov.com."
-                }
-              ]
-            }
+        description: No registration was found with this email.
   delete:
     description: Delete the registration related to the given email address.
     is:
