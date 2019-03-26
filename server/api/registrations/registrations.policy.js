@@ -40,7 +40,7 @@ exports.canRemove = function() {
 };
 
 /**
- * Update a existing or new registratin with the specified data.
+ * Update an existing or new registration with the specified data.
  *
  * @function
  * @name parse

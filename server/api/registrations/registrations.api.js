@@ -12,7 +12,7 @@ const policy = require('./registrations.policy');
 exports.resourceName = 'registration';
 
 /**
- * Creates a new Registration.
+ * Creates a new registration.
  *
  * @function
  */
@@ -33,7 +33,7 @@ exports.remove = route(async (req, res) => {
 });
 
 /**
- * Checks if a registration exists with a specific email.
+ * Checks if a registration with a specific email exists.
  *
  * @function
  */
