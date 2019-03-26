@@ -26,6 +26,9 @@ exports.create = route(async (req, res) => {
   res.status(201).send(await serialize(req, registration, policy));
 });
 
+/**
+ * Deletes a registration.
+ */
 exports.remove = route(async (req, res) => {
   await req.registration.destroy();
 
