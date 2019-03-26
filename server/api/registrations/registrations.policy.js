@@ -51,8 +51,8 @@ exports.canRemove = function() {
  * @returns {Registration} - The new or updated Registration.
  */
 exports.parse = function(data, registration = new Registration()) {
-  registration.parseFrom(data, [ 'firstname', 'lastname', 'email' ]);
-  registration.set('email', registration.get('email').toLowerCase());
+  registration.parseFrom(data, [ 'firstname', 'lastname' ]);
+  registration.set('email', data.email.toLowerCase());
   return registration;
 };
 

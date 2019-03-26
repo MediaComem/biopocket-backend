@@ -101,7 +101,7 @@ describe('Registrations API', () => {
     describe('DELETE /api/registrations/:email', () => {
 
       it('should send the correct status code when no registration exists with the given email', async function() {
-        await api.test('HEAD', '/registrations/no@registration.test', null, { expectedStatus: 404 });
+        await api.delete('HEAD', '/registrations/no@registration.test', null, { expectedStatus: 404 });
       });
 
       it('should remove the registration from the database', async function() {
