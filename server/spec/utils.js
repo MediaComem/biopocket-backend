@@ -239,7 +239,20 @@ exports.expectTouchTimestamps = function(record, options = {}) {
   }
 };
 
-// TODO: Need commenting
+/**
+ * Returns a SuperRest instance initialized to run API tests.
+ *
+ * Errors resulting from failed API calls will display the HTTP response
+ * in their stack trace.
+ *
+ * @param {Object} [options] - SuperRest options (see {@link https://mediacomem.github.io/superrest/SuperRest.html}).
+ * @param {string} [options.pathPrefix="/api"] - The base URL path to this API's resources.
+ * @param {string} [options.updateMethod="PATCH"] - The standard HTTP method used to update this API's resources.
+ * @returns {EnrichedSuperRest} A SuperRest instance.
+ *
+ * @see https://www.npmjs.com/package/superrest
+ * @see https://www.npmjs.com/package/enrich-api-error
+ */
 exports.initSuperRest = function(options) {
   return new EnrichedSuperRest(app, _.defaults({}, options, {
     pathPrefix: '/api',
@@ -247,7 +260,10 @@ exports.initSuperRest = function(options) {
   }));
 };
 
-// TODO: Need commenting
+/**
+ * Performs common setup operations for this project's Mocha tests. This should
+ * be called at the beginning of every test file.
+ */
 exports.setUp = function() {
   after(() => {
     if (!databaseConnectionClosed) {
@@ -257,7 +273,18 @@ exports.setUp = function() {
   });
 };
 
-// TODO: Need commenting
+/**
+ * Wipes the database clean.
+ *
+ * This should be called before every test that uses the database (typically in
+ * a `beforeEach` hook) to ensure that each test defines its own starting state
+ * and avoids being influenced by the data left over from previous tests.
+ *
+ * @example
+ * beforeEach(async function() {
+ *   await cleanDatabase();
+ * });
+ */
 exports.cleanDatabase = async function() {
   const start = new Date().getTime();
 
@@ -275,7 +302,24 @@ exports.cleanDatabase = async function() {
   logger.debug(`Cleaned database in ${duration}s`);
 };
 
-// TODO: Need commenting
+/**
+ * Creates a Bookshelf record and saves it to the database.
+ *
+ * If the specified data contains Moment instances, they are converted to date
+ * objects before the record is saved. This prevents a bug where PostgreSQL
+ * incorrectly interprets the value of the date with Moment's default
+ * serialization.
+ *
+ * @example
+ * const person = await createRecord(Person, {
+ *   first: 'John',
+ *   last: 'Doe'
+ * });
+ *
+ * @param {ModelClass} Model - The Bookshelf model to use to create the record.
+ * @param {Object} data - The data to initialize the record with.
+ * @returns {Promise<Model>} A record that has been persisted.
+ */
 exports.createRecord = async function(Model, data) {
 
   const resolved = await Promise.resolve(data);
@@ -291,7 +335,23 @@ exports.createRecord = async function(Model, data) {
   return new Model(values).save();
 };
 
-// TODO: Need commenting
+/**
+ * Ensures that a record with the specified ID exists in the database.
+ *
+ * @example
+ * try {
+ *   const person = await checkRecord(Person, '992a');
+ * } catch (err) {
+ *   // Person not found...
+ * }
+ *
+ * @param {ModelClass} Model - The Bookshelf model to use to fetch the record from the database.
+ * @param {string} id - The ID of the database record.
+ * @param {Object} [options] - Options to customize how the check is performed.
+ * @param {string} [optinos.idColumn="api_id"] - Which column of the Bookshelf model's database table contains the ID.
+ * @returns {Model} The record with the specified ID.
+ * @throws Will throw an error if no record is found with that ID.
+ */
 exports.checkRecord = async function(Model, id, options) {
   if (!Model) {
     throw new Error('Model is required');
@@ -308,7 +368,18 @@ exports.checkRecord = async function(Model, id, options) {
   return record;
 };
 
-// TODO: Need commenting
+/**
+ * Transforms the specified value into an array if it isn't one already.
+ *
+ * @example
+ * toArray(true);       // => [ true ]
+ * toArray(2);          // => [ 2 ]
+ * toArray([ 3, 4 ]);   // => [ 3, 4 ]
+ * toArray(undefined);  // => [ undefined ]
+ *
+ * @param {*} value - The value to transform.
+ * @returns {Array} An array.
+ */
 exports.toArray = function(value) {
   return _.isArray(value) ? value : [ value ];
 };
