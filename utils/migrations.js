@@ -4,6 +4,7 @@
  * @module utils/migration
  */
 const config = require('../config');
+const { logQueries } = require('./knex');
 
 const logger = config.logger('db');
 
@@ -31,7 +32,7 @@ const logEnabled = Symbol('logEnabled');
 exports.logMigration = function(knex) {
   if (!knex[logEnabled]) {
     logger.trace('BEGIN;');
-    knex.on('query-response', (res, obj, builder) => logger.trace(builder.toString()));
+    logQueries(knex, logger);
   }
   knex[logEnabled] = true;
 };

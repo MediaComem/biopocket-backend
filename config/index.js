@@ -23,25 +23,26 @@ const fixedConfig = {
 
 // Configuration from environment variables
 const configFromEnvironment = {
-  bcryptCost: parseConfigInt(get('BCRYPT_COST')),
-  cors: parseConfigBoolean(get('CORS')),
-  db: get('DATABASE_URL') || buildDatabaseUrl(),
-  defaultPaginationLimit: parseConfigInt(get('DEFAULT_PAGINATION_LIMIT')),
+  bcryptCost: parseConfigInt(getEnvVar('BCRYPT_COST')),
+  cors: parseConfigBoolean(getEnvVar('CORS')),
+  db: getDatabaseUrl(),
+  interfaceDb: getDatabaseUrl('INTERFACE_DATABASE_', 'biopocket_interface'),
+  defaultPaginationLimit: parseConfigInt(getEnvVar('DEFAULT_PAGINATION_LIMIT')),
   docs: {
-    browser: get('DOCS_BROWSER'),
-    host: get('DOCS_HOST'),
-    open: get('DOCS_OPEN'),
-    port: get('DOCS_PORT')
+    browser: getEnvVar('DOCS_BROWSER'),
+    host: getEnvVar('DOCS_HOST'),
+    open: getEnvVar('DOCS_OPEN'),
+    port: getEnvVar('DOCS_PORT')
   },
   env: process.env.NODE_ENV,
-  logLevel: get('LOG_LEVEL'),
-  port: parseConfigInt(get('PORT')),
-  sessionSecret: get('SESSION_SECRET')
+  logLevel: getEnvVar('LOG_LEVEL'),
+  port: parseConfigInt(getEnvVar('PORT')),
+  sessionSecret: getEnvVar('SESSION_SECRET')
 };
 
 // Configuration from a local file (`config/local.js` by default, or `$CONFIG`)
 let configFromLocalFile = {};
-const localConfigFile = path.resolve(root, get('CONFIG') || path.join('config', 'local.js'));
+const localConfigFile = path.resolve(root, getEnvVar('CONFIG') || path.join('config', 'local.js'));
 if (localConfigFile !== joinProjectPath('config', 'local.js') && !fs.existsSync(localConfigFile)) {
   throw new Error(`No configuration file found at ${localConfigFile}`);
 } else if (fs.existsSync(localConfigFile)) {
@@ -49,7 +50,7 @@ if (localConfigFile !== joinProjectPath('config', 'local.js') && !fs.existsSync(
   configFromLocalFile = _.pick(localConfig,
     'bcryptCost', 'cors', 'db', 'defaultPaginationLimit',
     'docs.browser', 'docs.host', 'docs.open', 'docs.port',
-    'env', 'logLevel', 'port', 'sessionSecret');
+    'env', 'interfaceDb', 'logLevel', 'port', 'sessionSecret');
 }
 
 // Default configuration
@@ -97,6 +98,114 @@ function createLogger(name) {
   }
 
   return logger;
+}
+
+/**
+ * Retrieves or constructs a PostgreSQL database URL from several environment variables.
+ *
+ * If the `$DATABASE_URL` variable is set, its value is returned. Otherwise,
+ * the URL is constructed from the following variables:
+ *
+ * * `$DATABASE_HOST` - The host to connect to (defaults to `localhost`)
+ * * `$DATABASE_PORT` - The port to connect to on the host (none by default, will use PostgreSQL's default 5432 port)
+ * * `$DATABASE_NAME` - The name of the database to connect to (defaults to `biopocket`)
+ * * `$DATABASE_USERNAME` - The name of the PostgreSQL user to connect as (none by default)
+ * * `$DATABASE_PASSWORD` - The password to authenticate with (none by default)
+ *
+ * Returns undefined if none of the variables are set.
+ *
+ * The `DATABASE_` prefix can be changed by supplying a new prefix as an argument.
+ * For example, calling this function with `DB_` will look for the `$DB_URL` variable,
+ * and so on.
+ *
+ * @example
+ * buildDatabaseUrl(); // => undefined
+ *
+ * process.env.DATABASE_URL = 'postgres://example.com/biopocket';
+ * buildDatabaseUrl(); // => "postgres://example.com/biopocket"
+ *
+ * delete process.env.DATABASE_URL;
+ * process.env.DATABASE_NAME = 'biopocket';
+ * buildDatabaseUrl(); // => "postgres://localhost/biopocket"
+ *
+ * process.env.DATABASE_HOST = 'db.example.com';
+ * process.env.DATABASE_PORT = '1337';
+ * process.env.DATABASE_NAME = 'thebiopocketdb';
+ * process.env.DATABASE_USERNAME = 'jdoe';
+ * process.env.DATABASE_PASSWORD = 'changeme';
+ * buildDatabaseUrl(); // => "postgres://jdoe:changeme@db.example.com:1337/thebiopocketdb"
+ *
+ * process.env.DB_URL = 'postgres://db/biopocket';
+ * buildDatabaseUrl('DB_'); // => "postgres://db/biopocket"
+ *
+ * @param {string} prefix - The prefix of the environment variable names ("DATABASE_" by default).
+ * @param {string} defaultName - The default name of the database (if not provided through `$DATABASE_NAME` or `$DATABASE_URL`).
+ * @returns {string} A PostgreSQL database URL.
+ */
+function getDatabaseUrl(prefix = 'DATABASE_', defaultName = 'biopocket') {
+
+  const fullUrl = getEnvVar(`${prefix}URL`);
+  if (fullUrl) {
+    return fullUrl;
+  }
+
+  const host = getEnvVar(`${prefix}HOST`);
+  const port = getEnvVar(`${prefix}PORT`);
+  const name = getEnvVar(`${prefix}NAME`);
+  const username = getEnvVar(`${prefix}USERNAME`);
+  const password = getEnvVar(`${prefix}PASSWORD`);
+  if (host === undefined && port === undefined && name === undefined && username === undefined && password === undefined) {
+    return undefined;
+  }
+
+  let url = 'postgres://';
+
+  // Add credentials (if any)
+  if (username) {
+    url += username;
+
+    if (password) {
+      url += `:${password}`;
+    }
+
+    url += '@';
+  }
+
+  // Add host and port
+  url += `${host || 'localhost'}`;
+  if (port) {
+    url += `:${port}`;
+  }
+
+  // Add database name
+  url += `/${name || defaultName}`;
+
+  return url;
+}
+
+/**
+ * Returns a variable from the environment.
+ *
+ * Given `"FOO"`, this function will look first in the `$FOO` environment
+ * variable and returns its value if found. Otherwise, it will look for the
+ * `$FOO_FILE` environment variable and, if found, will attempt to read the
+ * contents of the file pointed to by its value. Otherwise it will return
+ * undefined.
+ *
+ * @param {string} varName - The name of the environment variable to retrieve.
+ * @returns {string|undefined} The value of the environment value (if set).
+ */
+function getEnvVar(varName) {
+  if (_.has(process.env, varName)) {
+    return process.env[varName];
+  }
+
+  const fileVarName = `${varName}_FILE`;
+  if (!_.has(process.env, fileVarName)) {
+    return undefined;
+  }
+
+  return fs.readFileSync(process.env[fileVarName], 'utf8').trim();
 }
 
 // Returns a path formed by appending the specified segments to the project's
@@ -161,93 +270,6 @@ function parseConfigInt(value, defaultValue) {
 }
 
 /**
- * Constructs a PostgreSQL database URL from several environment variables:
- *
- * * `$DATABASE_HOST` - The host to connect to (defaults to `localhost`)
- * * `$DATABASE_PORT` - The port to connect to on the host (none by default, will use PostgreSQL's default 5432 port)
- * * `$DATABASE_NAME` - The name of the database to connect to (defaults to `biopocket`)
- * * `$DATABASE_USERNAME` - The name of the PostgreSQL user to connect as (none by default)
- * * `$DATABASE_PASSWORD` - The password to authenticate with (none by default)
- *
- * Returns undefined if none of the variables are set.
- *
- * @example
- * buildDatabaseUrl(); // => undefined
- *
- * process.env.DATABASE_NAME = 'biopocket'
- * buildDatabaseUrl(); // => "postgres://localhost/biopocket"
- *
- * process.env.DATABASE_HOST = 'db.example.com'
- * process.env.DATABASE_PORT = '1337'
- * process.env.DATABASE_NAME = 'thebiopocketdb'
- * process.env.DATABASE_USERNAME = 'jdoe'
- * process.env.DATABASE_PASSWORD = 'changeme'
- * buildDatabaseUrl(); // => "postgres://jdoe:changeme@db.example.com:1337/thebiopocketdb"
- *
- * @returns {string} A PostgreSQL database URL.
- */
-function buildDatabaseUrl() {
-
-  const host = get('DATABASE_HOST');
-  const port = get('DATABASE_PORT');
-  const name = get('DATABASE_NAME');
-  const username = get('DATABASE_USERNAME');
-  const password = get('DATABASE_PASSWORD');
-  if (host === undefined && port === undefined && name === undefined && username === undefined && password === undefined) {
-    return undefined;
-  }
-
-  let url = 'postgres://';
-
-  // Add credentials (if any)
-  if (username) {
-    url += username;
-
-    if (password) {
-      url += `:${password}`;
-    }
-
-    url += '@';
-  }
-
-  // Add host and port
-  url += `${host || 'localhost'}`;
-  if (port) {
-    url += `:${port}`;
-  }
-
-  // Add database name
-  url += `/${name || 'biopocket'}`;
-
-  return url;
-}
-
-/**
- * Returns a variable from the environment.
- *
- * Given `"FOO"`, this function will look first in the `$FOO` environment
- * variable and returns its value if found. Otherwise, it will look for the
- * `$FOO_FILE` environment variable and, if found, will attempt to read the
- * contents of the file pointed to by its value. Otherwise it will return
- * undefined.
- *
- * @param {string} varName - The name of the environment variable to retrieve.
- * @returns {string|undefined} The value of the environment value (if set).
- */
-function get(varName) {
-  if (_.has(process.env, varName)) {
-    return process.env[varName];
-  }
-
-  const fileVarName = `${varName}_FILE`;
-  if (!_.has(process.env, fileVarName)) {
-    return undefined;
-  }
-
-  return fs.readFileSync(process.env[fileVarName], 'utf8').trim();
-}
-
-/**
  * Ensures all properties of the configuration are valid.
  *
  * @param {Object} conf - The configuration object to validate.
@@ -263,6 +285,8 @@ function validate(conf) {
     throw new Error(`Unsupported default pagination limit value "${conf.defaultPaginationLimit}" (type ${typeof conf.defaultPaginationLimit}); must be an integer greater than or equal to 1`);
   } else if (!_.includes(SUPPORTED_ENVIRONMENTS, conf.env)) {
     throw new Error(`Unsupported environment "${JSON.stringify(conf.env)}"; must be one of: ${SUPPORTED_ENVIRONMENTS.join(', ')}`);
+  } else if (conf.interfaceDb !== undefined && (!_.isString(conf.interfaceDb) || !conf.interfaceDb.match(/^postgres:\/\//))) {
+    throw new Error(`Unsupported interface database URL "${conf.interfaceDb}" (type ${typeof conf.interfaceDb}); must be a string starting with "postgres://"`);
   } else if (!_.isString(conf.logLevel) || !_.includes(SUPPORTED_LOG_LEVELS, conf.logLevel.toUpperCase())) {
     throw new Error(`Unsupported log level "${conf.logLevel}" (type ${typeof conf.logLevel}); must be one of: ${SUPPORTED_LOG_LEVELS.join(', ')}`);
   } else if (!_.isInteger(conf.port) || conf.port < 1 || conf.port > 65535) {

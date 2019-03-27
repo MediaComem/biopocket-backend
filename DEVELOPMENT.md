@@ -17,6 +17,8 @@
   - [Utility scripts](#utility-scripts)
 - [Database](#database)
   - [Migrations](#migrations)
+    - [TODO](#todo)
+  - [Synchronization](#synchronization)
   - [ORM](#orm)
   - [Query builder](#query-builder)
 - [Logging](#logging)
@@ -30,6 +32,7 @@
   - [API RAML documentation](#api-raml-documentation)
   - [Source code JSDoc documentation](#source-code-jsdoc-documentation)
 - [Testing](#testing)
+- [Linting](#linting)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -156,14 +159,15 @@ Useful scripts for day-to-day development.
 
 See the [Database](#database) section for more information.
 
-| Script                          | Purpose                                                                   |
-| :---                            | :---                                                                      |
-| `npm run migrate`               | Migrate the configured database to the latest version                     |
-| `npm run migrate:make`          | Create a new migration (e.g. `npm run migrate:make -- my_migration_name`) |
-| `npm run migrate:rollback`      | Roll back the previous migration batch                                    |
-| `npm run migrate:test`          | Migrate the configured test database to the latest version                |
-| `npm run migrate:test:rollback` | Roll back the previous migration batch on the test database               |
-| `npm run sample-data`           | Generate sample data for development (see `scripts/sample-data.js`)       |
+| Script                          | Purpose                                                                                               |
+| :---                            | :---                                                                                                  |
+| `npm run migrate`               | Migrate the configured database to the latest version                                                 |
+| `npm run migrate:make`          | Create a new migration (e.g. `npm run migrate:make -- my_migration_name`)                             |
+| `npm run migrate:rollback`      | Roll back the previous migration batch                                                                |
+| `npm run migrate:test`          | Migrate the configured test database to the latest version                                            |
+| `npm run migrate:test:rollback` | Roll back the previous migration batch on the test database                                           |
+| `npm run sample-data`           | Generate sample data for development (see `scripts/sample-data.js`)                                   |
+| `npm run sync`                  | Synchronize the database from the data collection interface (see [synchronization](#synchronization)) |
 
 ### Documentation scripts
 
@@ -238,6 +242,21 @@ Based on the state of the project, the current migrations might not fully implem
 This can happen when a story or a task needs a new table, but does not need all the columns or relations that this table have.
 
 **To see what needs to be done on which table, please look at the [MIGRATIONS_TODO.md][migrationstodo] file.**
+
+### Synchronization
+
+Some of the configuration data in the database, such as actions and themes, is
+managed in a separate project, the [data collection interface][data-interface].
+
+A script is available to synchronize this project's database based on the
+database of the data collection interface.  This script is in the file
+`scripts/sync-interface-data.js`, and is also available as an npm script by
+running the command `npm run sync`.
+
+To run the script, you must have access to both this project's database and the
+data collection interface's database. The [README](README.md) documents how to
+configure the connection URL to the data collection interface's database (e.g.
+by setting `$INTERFACE_DATABASE_URL`).
 
 ### ORM
 
@@ -566,6 +585,7 @@ Note the following special configurations regarding Lodash and Node.js's `util` 
 [chance]: http://chancejs.com
 [coveralls]: https://coveralls.io
 [coveralls-node]: https://www.npmjs.com/package/coveralls
+[data-interface]: https://interface.biopocket.ch
 [docs]: https://mediacomem.github.io/biopocket-backend/
 [draw.io]: https://www.draw.io/
 [enrich-api-error]: https://github.com/MediaComem/enrich-api-error

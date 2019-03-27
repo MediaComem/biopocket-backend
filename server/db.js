@@ -5,6 +5,7 @@ const knex = require('knex');
 const knexPostgis = require('knex-postgis');
 
 const config = require('../config');
+const { logQueries } = require('../utils/knex');
 const bookshelfReturning = require('./utils/bookshelf-returning');
 
 const logger = config.logger('db');
@@ -89,10 +90,7 @@ function setUpKnex() {
     connection: config.db
   });
 
-  // Log queries in development & test environments.
-  if (config.env === 'development' || config.env === 'test') {
-    instance.on('query-response', (res, obj, builder) => logger.trace(builder.toString()));
-  }
+  logQueries(instance, logger);
 
   return instance;
 }
