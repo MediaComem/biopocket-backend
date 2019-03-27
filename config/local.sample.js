@@ -1,6 +1,10 @@
 // Cross-Origin Resource Sharing (CORS)
 // It is disabled by default.
-exports.cors = false;
+exports.cors = {
+  enabled: false
+  // Origin whitelist (comma-separated list).
+  // origin: 'http://example.com,http://api.example.com'
+};
 
 // Database URL
 // The full format is "postgres://username:password@host:port/dbname"

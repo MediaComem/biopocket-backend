@@ -1,10 +1,10 @@
 const bodyParser = require('body-parser');
-const cors = require('cors');
 const express = require('express');
 
 const config = require('../config');
 const api = require('./api');
 const db = require('./db');
+const cors = require('./utils/cors');
 const { logger: expressLogger } = require('./utils/express');
 
 const logger = config.logger('app');
@@ -17,8 +17,8 @@ app.set('env', config.env);
 app.use(expressLogger);
 app.use(bodyParser.json());
 
-logger.debug(`CORS is ${config.cors ? 'enabled' : 'disabled'} (change with $CORS or config.cors)`);
-if (config.cors) {
+logger.debug(`CORS is ${config.cors.enabled ? 'enabled' : 'disabled'} (change with $CORS or config.cors.enabled)`);
+if (config.cors.enabled) {
   app.use(cors());
 }
 
