@@ -1,6 +1,7 @@
 const { includes } = require('lodash');
 
 const { serialize: serializeTheme } = require('../themes/themes.policy');
+const { getAbsoluteImageUrl } = require('../utils/images');
 
 /**
  * Anyone can list actions.
@@ -41,18 +42,20 @@ exports.canRetrieve = function() {
  * @returns {Object} A serialized action.
  */
 exports.serialize = function(req, action, options = {}) {
+
   const serialized = {
     id: action.get('api_id'),
+    photoUrl: getAbsoluteImageUrl(`${action.get('code')}-main.jpg`),
     themeId: action.related('theme').get('api_id')
   };
+
+  action.serializeTo(serialized, [ 'title', 'description', 'impact', 'created_at', 'updated_at' ]);
 
   const include = options.include || req.query.include || [];
 
   if (includes(include, 'theme')) {
     serialized.theme = serializeTheme(req, action.related('theme'));
   }
-
-  action.serializeTo(serialized, [ 'title', 'description', 'created_at', 'updated_at' ]);
 
   return serialized;
 };

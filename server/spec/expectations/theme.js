@@ -1,5 +1,6 @@
-const { has } = require('lodash');
+const { escapeRegExp, has } = require('lodash');
 
+const config = require('../../../config');
 const Theme = require('../../models/theme');
 const { checkRecord, expect, toArray } = require('../utils');
 
@@ -25,6 +26,7 @@ module.exports = async function(actual, expected) {
   expect(actual.description, 'theme.description').to.equal(expected.description);
 
   expect(actual.photoUrl, 'theme.photoUrl').to.equal(expected.photoUrl);
+  expect(actual.photoUrl).to.startWith(config.imagesBaseUrl);
 
   if (expected.source) {
     expect(actual.source, 'theme.source').to.equal(expected.source);
@@ -50,9 +52,16 @@ module.exports.inDb = async function(expected) {
   expect(theme.get('api_id'), 'db.theme.api_id').to.equal(expected.id);
   expect(theme.get('id'), 'db.theme.id').to.be.a('string');
   expect(theme.get('title'), 'db.theme.title').to.equal(expected.title);
-  expect(theme.get('description'), 'db.theme.description').to.equal(expected.description);
-  expect(theme.get('photo_url'), 'db.theme.photo_url').to.equal(expected.photoUrl);
   expect(theme.get('source'), 'db.theme.source').to.equal(expected.source);
   expect(theme.get('created_at'), 'db.theme.created_at').to.be.sameMoment(expected.createdAt);
   expect(theme.get('updated_at'), 'db.theme.updated_at').to.be.sameMoment(expected.updatedAt);
+
+  // The markdown description in the database should not contain the base URL
+  // for images, which is added at serialization by the API.
+  const expectedDescription = expected.description.replace(new RegExp(escapeRegExp(`${config.imagesBaseUrl}/`), 'g'), '');
+  expect(theme.get('description'), 'db.theme.description').to.equal(expectedDescription);
+
+  // Deconstruct the image URL to retrieve the code.
+  const expectedCode = expected.photoUrl.slice(config.imagesBaseUrl.length).replace(/^\//, '').replace(/-main\.jpg$/, '');
+  expect(theme.get('code'), 'db.theme.code').to.equal(expectedCode);
 };

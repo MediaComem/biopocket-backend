@@ -25,6 +25,9 @@ exports.docs = {
 // Application environment
 exports.env = 'development';
 
+// Base URL where theme, action and task images are stored (e.g. Amazon S3 bucket).
+exports.imagesBaseUrl = 'https://example.com';
+
 // Log level (TRACE, DEBUG, INFO, WARN, ERROR or FATAL)
 // Use TRACE for development to log database queries and HTTP requests.
 exports.logLevel = 'TRACE';

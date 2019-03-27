@@ -113,6 +113,7 @@ configuration file.
 | `$CONFIG`                 |                 | `config/local.js`                | Path to the local configuration file to load                                                                               |
 | `$CORS`                   | `cors`          | `false`                          | Whether to enable Cross-Origin Request Sharing (CORS)                                                                      |
 | `$DATABASE_URL`           | `db`            | `postgres://localhost/biopocket` | PostgreSQL database URL to connect to                                                                                      |
+| `$IMAGES_BASE_URL`        | `imagesBaseUrl` |                                  | Base URL where theme, action and task images are stored.                                                                   |
 | `$INTERFACE_DATABASE_URL` | `interfaceDb`   |                                  | PostgreSQL database URL for the data collection interface database (see [Synchronization](DEVELOPMENT.md#synchronization)) |
 | `$LOG_LEVEL`              | `logLevel`      | `INFO`                           | Log level (`TRACE`, `DEBUG`, `INFO`, `WARN`, `ERROR`, `FATAL`)                                                             |
 | `$NODE_ENV`               | `env`           | `development`                    | Application environment (`development` or `production`)                                                                    |
