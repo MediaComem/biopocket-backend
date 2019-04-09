@@ -85,7 +85,8 @@ How to set up your machine to contribute to the project.
 
 * Install new application dependencies (if any):
 
-      npm install
+      rm -fr node_modules
+      npm ci
 
 * Migrate the database (if new migrations were added):
 
