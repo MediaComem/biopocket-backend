@@ -49,7 +49,7 @@ How to set up your machine to contribute to the project.
 * Install the application's dependencies:
 
       cd biopocket-backend
-      npm install
+      npm ci
 
 * Create a `config/local.js` configuration file to customize the database
   connection URL and other properties (see [Configuration][config]):
