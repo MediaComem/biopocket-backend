@@ -103,5 +103,8 @@
     "superrest": "^1.0.0",
     "supertest": "^3.1.0",
     "test-value-generator": "^1.0.1"
+  },
+  "engines": {
+    "node": ">= 10"
   }
 }
