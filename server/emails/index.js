@@ -29,7 +29,7 @@ exports.buildEmailOptions = function(name, locale, templateData = {}) {
   if (!emails[name]) {
     throw new Error(`No email templates named "${name}" (looking in ${joinPath(emailsDir, name)})`);
   } else if (!emails[name][locale]) {
-    throw new Error(`NO email templates named "${name}" are available for locale "${locale}" (looking in ${joinPath(emailsDir, name)})`);
+    throw new Error(`No email templates named "${name}" are available for locale "${locale}" (looking in ${joinPath(emailsDir, name)})`);
   }
 
   const preparedData = emails[name][locale];
