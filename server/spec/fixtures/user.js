@@ -50,8 +50,7 @@ const { createRecord } = require('../utils');
  */
 exports.user = async function(data = {}) {
 
-  const email = _.get(data, 'email', exports.email());
-
+  const email = data.email || exports.email();
   const password = data.password || exports.password();
   const passwordHash = await hashPassword(password, bcryptCost);
 
