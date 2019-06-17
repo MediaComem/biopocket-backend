@@ -26,7 +26,7 @@ const signJwt = promisify(jwt.sign);
  * @param {Object} properties - Arbitrary JWT properties (see documentation links).
  *
  * @param {number} [properties.exp] - The Unix timestamp (in seconds) at which the
- *   token will expire (defaults to 1 hour from the time the function is called).
+ *   token will expire (defaults to 2 weeks from the time the function is called).
  *   Set to false to generate a token that never expires.
  *
  * @param {number} [properties.iat] - The Unix timestamp (in seconds) at which the
@@ -52,9 +52,7 @@ exports.generateToken = function(properties) {
     jwtOptions.exp = properties.exp || moment().add(2, 'weeks').unix();
   }
 
-  if (properties.exp !== false && jwtOptions.exp === undefined) {
-    throw new Error('JWT "exp" option is required (unless explicitly disabled)');
-  } else if (properties.exp !== false && !_.isFinite(jwtOptions.exp)) {
+  if (properties.exp !== false && !_.isFinite(jwtOptions.exp)) {
     throw new Error(`JWT "exp" option must be a number, got ${jwtOptions.exp} (${typeof jwtOptions.exp})`);
   } else if (properties.exp !== false && jwtOptions.exp <= 0) {
     throw new Error(`JWT "exp" option must be greater than zero, got ${jwtOptions.exp}`);
