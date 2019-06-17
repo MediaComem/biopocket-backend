@@ -36,7 +36,7 @@ const { createRecord } = require('../utils');
  * @param {string} [data.email] - Email address.
  * @param {boolean} [data.emailVerified=false] - Whether the email address has been verified.
  * @param {Date|Moment|string} [data.emailVerifiedAt] - The date at which the email was verified.
- * @param {string} [data.password] - Password-
+ * @param {string} [data.password] - Password.
  * @param {boolean} [data.active=true] - Whether the user is active or not.
  * @param {string[]} [data.roles=[]] - Roles.
  * @param {string} [data.provider='local'] - The authentication provider.

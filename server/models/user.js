@@ -83,7 +83,7 @@ const User = Abstract.extend({
    * @instance
    * @memberof User
    * @param {string} password - The password to check.
-   * @returns {Promise<boolean>} A promise that will be resolved with true if the user's password is the same as the specified one.
+   * @returns {Promise<boolean>} A Promise that will be resolved with true if the user's password is the same as the specified one.
    */
   checkPassword(password) {
     if (!password) {
@@ -151,8 +151,10 @@ const User = Abstract.extend({
 
   /**
    * Returns the relation to the user who last updated this user (e.g. the user
-   * itself or an administrator)..
+   * itself or an administrator).
    *
+   * @instance
+   * @memberof User
    * @returns {Model} A Bookshelf relation.
    */
   updatedBy() {
