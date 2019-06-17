@@ -21,7 +21,9 @@ const Abstract = require('./abstract');
  * * **password_hash** (`string`) - Bcrypt hash of the user's password.
  * * **active** (`boolean`) - Indicates whether the user can use the platform or has been deactivated by an administrator.
  * * **provider** (`string`) - The authentication provider (only `local` is supported for now).
- * * **providerId** (`string`) - The user's identifier for the authentication provider.
+ * * **providerId** (`string`) - The user's identifier for the authentication provider. It is unique within the scope of the `provider`.
+ *
+ *   When the provider is `local`, this is the user's email address in lower case.
  * * **providerData** (`object`) - Additional data from the authentication provider.
  * * **registration_otp** (`string`, optional) - The one-time password sent to the user to complete the registration process.
  * * **registration_otp_created_at** (`datetime`, optional) - The date at which the registration OTP was created.
