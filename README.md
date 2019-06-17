@@ -125,7 +125,9 @@ configuration file.
 
 The following additional options configure email-related settings:
 
-| `$MAIL_ENABLED`      | `mail.enabled`     | `true`      | Whether to send emails (e.g. at registration). Defaults to false in the test environment.                                                                               |
+| Environment variable | Config property    | Default     | Purpose                                                                                                                                                                 |
+| :------------------- | :----------------- | :---------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `$MAIL_ENABLED`      | `mail.enabled`     | `true`      | Whether to send emails, e.g. at registration. (In the test environment, emails are always stored in memory and never sent, even when this property is `true`.)          |
 | `$MAIL_HOST`         | `mail.host`        |             | SMTP server host address.                                                                                                                                               |
 | `$MAIL_PORT`         | `mail.port`        |             | SMTP server port.                                                                                                                                                       |
 | `$MAIL_SECURE`       | `mail.secure`      | `false`     | If true the SMTP connection will use TLS. Otherwise TLS is used if server supports the STARTTLS extension. Usually set to true for port 465, false for ports 587 or 25. |
