@@ -13,6 +13,7 @@ const { parse: parseQueryString, stringify: stringifyQueryString } = require('qu
 const { URL } = require('url');
 const joinUrl = require('url-join');
 
+const REQUIRED_MAIL_PROPERTIES = [ 'host', 'port', 'secure', 'username', 'password', 'fromAddress' ];
 const SUPPORTED_ENVIRONMENTS = [ 'development', 'production', 'test' ];
 const SUPPORTED_LOG_LEVELS = [ 'TRACE', 'DEBUG', 'INFO', 'WARN', 'ERROR', 'FATAL' ];
 
@@ -413,7 +414,7 @@ function validateMail(mail) {
   }
 
   if (mail.enabled) {
-    for (const requiredMailProperty of [ 'host', 'port', 'secure', 'username', 'password', 'fromAddress' ]) {
+    for (const requiredMailProperty of REQUIRED_MAIL_PROPERTIES) {
       if (mail[requiredMailProperty] === undefined) {
         throw new Error(`Configuration property mail.${requiredMailProperty} is required when mail.enabled is true`);
       }
