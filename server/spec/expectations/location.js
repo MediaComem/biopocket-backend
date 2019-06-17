@@ -1,9 +1,17 @@
 const _ = require('lodash');
 
 const Location = require('../../models/location');
-const { checkRecord, expect, toArray } = require('../utils');
+const { checkRecord, expect } = require('../utils');
+const { toArray } = require('../utils/conversion');
 
-module.exports = async function(actual, expected) {
+/**
+ * Asserts that a location response from the API has the expected properties,
+ * then asserts that an equivalent location exists in the database.
+ *
+ * @param {Object} actual - The location to check.
+ * @param {Object} expected - Expected location properties.
+ */
+exports.expectLocation = async function(actual, expected) {
 
   expect(actual, 'res.body').to.be.an('object');
 
@@ -64,10 +72,18 @@ module.exports = async function(actual, expected) {
   }
 
   // Check that the corresponding location exists in the database.
-  await module.exports.inDb(actual);
+  await exports.expectLocationInDb(actual);
 };
 
-module.exports.inDb = async function(expected) {
+/**
+ * Asserts that a location exists in the database with the specified properties.
+ *
+ * Note that database columns are underscored while expected properties are
+ * camel-cased. This allows calling this method with an API response in JSON.
+ *
+ * @param {Object} expected - The location that is expected to be in the database.
+ */
+exports.expectLocationInDb = async function(expected) {
 
   const location = await checkRecord(Location, expected.id);
   expect(location, 'db.location').to.be.an.instanceof(Location);
@@ -89,4 +105,35 @@ module.exports.inDb = async function(expected) {
   expect(location.get('address_state'), 'db.location.address_state').to.equal(expected.address.state);
   expect(location.get('created_at'), 'db.location.created_at').to.be.sameMoment(expected.createdAt);
   expect(location.get('updated_at'), 'db.location.updated_at').to.be.sameMoment(expected.updatedAt);
+};
+
+/**
+ * Returns an object representing the expected properties of a Location, based on the specified Location.
+ * (Can be used, for example, to check if a returned API response matches a Location in the database.)
+ *
+ * @param {Location} location - The location to build the expectations from.
+ * @param {...Object} changes - Additional expected changes compared to the specified Location (merged with Lodash's `extend`).
+ * @returns {Object} An expectations object.
+ */
+exports.getExpectedLocation = function(location, ...changes) {
+  return _.merge({
+    id: location.get('api_id'),
+    name: location.get('name'),
+    shortName: location.get('short_name'),
+    description: location.get('description'),
+    phone: location.get('phone'),
+    photoUrl: location.get('photo_url'),
+    siteUrl: location.get('site_url'),
+    geometry: location.get('geometry'),
+    properties: location.get('properties'),
+    address: {
+      street: location.get('address_street'),
+      number: location.get('address_number'),
+      city: location.get('address_city'),
+      state: location.get('address_state'),
+      zipCode: location.get('address_zip_code')
+    },
+    createdAt: location.get('created_at'),
+    updatedAt: location.get('updated_at')
+  }, ...changes);
 };

@@ -1,0 +1,14 @@
+# This partial model defines the properties common to most user representations
+# (i.e. properties that are usually always present in create/retrieve/update
+# operations). Other models inherit from it.
+type: object
+properties:
+  email:
+    type: string
+    description: The email address associated with the user account.
+  firstName:
+    type: string
+    description: The user's first name.
+  lastName:
+    type: string
+    description: The user's last name.

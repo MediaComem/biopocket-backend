@@ -3,6 +3,7 @@ const bookshelfGeojson = require('bookshelf-geojson');
 const bookshelfTouch = require('bookshelf-touch');
 const knex = require('knex');
 const knexPostgis = require('knex-postgis');
+const url = require('url');
 
 const config = require('../config');
 const { logQueries } = require('../utils/knex');
@@ -52,6 +53,11 @@ class Database {
       if (result.rowCount !== 1 || result.rows[0].n !== 3) {
         throw new Error('Could not get expected result from the database');
       }
+
+      // Only print parts of the database URL to avoid revealing sensitive
+      // information (e.g. the username & password).
+      const dbUrl = url.parse(config.db);
+      logger.debug(`Connected to database ${dbUrl.host || 'localhost'}:${dbUrl.port || '5432'}${dbUrl.pathname}`);
     });
   }
 
@@ -74,6 +80,18 @@ class Database {
     };
 
     this.knex.destroy().then(onClosed, onClosed);
+  }
+
+  /**
+   * Executes the specified callback function within a database transaction.
+   * If the function returns a promise, the transaction is only committed once the promise is resolved.
+   * If the promise is rejected, the transaction is rolled back.
+   *
+   * @param {Function} callback - The transaction callback.
+   * @returns {Promise} A promise that will be resolved with the value returned from the transaction callback.
+   */
+  transaction(callback) {
+    return this.bookshelf.transaction(callback);
   }
 }
 

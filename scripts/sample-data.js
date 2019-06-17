@@ -27,7 +27,7 @@ const ONEX_BBOX = {
  */
 class SampleDataScript extends Script {
   /**
-   * Runs `CreateAdminScript` and creates a default admin user with the e-mail `admin@example.com` and password `test`.
+   * Runs `CreateAdminScript` and creates a default admin user with the email `admin@example.com` and password `test`.
    * Additionally, generates sample data in the database to test the application.
    *
    * @method

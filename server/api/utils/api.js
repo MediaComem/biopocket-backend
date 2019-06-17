@@ -10,6 +10,32 @@ const db = require('../../db');
 const errors = require('./errors');
 
 /**
+ * Returns the specified object without all properties equal to null or
+ * undefined (recursively, including arrays).
+ *
+ * Named after Lodash's compact function ({@link
+ * https://lodash.com/docs/4.17.11#compact}).
+ *
+ * @param {*} json - An array, object or value to be serialized to JSON.
+ * @returns {*} The compacted value.
+ */
+exports.compactDeep = function(json) {
+  if (_.isArray(json)) {
+    return json.map(value => exports.compactDeep(value));
+  } else if (_.isPlainObject(json)) {
+    return _.reduce(json, (memo, value, key) => {
+      if (value !== null && value !== undefined) {
+        memo[key] = exports.compactDeep(value);
+      }
+
+      return memo;
+    }, {});
+  } else {
+    return json;
+  }
+};
+
+/**
  * Creates a middleware function that will fetch the record identified by the
  * current URL and attach it to the request. If no record is found, an HTTP 404
  * Not Found response will be sent.

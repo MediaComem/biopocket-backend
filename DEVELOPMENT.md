@@ -26,8 +26,11 @@
   - [Password hashing](#password-hashing)
   - [Authentication](#authentication)
   - [Authorization](#authorization)
+    - [Scopes](#scopes)
   - [Policies](#policies)
     - [Serializing](#serializing)
+- [Internationalization](#internationalization)
+  - [Emails](#emails)
 - [Documentation](#documentation)
   - [API RAML documentation](#api-raml-documentation)
   - [Source code JSDoc documentation](#source-code-jsdoc-documentation)
@@ -90,14 +93,15 @@ These files may be split if they become too large. For example, an
 `.api.spec.js` file for automated tests can become quite large and may benefit
 from being split into one file for each route for readability.
 
-| File/Directory                    | Contents                                                                                            |
-| :---                              | :---                                                                                                |
-| `{subject}/{subject}.api.js`      | Route implementations and other middlewares related to the subject                                  |
-| `{subject}/{subject}.api.spec.js` | Automated tests for the routes                                                                      |
-| `{subject}/{subject}.policy.js`   | Default authorization policy for the subject's resources (handling access, parsing and serializing) |
-| `{subject}/{subject}.routes.js`   | Express router and route definitions (including authentication, authorization and methods not allowed)                   |
-| `{subject}/{subject}.raml`        | API documentation for the routes                                                                    |
-| `{subject}/{subject}.model.raml`  | API documentation for the main model/resource used in this subject                                  |
+| File/Directory                       | Contents                                                                                               |
+| :---                                 | :---                                                                                                   |
+| `{subject}/{subject}.api.js`         | Route implementations and other middlewares related to the subject                                     |
+| `{subject}/{subject}.api.spec.js`    | Automated tests for the routes                                                                         |
+| `{subject}/{subject}.policy.js`      | Default authorization policy for the subject's resources (handling access, parsing and serializing)    |
+| `{subject}/{subject}.routes.js`      | Express router and route definitions (including authentication, authorization and methods not allowed) |
+| `{subject}/{subject}.validations.js` | Validation functions specific to that API resource                                                     |
+| `{subject}/{subject}.raml`           | API documentation for the routes                                                                       |
+| `{subject}/{subject}.model.raml`     | API documentation for the main model/resource used in this subject                                     |
 
 
 
@@ -261,7 +265,7 @@ by setting `$INTERFACE_DATABASE_URL`).
 ### ORM
 
 Database models are implemented with the [Bookshelf][bookshelf] ORM. You will
-find them in the `server/models` directory.
+find them in the [`server/models`](server/models) directory.
 
 The server has an Abstract base model which all other models extend. It itself
 extends Bookshelf's base Model.
@@ -287,7 +291,7 @@ Guidelines:
 * `trace` - Low-level debugging information (e.g. HTTP requests, database
   queries).
 * `debug` - Debugging information.
-* `info` - Important high-level events (e.g. a resource was created, an e-mail
+* `info` - Important high-level events (e.g. a resource was created, an email
   was sent).
 * `warn` - An unexpected error or situation occurred but it was handled
   transparently for the user.
@@ -325,7 +329,8 @@ The main security features of this server are:
   [express-jwt-policies][express-jwt-policies] library which works with
   [JWT][jwt] tokens and user-provided policy functions.
 
-  The configuration of the library can be found in `server/api/utils/auth.js`.
+  The configuration of the library can be found in
+  [`server/api/utils/auth.js`](server/api/utils/auth.js).
 
 ### Password hashing
 
@@ -353,12 +358,43 @@ be 403 Forbidden. In some cases, the status code can also be 404 Not Found (e.g.
 if a user is trying to access a resource that exists but to which he does not
 have access).
 
+#### Scopes
+
+In addition to the role of the user, the JWTs issued when authenticating have a
+list of allowed scopes. Each protected API endpoint **must** have a
+corresponding scope, e.g. `api:users:create` for `POST /api/users`. If a
+protected API call is made with a JWT that does not have the correct scope, the
+response's status code will be 403 Forbidden. In some cases, the status code can
+also be 404 Not Found (e.g.  if a user is trying to access a resource that
+exists but to which he does not have access).
+
+Scopes are hierarchical. If a JWT contains a top-level scope, it is allowed to
+access all children scopes. For example, if a JWT has the `api:foo` scope, it
+is authorized to access API endpoints with the `api:foo:create` or the
+`api:foo:update` scope, but not with the `api:bar:create` scope.
+
+> This allows JWTs to be generated with limited access to specific API
+> resources or operations.
+
+Default JWTs issued when a user logs in have the `api` scope, authorizing
+everything the user can normally do through the API. Special additional scopes
+may be created to allow specific operations.
+
+This is the list of authorization scopes in the API:
+
+Scope                   | Description
+:---                    | :---
+`api:locations:create`  | Authorizes access to `POST /api/locations`.
+`api:locations:update`  | Authorizes access to `PATCH /api/locations`.
+`api:locations:destroy` | Authorizes access to `DELETE /api/locations`.
+`register`              | Authorizes access to `PATCH /api/users/:id` to complete the registration process, i.e. mark a user's email as verified (but make no other changes).
+
 ### Policies
 
 The logic allowing the API to know if a request to a given resource is authorized
 is encapsulated into a **policy function**. You may find such a function in a
 `.policy.js` files in an API subject's directory, for example
-`server/api/users/users.policy.js`:
+[`server/api/users/users.policy.js`](server/api/users/users.policy.js):
 
 ```js
 const { hasRole, sameRecord } = require('../utils/policy');
@@ -379,7 +415,7 @@ retrieve a user resource (`req.user`):
 **All route access logic should be encapsulated in similar policy functions.**
 
 Policy functions may return a promise. Various authorization utilities are
-available in `server/api/utils/policy`.
+available in [`server/api/utils/policy`](server/api/utils/policy).
 
 #### Serializing
 
@@ -399,7 +435,7 @@ const { ensureRequest } = require('../../utils/express');
 exports.serialize = function(req, user) {
   ensureRequest(req);
 
-  // Anyone can see the e-mail.
+  // Anyone can see the email.
   const serialized = {
     email: user.get('email')
   };
@@ -413,6 +449,53 @@ exports.serialize = function(req, user) {
   return serialized;
 }
 ```
+
+
+
+## Internationalization
+
+The backend does not provide much internationalization, as most of that is
+handled by the frontend. For example, API error messages are always in English,
+but the frontend uses the associated error codes to display its own
+translations.
+
+However, the backend does manage **emails** in multiple languages, since it is
+responsible for sending them.
+
+### Supported locales
+
+Supported locales are hardcoded in [`server/utils/i18n.js`](server/utils/i18n.js).
+
+The appropriate locale for a user is selected by looking at the [Accept-Language
+HTTP header][accept-header].
+
+### Emails
+
+Email templates are stored in the `emails/<NAME>` directory, where `<NAME>` is
+the type of email, such as `registration`. Template files are named after the
+locale and format, e.g. `fr.txt` for a plain text email in French, or `en.html`
+for an HTML email in English.
+
+Emails are [Handlebars][handlebars] templates into which values may be
+interpolated. For example, the registration email contains a link users must
+follow to complete the registration process.
+
+For each locale, at least one of the email templates must have a [YAML front
+matter][frontmatter] section to specify the subject of the email in the
+appropriate locale:
+
+```
+---
+subject: "Enregistrement BioPocket"
+---
+
+Bienvenue dans la communauté BioPocket !
+
+...
+```
+
+> Hint: if there are both a plain text and HTML templates, only one needs to
+> contain the front matter section.
 
 
 
@@ -431,14 +514,15 @@ Guidelines:
 
 The API is documented with [RAML][raml], a [YAML][yaml]-based language to describe REST APIs.
 
-The `server/api/index.raml` file is the entrypoint for that documentation. It
-includes other `.raml` files describing each resource under the `server/api`
-directory (e.g. `server/api/auth/auth.raml`) to form the documentation for the
-entire API.
+The [`server/api/index.raml`](server/api/index.raml) file is the entrypoint for
+that documentation. It includes other `.raml` files describing each resource
+under the [`server/api`](server/api) directory (e.g.
+[`server/api/auth/auth.raml`](server/api/auth/auth.raml)) to form the
+documentation for the entire API.
 
 You can generate this documentation by running `npm run docs:api` and will find
-the results in the `docs/api` directory. It is also generated and served in your
-browser automatically when running `npm run dev`.
+the results in the [`docs/api`](docs/api) directory. It is also generated and
+served in your browser automatically when running `npm run dev`.
 
 Guidelines:
 
@@ -571,6 +655,7 @@ Note the following special configurations regarding Lodash and Node.js's `util` 
 
 
 
+[accept-header]: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept-Language
 [babel-plugin-istanbul]: https://github.com/istanbuljs/babel-plugin-istanbul
 [babel-require]: https://www.npmjs.com/package/babel-register
 [bcrypt]: https://en.wikipedia.org/wiki/Bcrypt
@@ -596,6 +681,8 @@ Note the following special configurations regarding Lodash and Node.js's `util` 
 [eslint-plugin-sort-destructure-keys]: https://github.com/mthadley/eslint-plugin-sort-destructure-keys
 [eslint-plugin-sort-requires-by-path]: https://github.com/oaltman/eslint-plugin-sort-requires-by-path
 [express-jwt-policies]: https://github.com/MediaComem/express-jwt-policies#readme
+[frontmatter]: https://jekyllrb.com/docs/front-matter
+[handlebars]: https://handlebarsjs.com
 [istanbul]: https://istanbul.js.org
 [jsdoc]: http://usejsdoc.org
 [jwt]: https://jwt.io

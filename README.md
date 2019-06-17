@@ -107,19 +107,34 @@ The application can be configured through environment variables or a configurati
 Environment variables always take precedence over properties from the
 configuration file.
 
-| Environment variable      | Config property | Default                          | Purpose                                                                                                                    |
-| :---                      | :---            | :---                             | :---                                                                                                                       |
-| `$BCRYPT_COST`            | `bcryptCost`    | 10                               | bcrypt cost parameter (should be at least 10; see [bcrypt][bcrypt])                                                        |
-| `$CONFIG`                 |                 | `config/local.js`                | Path to the local configuration file to load                                                                               |
-| `$CORS`                   | `cors.enabled`  | `false`                          | Whether to enable Cross-Origin Request Sharing (CORS)                                                                      |
-| `$CORS_ORIGIN`            | `cors.origin`   |                                  | Comma-delimited whitelist of origins that are allowed to use CORS (setting this enables CORS by default)                   |
-| `$DATABASE_URL`           | `db`            | `postgres://localhost/biopocket` | PostgreSQL database URL to connect to                                                                                      |
-| `$IMAGES_BASE_URL`        | `imagesBaseUrl` |                                  | Base URL where theme, action and task images are stored.                                                                   |
-| `$INTERFACE_DATABASE_URL` | `interfaceDb`   |                                  | PostgreSQL database URL for the data collection interface database (see [Synchronization](DEVELOPMENT.md#synchronization)) |
-| `$LOG_LEVEL`              | `logLevel`      | `INFO`                           | Log level (`TRACE`, `DEBUG`, `INFO`, `WARN`, `ERROR`, `FATAL`)                                                             |
-| `$NODE_ENV`               | `env`           | `development`                    | Application environment (`development` or `production`)                                                                    |
-| `$PORT`                   | `port`          | `3000`                           | Port to run the Node.js Express server on                                                                                  |
-| `$SESSION_SECRET`         | `sessionSecret` |                                  | Session secret used to sign JWT tokens (a long random string, e.g. 100 chars)                                              |
+| Environment variable         | Config property           | Default                          | Purpose                                                                                                                     |
+| :---                         | :---                      | :---                             | :---                                                                                                                        |
+| `$BASE_URL`                  | `baseUrl`                 | `http://localhost:3000`          | Base URL for all generated links (e.g. registration email link).                                                            |
+| `$BCRYPT_COST`               | `bcryptCost`              | 10                               | bcrypt cost parameter (should be at least 10; see [bcrypt][bcrypt]).                                                        |
+| `$CONFIG`                    |                           | `config/local.js`                | Path to the local configuration file to load.                                                                               |
+| `$CORS`                      | `cors.enabled`            | `false`                          | Whether to enable Cross-Origin Request Sharing (CORS).                                                                      |
+| `$CORS_ORIGIN`               | `cors.origin`             |                                  | Comma-delimited whitelist of origins that are allowed to use CORS (setting this enables CORS by default)                    |
+| `$DATABASE_URL`              | `db`                      | `postgres://localhost/biopocket` | PostgreSQL database URL to connect to.                                                                                      |
+| `$IMAGES_BASE_URL`           | `imagesBaseUrl`           |                                  | Base URL where theme, action and task images are stored.                                                                    |
+| `$REGISTRATION_OTP_LIFESPAN` | `registrationOtpLifespan` | `7200000` (2 hours)              | The time during which registration OTPs are valid in milliseconds. After this time, the email can be reused.                |
+| `$INTERFACE_DATABASE_URL`    | `interfaceDb`             |                                  | PostgreSQL database URL for the data collection interface database (see [Synchronization](DEVELOPMENT.md#synchronization)). |
+| `$LOG_LEVEL`                 | `logLevel`                | `INFO`                           | Log level (`TRACE`, `DEBUG`, `INFO`, `WARN`, `ERROR`, `FATAL`).                                                             |
+| `$NODE_ENV`                  | `env`                     | `development`                    | Application environment (`development` or `production`).                                                                    |
+| `$PORT`                      | `port`                    | `3000`                           | Port to run the Node.js Express server on.                                                                                  |
+| `$SESSION_SECRET`            | `sessionSecret`           |                                  | Session secret used to sign JWT tokens (a long random string, e.g. 100 chars).                                              |
+
+The following additional options configure email-related settings:
+
+| Environment variable | Config property    | Default     | Purpose                                                                                                                                                                 |
+| :------------------- | :----------------- | :---------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `$MAIL_ENABLED`      | `mail.enabled`     | `true`      | Whether to send emails, e.g. at registration. (In the test environment, emails are always stored in memory and never sent, even when this property is `true`.)          |
+| `$MAIL_HOST`         | `mail.host`        |             | SMTP server host address.                                                                                                                                               |
+| `$MAIL_PORT`         | `mail.port`        |             | SMTP server port.                                                                                                                                                       |
+| `$MAIL_SECURE`       | `mail.secure`      | `false`     | If true the SMTP connection will use TLS. Otherwise TLS is used if server supports the STARTTLS extension. Usually set to true for port 465, false for ports 587 or 25. |
+| `$MAIL_USERNAME`     | `mail.username`    |             | SMTP username.                                                                                                                                                          |
+| `$MAIL_PASSWORD`     | `mail.password`    |             | SMTP password.                                                                                                                                                          |
+| `$MAIL_FROM_ADDRESS` | `mail.fromAddress` |             | Default sender address when sending emails.                                                                                                                             |
+| `$MAIL_FROM_NAME`    | `mail.fromName`    | `BioPocket` | Default sender name when sending emails.                                                                                                                                |
 
 If the database URL is not specified with `$DATABASE_URL` or `db`, you can use these environment variables instead:
 

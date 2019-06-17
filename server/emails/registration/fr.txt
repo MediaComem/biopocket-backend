@@ -1,0 +1,8 @@
+---
+subject: "Enregistrement BioPocket"
+---
+
+Bienvenue dans la communauté BioPocket !
+=======
+
+Cliquez sur ce lien sur votre téléphone pour terminer l'enregistrement: {{{ link }}}

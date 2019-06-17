@@ -1,6 +1,73 @@
 displayName: Users
 description: Management of BioPocket user accounts.
 
+# POST /api/users
+post:
+  description: |
+    Register a new user account authenticated locally with an email and password
+    (as opposed to third-party authentication, e.g. Facebook, Twitter).
+  is:
+    - jsonConsumer
+  body:
+    type: UserWrite
+    example: |
+      POST /api/users HTTP/1.1
+      Content-Type: application/json
+
+      {
+        "email": "jdoe@example.com",
+        "firstName": "John",
+        "lastName": "Doe",
+        "password": "letmein"
+      }
+  responses:
+    201:
+      description: |
+        The user account was successfully created.
+
+        Note that the account is not yet active at this stage.
+        An email has been sent to the provided address.
+        The user needs to follow the link in the email to complete the registration process.
+      body:
+        type: User
+        example: |
+          HTTP/1.1 201 Created
+          Content-Type: application/json
+
+          {
+            "active": false,
+            "createdAt": "2000-01-01T16:30:00.123Z",
+            "email": "jdoe@example.com",
+            "emailVerified": false,
+            "firstName": "John",
+            "id": "10d38b2c-b7ed-41de-986c-bff87031291e",
+            "lastName": "Doe",
+            "provider": "local",
+            "providerId": "jdoe@example.com",
+            "providerData": {},
+            "roles": [],
+            "updatedAt": "2000-02-03T17:00:00.123Z"
+          }
+    422:
+      description: The request body contains invalid data.
+      body:
+        type: validationErrors
+        example: |
+          HTTP/1.1 422 Unprocessable Entity
+          Content-Type: application/json
+
+          {
+            "errors": [
+              {
+                "message": "is required",
+                "type": "json",
+                "location": "/firstName",
+                "validator": "required",
+                "valueSet": false
+              }
+            ]
+          }
+
 # GET /api/users/:id
 /{id}:
   uriParameters:
@@ -30,9 +97,19 @@ description: Management of BioPocket user accounts.
               "active": true,
               "createdAt": "2000-01-01T16:30:00.123Z",
               "email": "jdoe@example.com",
+              "emailVerified": true,
+              "emailVerifiedAt": "2000-01-01T16:32:00.123Z",
+              "firstName": "John",
               "id": "10d38b2c-b7ed-41de-986c-bff87031291e",
+              "lastName": "Doe",
+              "provider": "local",
+              "providerId": "jdoe@example.com",
+              "providerData": {},
+              "registrationOtp": "123456",
+              "registrationOtpCreatedAt": "2000-01-01T16:31:12.123Z",
               "roles": [
                 "admin"
               ],
-              "updatedAt": "2000-02-03T17:00:00.123Z"
+              "updatedAt": "2000-02-03T17:00:00.123Z",
+              "updatedBy": "2fdf5620-82d3-48ef-8694-7128194ee929"
             }

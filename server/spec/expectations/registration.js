@@ -1,7 +1,16 @@
 const Registration = require('../../models/registration');
-const { checkRecord, expect, toArray } = require('../utils');
+const { checkRecord, expect } = require('../utils');
+const { toArray } = require('../utils/conversion');
 
-module.exports = async function(actual, expected) {
+/**
+ * Asserts that a registration response from the API has the expected
+ * properties, then asserts that an equivalent registration exists in the
+ * database.
+ *
+ * @param {Object} actual - The registration to check.
+ * @param {Object} expected - Expected registration properties.
+ */
+exports.expectRegistration = async function(actual, expected) {
 
   expect(actual, 'res.body').to.be.an('object');
 
@@ -28,10 +37,18 @@ module.exports = async function(actual, expected) {
   }
 
   // Check that the corresponding registration exists in the database.
-  await module.exports.inDb(actual);
+  await exports.expectRegistrationInDb(actual);
 };
 
-module.exports.inDb = async function(expected) {
+/**
+ * Asserts that a registration exists in the database with the specified properties.
+ *
+ * Note that database columns are underscored while expected properties are
+ * camel-cased. This allows calling this method with an API response in JSON.
+ *
+ * @param {Object} expected - The action that is expected to be in the database.
+ */
+exports.expectRegistrationInDb = async function(expected) {
 
   const registration = await checkRecord(Registration, expected.id);
   expect(registration, 'db.registration').to.be.an.instanceof(Registration);

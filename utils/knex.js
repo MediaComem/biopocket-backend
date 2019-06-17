@@ -13,5 +13,11 @@ exports.logQueries = function(knex, logger) {
     }
   });
 
-  knex.on('query-response', (res, obj, builder) => logger.trace(builder.toString()));
+  knex.on('query-response', (res, query, builder) => {
+    if (query.bindings.length) {
+      logger.trace(builder.toString());
+    } else {
+      logger.trace(query.sql);
+    }
+  });
 };

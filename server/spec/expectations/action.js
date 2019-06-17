@@ -1,26 +1,26 @@
-const { union } = require('lodash');
+const { assign, union } = require('lodash');
 
 const config = require('../../../config');
 const Action = require('../../models/action');
-const { checkRecord, expect, toArray } = require('../utils');
+const { checkRecord, expect } = require('../utils');
+const { toArray } = require('../utils/conversion');
 
 /**
- * Executes a series of expectations on a given Action record.
- * Some of these expectations compare the Action record to an expected record.
- * Finally, the Action record is compared to the record in the database.
- * You can pass custom options to customize the expectation.
+ * Asserts that an action response from the API has the expected properties,
+ * then asserts that an equivalent action exists in the database.
  *
- * @param {Action} actual - An action record to test.
- * @param {Action} expected - The expected action record.
+ * @param {Object} actual - The action to check.
+ * @param {Object} expected - Expected action properties.
  * @param {Object} [options] - Custom options.
- * @param {array} [options.additionalKeys] - Additional keys that the action record should have.
+ * @param {string[]} [options.additionalKeys] - Additional properties the action is expected to have.
  */
-module.exports = async function(actual, expected, options = {}) {
+exports.expectAction = async function(actual, expected, options = {}) {
 
   expect(actual, 'res.body').to.be.an('object');
 
   let expectedKeys = [ 'id', 'title', 'description', 'impact', 'photoUrl', 'themeId', 'createdAt', 'updatedAt' ];
 
+  // TODO: check the theme object is correct as well
   if (options.additionalKeys) {
     expectedKeys = union(expectedKeys, options.additionalKeys);
   }
@@ -53,10 +53,18 @@ module.exports = async function(actual, expected, options = {}) {
   }
 
   // Check that the corresponding action exists in the database.
-  await module.exports.inDb(actual);
+  await exports.expectActionInDb(actual);
 };
 
-module.exports.inDb = async function(expected) {
+/**
+ * Asserts that an action exists in the database with the specified properties.
+ *
+ * Note that database columns are underscored while expected properties are
+ * camel-cased. This allows calling this method with an API response in JSON.
+ *
+ * @param {Object} expected - The action that is expected to be in the database.
+ */
+exports.expectActionInDb = async function(expected) {
 
   const action = await checkRecord(Action, expected.id);
   await action.load('theme');
@@ -75,4 +83,25 @@ module.exports.inDb = async function(expected) {
   // Deconstruct the image URL to retrieve the code.
   const expectedCode = expected.photoUrl.slice(config.imagesBaseUrl.length).replace(/^\//, '').replace(/-main\.jpg$/, '');
   expect(action.get('code'), 'db.action.code').to.equal(expectedCode);
+};
+
+/**
+ * Returns an object representing the expected properties of an Action, based on the specified Action.
+ * (Can be used, for example, to check if a returned API response matches an action in the database.)
+ *
+ * @param {action} action - The action to build the expectation from.
+ * @param {...Object} changes - Additional expected changes compared to the specified action (merged with Lodash's `assign`).
+ * @returns {Object} An expectations object.
+ **/
+exports.getExpectedAction = function(action, ...changes) {
+  return assign({
+    id: action.get('api_id'),
+    title: action.get('title'),
+    description: action.get('description'),
+    impact: action.get('impact'),
+    photoUrl: `${config.imagesBaseUrl}/${action.get('code')}-main.jpg`,
+    themeId: action.related('theme').get('api_id'),
+    createdAt: action.get('created_at'),
+    updatedAt: action.get('updated_at')
+  }, ...changes);
 };

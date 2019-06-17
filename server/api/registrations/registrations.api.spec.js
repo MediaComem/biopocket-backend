@@ -1,7 +1,7 @@
 const _ = require('lodash');
 
 const allowedMethodsFor = require('../registrations/registrations.routes').allowedMethods;
-const expectRegistration = require('../../spec/expectations/registration');
+const { expectRegistration } = require('../../spec/expectations/registration');
 const registrationFixtures = require('../../spec/fixtures/registration');
 const { cleanDatabase, expectDeleted, expectErrors, initSuperRest, setUp, testMethodsNotAllowed } = require('../../spec/utils');
 

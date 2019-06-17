@@ -1,8 +1,8 @@
 const allowedMethodsFor = require('./actions.routes').allowedMethods;
-const expectActions = require('../../spec/expectations/action');
-const expectTheme = require('../../spec/expectations/theme');
+const { expectAction, getExpectedAction } = require('../../spec/expectations/action');
+const { expectTheme, getExpectedTheme } = require('../../spec/expectations/theme');
 const actionFixtures = require('../../spec/fixtures/actions');
-const { cleanDatabase, expect, expectErrors, getExpectedAction, getExpectedTheme, initSuperRest, setUp, testMethodsNotAllowed } = require('../../spec/utils');
+const { cleanDatabase, expect, expectErrors, initSuperRest, setUp, testMethodsNotAllowed } = require('../../spec/utils');
 
 setUp();
 
@@ -41,9 +41,9 @@ describe('Actions API', function() {
       it('should list all actions ordered by title', async function() {
         const res = await api.retrieve('/actions');
         expect(res.body).to.be.an('array');
-        await expectActions(res.body[0], getExpectedAction(actions[0]));
-        await expectActions(res.body[1], getExpectedAction(actions[2]));
-        await expectActions(res.body[2], getExpectedAction(actions[1]));
+        await expectAction(res.body[0], getExpectedAction(actions[0]));
+        await expectAction(res.body[1], getExpectedAction(actions[2]));
+        await expectAction(res.body[2], getExpectedAction(actions[1]));
         expect(res.body).to.have.length(3);
       });
 
@@ -115,7 +115,7 @@ describe('Actions API', function() {
 
     it('should retrieve an action with all its relations', async function() {
       const res = await api.retrieve(`/actions/${action.get('api_id')}`);
-      await expectActions(res.body, getExpectedAction(action), {
+      await expectAction(res.body, getExpectedAction(action), {
         additionalKeys: [ 'theme' ]
       });
       await expectTheme(res.body.theme, getExpectedTheme(action.related('theme')));
@@ -123,7 +123,7 @@ describe('Actions API', function() {
 
     it('should retrieve an action without the specified relations', async function() {
       const res = await api.retrieve(`/actions/${action.get('api_id')}`).query({ except: 'theme' });
-      await expectActions(res.body, getExpectedAction(action));
+      await expectAction(res.body, getExpectedAction(action));
       expect(res.body.theme).to.equal(undefined);
     });
 
