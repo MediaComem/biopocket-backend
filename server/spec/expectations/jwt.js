@@ -32,10 +32,7 @@ exports.expectJwt = async function(actual, expected) {
 
   expect(actual, 'jwt').to.be.a('string');
 
-  const promise = verifyJwt(actual, config.sessionSecret);
-  expect(promise).to.eventually.be.an('object');
-
-  const claims = await promise;
+  const claims = await verifyJwt(actual, config.sessionSecret);
   expect(claims, 'jwt.claims').to.be.an('object');
 
   // Make the `exp` assertion first so that we know whether to expect an `exp`
