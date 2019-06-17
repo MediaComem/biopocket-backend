@@ -7,11 +7,10 @@ const { URL } = require('url');
 const config = require('../../../config');
 const { expectEmailSent, expectNoEmailsSent } = require('../../spec/expectations/emails');
 const { expectUser, getExpectedUser } = require('../../spec/expectations/user');
-const { req: reqFixture } = require('../../spec/fixtures/express');
 const userFixtures = require('../../spec/fixtures/user');
 const { clean, expect, expectErrors, initSuperRest, setUp, testMethodsNotAllowed } = require('../../spec/utils');
 const { loadFileWithFrontmatter } = require('../../utils/frontmatter');
-const { createRegistrationLink, sendRegistrationEmail } = require('./users.api');
+const { createRegistrationLink } = require('./users.api');
 const { allowedMethods } = require('./users.routes');
 
 setUp();
