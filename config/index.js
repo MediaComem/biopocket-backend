@@ -109,7 +109,7 @@ const defaultConfig = {
   logLevel: 'INFO',
 
   mail: {
-    enabled: env !== 'test',
+    enabled: true,
     fromName: 'BioPocket',
     secure: false
   },

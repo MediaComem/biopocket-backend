@@ -45,15 +45,11 @@ exports.sendMail = async function(options) {
   };
 
   if (!config.mail.enabled) {
-
-    // Store test emails in memory.
-    if (config.env === 'test') {
-      testMails.push(email);
-    }
-
     return;
   } else if (config.env === 'test') {
-    throw new Error('Trying to send an email in test mode');
+    // Store test emails in memory.
+    testMails.push(email);
+    return;
   }
 
   await sendMail(email);

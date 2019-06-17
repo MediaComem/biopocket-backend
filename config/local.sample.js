@@ -46,7 +46,7 @@ exports.logLevel = 'TRACE';
 // Tip: use https://ethereal.email to create emails for development.
 exports.mail = {
   // Setting this to false causes the server to never send any email.
-  enabled: process.env.NODE_ENV !== 'test',
+  enabled: true,
   host: 'smtp.example.com',
   port: 587,
   secure: false,
