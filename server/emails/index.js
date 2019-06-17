@@ -5,7 +5,7 @@
  */
 const glob = require('fast-glob');
 const { compile: compileHandlebars } = require('handlebars');
-const { isEmpty, isString, mapValues, pick } = require('lodash');
+const { isEmpty, isString, mapValues } = require('lodash');
 const { basename: getBasename, dirname: getDirname, extname: getExtension, join: joinPath, relative: getRelativePath } = require('path');
 
 const config = require('../../config');
@@ -32,9 +32,27 @@ exports.buildEmailOptions = function(name, locale, templateData = {}) {
     throw new Error(`No email templates named "${name}" are available for locale "${locale}" (looking in ${joinPath(emailsDir, name)})`);
   }
 
+  // Retrieve the prepared data for the email with the specified name and
+  // locale, which has the following format:
+  //
+  //     {
+  //       subject: "Welcome",
+  //       templates: {
+  //         html: handlebarsTemplateFunction,
+  //         text: handlebarsTemplateFunction
+  //       }
+  //     }
+  //
+  // At this stage, the templates are Handlebars functions. They must be called
+  // to produce the HTML/text for the email.
   const preparedData = emails[name][locale];
   return {
-    ...pick(preparedData, 'subject'),
+    // Include the subject.
+    subject: preparedData.subject,
+    // Map the `templates` object into an object with the same keys but with
+    // values that are the rendered templates (HTML/text) obtained by calling
+    // the Handlebars functions. Include these properties (`html` & `text`)
+    // directly into the email options.
     ...mapValues(preparedData.templates, template => template(templateData))
   };
 };
