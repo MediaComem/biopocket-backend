@@ -1,6 +1,7 @@
 // Base URL used to build URLs such as the link in registration emails.
 // This should be the base URL of the website, not of the API
 // (there is currently no website but there might be in the future).
+// Uncomment the following line and replace the value with your baseUrl if it is different than the default one. 
 // exports.baseUrl = 'http://localhost:3000';
 
 // Cross-Origin Resource Sharing (CORS)
