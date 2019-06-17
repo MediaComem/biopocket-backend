@@ -408,6 +408,8 @@ function validateMail(mail) {
     throw new Error(`Unsupported mail.fromName value "${mail.fromName}" (type ${typeof mail.fromName}); must be a string`);
   } else if (mail.fromAddress !== undefined && !_.isString(mail.fromAddress)) {
     throw new Error(`Unsupported mail.fromAddress value "${mail.fromAddress}" (type ${typeof mail.fromAddress}); must be a string`);
+  } else if (mail.fromAddress !== undefined && !mail.fromAddress.match(/^[^@]+@[^.]+\.[^.]+$/)) {
+    throw new Error(`Unsupported mail.fromAddress value "${mail.fromAddress}"; must be a valid email address`);
   }
 
   if (mail.enabled) {
