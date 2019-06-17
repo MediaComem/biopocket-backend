@@ -3,7 +3,9 @@ description: Management of BioPocket user accounts.
 
 # POST /api/users
 post:
-  description: Register a new user account with an email and password.
+  description: |
+    Register a new user account authenticated locally with an email and password
+    (as opposed to third-party authentication, e.g. Facebook, Twitter).
   is:
     - jsonConsumer
   body:
