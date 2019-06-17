@@ -311,16 +311,23 @@ describe('Users API', function() {
       const textMatch = registrationEmail.text.match(textRegexp);
       const registrationLink = textMatch[1];
 
+      // Parse the registration link URL and check its various components.
       const registrationUrl = new URL(registrationLink);
       expect(registrationUrl.origin, 'registrationLink.origin').to.equal(new URL(config.baseUrl).origin);
       expect(registrationUrl.pathname, 'registrationLink.pathname').to.equal('/register');
+      expect(registrationUrl.hash).to.equal('');
+
+      // Make sure that the URL has no "userinfo" component (see
+      // https://en.wikipedia.org/wiki/URL#Syntax). (This has nothing to do with
+      // the username or password of the BioPocket user.)
       expect(registrationUrl.username).to.equal('');
       expect(registrationUrl.password).to.equal('');
 
+      // Check that the "query" component contains the registration email and OTP.
       const query = parseQueryString(registrationUrl.search);
-      expect(query).to.have.all.keys([ 'email', 'otp' ]);
       expect(query.email).to.equal(user.get('email'));
       expect(query.otp).to.equal(user.get('registration_otp'));
+      expect(query).to.have.all.keys([ 'email', 'otp' ]);
     }
 
     /**
