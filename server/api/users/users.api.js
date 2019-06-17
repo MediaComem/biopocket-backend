@@ -162,9 +162,10 @@ async function forgetOutdatedRegistration(email) {
 async function sendRegistrationEmail(req, user) {
   ensureRequest(req);
 
-  if (!user.get('email')) {
-    throw new Error(`User "${user.get('api_id')}" has no email`);
-  }
+  // TODO: ensure the user actually has an email once we include other providers that might not have it.
+  // if (!user.get('email')) {
+  //   throw new Error(`User "${user.get('api_id')}" has no email`);
+  // }
 
   await sendMail({
     ...buildEmailOptions('registration', getLocale(req), { link: createRegistrationLink(user) }),

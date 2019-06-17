@@ -16,7 +16,6 @@ exports.up = async function(knex) {
   await knex.schema.alterTable('users', t => {
     t.string('first_name', 30).notNullable();
     t.string('last_name', 30).notNullable();
-    t.string('email', 255).nullable().alter();
     t.boolean('email_verified').notNullable().defaultTo(false);
     t.timestamp('email_verified_at', true);
     // Knex enumerations are implemented with a PostgreSQL constraint by
@@ -44,7 +43,6 @@ exports.down = async function(knex) {
   logMigration(knex);
 
   await knex.schema.alterTable('users', t => {
-    t.string('email', 255).notNullable().alter();
     t.dropColumns(
       'first_name', 'last_name',
       'email_verified', 'email_verified_at',

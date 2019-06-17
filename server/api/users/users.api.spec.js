@@ -493,13 +493,4 @@ describe('Users API', function() {
       expect(() => createRegistrationLink(user)).to.throw(`User "${user.get('api_id')}" has no registration OTP`);
     });
   });
-
-  describe('sendRegistrationEmail', () => {
-    it('should throw an error if called with a user that has no email', async function() {
-      const req = reqFixture();
-      const user = await userFixtures.user({ email: null, providerId: 'foo' });
-      expect(sendRegistrationEmail(req, user)).to.be.rejectedWith(`User "${user.get('api_id')}" has no email`);
-      expectNoEmailsSent();
-    });
-  });
 });
