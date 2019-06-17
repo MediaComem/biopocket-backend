@@ -239,6 +239,11 @@ describe('Users API', function() {
       expect(registeredUser.get('provider_id')).to.eql(outdatedUser.get('provider_id'));
     });
 
+    // This test is here to increase coverage. It makes little sense for an
+    // authenticated user to register a new user, but as the user can simply log
+    // out and do it, there is no sense in writing code to protect against it
+    // either. This test makes sure all code paths are covered in the event it
+    // happens.
     it('should let an authenticated user register a new user', async function() {
 
       const user = await userFixtures.user();
