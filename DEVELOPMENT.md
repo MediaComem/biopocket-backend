@@ -369,7 +369,7 @@ also be 404 Not Found (e.g.  if a user is trying to access a resource that
 exists but to which he does not have access).
 
 Scopes are hierarchical. If a JWT contains a top-level scope, it is allowed to
-access all children scopes. For example, if a JWT has the `api:users` scope, it
+access all children scopes. For example, if a JWT has the `api:foo` scope, it
 is authorized to access API endpoints with the `api:foo:create` or the
 `api:foo:update` scope, but not with the `api:bar:create` scope.
 
