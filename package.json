@@ -57,7 +57,7 @@
     "knex": "^0.14.6",
     "knex-postgis": "^0.6.0",
     "lodash": "^4.17.10",
-    "log4js": "^2.6.1",
+    "log4js": "^6.4.0",
     "moment": "^2.22.1",
     "orm-query-builder": "^1.0.0",
     "pg": "^7.4.3",
